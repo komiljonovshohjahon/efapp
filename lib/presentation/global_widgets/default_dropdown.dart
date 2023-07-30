@@ -5,6 +5,7 @@ import 'package:efapp/utils/global_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/global_constants.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 //Dropdown features
 // - label
@@ -67,10 +68,9 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
         dropdownSearchData: widget.hasSearchBox
             ? DropdownSearchData(
                 searchController: searchController,
-                searchInnerWidgetHeight: 48,
+                searchInnerWidgetHeight: 48.h,
                 searchInnerWidget: Padding(
-                  padding:
-                      const EdgeInsets.only(top: 8.0, right: 8.0, left: 8.0),
+                  padding: EdgeInsets.only(top: 10.h, right: 8.w, left: 8.w),
                   child: DefaultTextField(
                       width: double.infinity,
                       label: "Search",
@@ -97,22 +97,20 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
             : null,
         dropdownStyleData: DropdownStyleData(
           offset: const Offset(0, -12),
-          maxHeight: widget.hasSearchBox ? 300 : null,
+          maxHeight: widget.hasSearchBox ? 300.h : null,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16.0),
+              borderRadius: BorderRadius.circular(16.r),
               border: Border.all(
                   color: context.colorScheme.primary.withOpacity(.2))),
         ),
         buttonStyleData: ButtonStyleData(
           decoration: BoxDecoration(
             // color: widget.onChanged == null ? Colors.grey[200] : null,
-            borderRadius: BorderRadius.circular(16.0),
+            borderRadius: BorderRadius.circular(16.r),
             border:
-                Border.all(color: context.colorScheme.primary.withOpacity(.2)),
+                Border.all(color: context.colorScheme.primary.withOpacity(.5)),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          height: 48,
-          width: widget.width ?? 200,
+          width: widget.width?.w,
         ),
         iconStyleData: IconStyleData(
           iconEnabledColor: Theme.of(context).colorScheme.primary,
@@ -137,7 +135,6 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
         selectedItemBuilder: (context) {
           return widget.items
               .map((e) => SizedBox(
-                    width: (widget.width ?? 200) / .5,
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: RichText(
@@ -199,7 +196,7 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
             if (e.subtitle != null)
               Text(e.subtitle!,
                   style: TextStyle(
-                      fontSize: 14, color: context.colorScheme.primary),
+                      fontSize: 14.sp, color: context.colorScheme.primary),
                   softWrap: false,
                   overflow: TextOverflow.ellipsis),
           ],

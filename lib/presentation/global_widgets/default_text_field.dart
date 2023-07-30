@@ -44,14 +44,17 @@ class DefaultTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: label,
         filled: disabled,
-        // fillColor: disabled ? Colors.grey[200] : null,
         border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(16.r),
             borderSide: BorderSide(color: Theme.of(context).primaryColor)),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16.r),
+          borderSide: BorderSide(color: Theme.of(context).colorScheme.primary),
+        ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
-          borderSide:
-              BorderSide(color: Theme.of(context).colorScheme.secondary),
+          borderSide: BorderSide(
+              color: Theme.of(context).colorScheme.primary.withOpacity(.5)),
         ),
         errorBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16.r),
@@ -59,11 +62,8 @@ class DefaultTextField extends StatelessWidget {
         ),
         errorStyle: const TextStyle(color: Colors.red),
         labelStyle: TextStyle(
-            color: Theme.of(context).colorScheme.onBackground.withOpacity(.5)),
-        contentPadding: EdgeInsets.symmetric(horizontal: 8.w, vertical: 8.h),
-        constraints: BoxConstraints(
-          maxWidth: width ?? 650.w,
-        ),
+            color: Theme.of(context).colorScheme.primary.withOpacity(.44)),
+        contentPadding: EdgeInsets.symmetric(horizontal: 21.w, vertical: 15.h),
       ),
       controller: controller,
       obscureText: obscureText,
@@ -71,6 +71,8 @@ class DefaultTextField extends StatelessWidget {
       validator: validator,
       onChanged: onChanged,
       onTap: onTap,
+      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+          color: Theme.of(context).colorScheme.primary.withOpacity(.9)),
       inputFormatters: [
         if (keyboardType == TextInputType.number)
           FilteringTextInputFormatter.allow(RegExp(r'^\d+\.?\d{0,2}')),

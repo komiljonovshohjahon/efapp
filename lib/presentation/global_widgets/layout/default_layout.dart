@@ -1,3 +1,4 @@
+import 'package:efapp/presentation/global_widgets/layout/default_bottom_nav_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:efapp/presentation/global_widgets/layout/page_wrapper.dart';
 
@@ -16,6 +17,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       appBar: const DefaultAppBar(),
       resizeToAvoidBottomInset: true,
       body: PageWrapper(child: widget.child),
+      bottomNavigationBar: DefaultBottomNavigationBar(),
     );
   }
 }

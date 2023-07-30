@@ -54,7 +54,7 @@ class _RunnerAppState extends State<RunnerApp> {
   Widget build(BuildContext context) {
     final router = _dependencyManager.navigation.router;
     return ScreenUtilInit(
-      designSize: const Size(720, 1080),
+      designSize: const Size(375, 888),
       builder: (context, child) => MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: kDebugMode,
@@ -70,6 +70,36 @@ class _RunnerAppState extends State<RunnerApp> {
             primary: Color(0xFF8C6924),
             secondary: Color(0xFF3A3A3A),
             tertiary: Color(0xFFB9BCBE),
+            onBackground: Color(0xFF3A3A3A),
+          ),
+          bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+            elevation: 0,
+            backgroundColor: Color(0xFFFAF8F1),
+            selectedItemColor: Color(0xFF8C6924),
+            unselectedItemColor: Color(0xFFB9BCBE),
+          ),
+          radioTheme: RadioThemeData(
+            fillColor: MaterialStateProperty.resolveWith((states) {
+              if (states.contains(MaterialState.selected)) {
+                return const Color(0xFF8C6924);
+              } else if (states.contains(MaterialState.disabled)) {
+                return const Color(0xFFB9BCBE);
+              }
+              return const Color(0xFF8C6924);
+            }),
+            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          ),
+          elevatedButtonTheme: ElevatedButtonThemeData(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: const Color(0xFF986605),
+              backgroundColor: const Color(0xFF8C6924).withOpacity(.3),
+              elevation: 0,
+              textStyle: GoogleFonts.outfitTextTheme().labelLarge!..copyWith(),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30.r)),
+              padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.w),
+              shadowColor: const Color(0xFFFAF8F1),
+            ),
           ),
           textTheme: GoogleFonts.outfitTextTheme(
             Theme.of(context).textTheme,
