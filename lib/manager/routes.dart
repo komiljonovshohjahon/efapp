@@ -17,6 +17,7 @@ class MCANavigation extends IMCANavigation {
 
   // Routes
   static const String home = '/home';
+  static const String blogs = '/blogs';
 
   /// router
   @override
@@ -35,7 +36,18 @@ class MCANavigation extends IMCANavigation {
             GoRoute(
               path: home,
               name: home.substring(1),
-              routes: [],
+              routes: [
+                GoRoute(
+                  path: blogs.substring(1),
+                  name: blogs.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: BlogsView(),
+                    );
+                  },
+                ),
+              ],
               pageBuilder: (context, state) {
                 return MaterialPage<void>(
                   key: state.pageKey,
