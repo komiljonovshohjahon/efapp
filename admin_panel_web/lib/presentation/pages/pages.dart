@@ -1,10 +1,8 @@
 export 'login_view.dart';
 export 'ministry_of_dilkumar/ceremonies_view.dart';
-export 'DEPRECATED_dashboard_view.dart';
 export 'uae_youtube/uae_yt_view.dart';
 export 'daily_devotional/daily_devotion_view.dart';
 export 'banners_view.dart';
-export 'DEPRECATED_schedule_view.dart';
 export 'scriptures/scripture_view.dart';
 export 'praise_report/praise_report_view.dart';
 export 'church_schedule/church_schedule_view.dart';

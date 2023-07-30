@@ -449,6 +449,18 @@ extension StringHelpers on String {
     }
     return "";
   }
+
+  String get getYouTubeThumbnail {
+    if (isYouTubeLink(this)) {
+      return "https://img.youtube.com/vi/$youtubeLinkToId/0.jpg";
+    }
+    return "";
+  }
+
+  //String convert id to youtube link
+  String get youtubeIdToLink {
+    return "https://www.youtube.com/watch?v=$this";
+  }
 }
 
 /////////

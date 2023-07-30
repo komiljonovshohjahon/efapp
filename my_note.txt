@@ -1,0 +1,117 @@
+  Future<Either<String, void>> createOrUpdatePraiseReport(
+      {required PraiseReportMd model,
+      required List<Uint8List> images,
+      List? mobileImages,
+      bool sendNotification = false}) async {
+    final docs = await _fire
+        .collection(praiseReportCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    payload(String id) {
+      return _makePayload(
+          route: "praiseReport",
+          collection: praiseReportCn,
+          documentId: id,
+          title: "Praise Report");
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      var m = PraiseReportMd.init();
+      m = model.copyWith(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        uploadedBy: currentUser!.uid,
+        uploadedAt: DateTime.now(),
+      );
+
+      //upload image
+      if (images.isNotEmpty) {
+        for (int i = 0; i < images.length; i++) {
+          try {
+            final imageData = images[i];
+            final res = await DependencyManager.instance.fireStorage
+                .uploadImage(
+                    data: imageData,
+                    path: "${FirestoreDep.praiseReportCn}/${m.id}/$i");
+            if (res.isLeft) {
+              //error
+              Logger.e("Error uploading image: ${res.left}");
+            }
+          } catch (e) {}
+        }
+      }
+      if (mobileImages != null && mobileImages.isNotEmpty) {
+        for (int i = 0; i < mobileImages.length; i++) {
+          try {
+            final imageData = mobileImages[i];
+            final res = await DependencyManager.instance.fireStorage.uploadFile(
+                file: imageData,
+                path: "${FirestoreDep.praiseReportCn}/${m.id}/$i");
+            if (res.isLeft) {
+              //error
+              Logger.e("Error uploading image: ${res.left}");
+            }
+          } catch (e) {}
+        }
+      }
+
+      return firestoreHandler(_fire.collection(praiseReportCn).add(m.toJson()))
+          .then((value) {
+        if (sendNotification) {
+          this.sendNotification(payload(value.right.id));
+        }
+        return value;
+      });
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(praiseReportCn)
+          .doc(docs.docs.first.id)
+          .update(model.toJson()));
+    }
+  }
+
+
+
+
+    ///Delete praise report
+    Future<Either<String, void>> deletePraiseReport(String id) async {
+      Logger.d('deletePraiseReport: $id');
+      final docs =
+          await _fire.collection(praiseReportCn).where("id", isEqualTo: id).get();
+      Logger.i("Found docs: ${docs.docs.first.id}");
+      try {
+        //delete recursively
+        await DependencyManager.instance.fireStorage
+            .deleteFolder("${FirestoreDep.praiseReportCn}/$id");
+      } catch (e) {
+        Logger.e(e.toString());
+      }
+      return firestoreHandler(
+          _fire.collection(praiseReportCn).doc(docs.docs.first.id).delete());
+    }
+
+
+
+
+      ///Get praise report
+      Future<Either<List<PraiseReportMd>, String>> getPraiseReports() async {
+        try {
+          final res = await _fire.collection(praiseReportCn).get();
+          final list =
+              res.docs.map((e) => PraiseReportMd.fromJson(e.data())).toList();
+
+          //Handle notification count
+          final int unreviewedCount =
+              list.fold(0, (p, e) => p + (e.isReviewedByAdmin ? 0 : 1));
+          adminDestinations["praiseReport"]?['badgeCount'] = unreviewedCount;
+          deps.appDep.restart?.call();
+          //Handle notification count
+
+          return Left(list);
+        } catch (e) {
+          return Right(e.toString());
+        }
+      }
+

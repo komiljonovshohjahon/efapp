@@ -7,7 +7,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:youtube/youtube_thumbnail.dart';
 
 class YtPopup extends StatefulWidget {
-  final YoutubeContentMd item;
+  final YtVideoMd item;
   const YtPopup({super.key, required this.item});
 
   @override
@@ -66,16 +66,16 @@ class _YtPopupState extends State<YtPopup> {
               child: !isLoaded
                   ? Image(
                       fit: BoxFit.fill,
-                      image: NetworkImage(YoutubeThumbnail(
-                              youtubeId: widget.item.link.youtubeLinkToId)
-                          .standard()),
+                      image: NetworkImage(
+                          YoutubeThumbnail(youtubeId: widget.item.videoId)
+                              .standard()),
                     )
                   : InAppWebView(
                       onWebViewCreated: (controller) {
                         controller.loadUrl(
                             urlRequest: URLRequest(
                           url: Uri.parse(
-                              "https://www.youtube.com/embed/${widget.item.link.youtubeLinkToId}"),
+                              "https://www.youtube.com/embed/${widget.item.videoId}"),
                         ));
                       },
                       onEnterFullscreen: (controller) {
