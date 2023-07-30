@@ -14,11 +14,11 @@
 // "2020-01-06 05:03:06"
 
 final class AudioModel {
-  final int albumId;
+  final String albumId;
   final String audioFile;
   final String audioTitle;
   final String createdAt;
-  final int id;
+  final String id;
   final String image;
   final String updatedAt;
 
@@ -34,11 +34,11 @@ final class AudioModel {
 
   factory AudioModel.fromJson(Map<String, dynamic> json) {
     return AudioModel(
-      albumId: int.parse(json['album_id']),
+      albumId: json['album_id'],
       audioFile: json['audio_file'],
       audioTitle: json['audio_title'],
       createdAt: json['created_at'],
-      id: int.parse(json['id']),
+      id: json['id'],
       image: json['image'],
       updatedAt: json['updated_at'],
     );
@@ -46,11 +46,11 @@ final class AudioModel {
 
   Map<String, dynamic> toJson() {
     return {
-      'album_id': albumId.toString(),
+      'id': id,
+      'album_id': albumId,
       'audio_file': audioFile,
       'audio_title': audioTitle,
       'created_at': createdAt,
-      'id': id.toString(),
       'image': image,
       'updated_at': updatedAt,
     };

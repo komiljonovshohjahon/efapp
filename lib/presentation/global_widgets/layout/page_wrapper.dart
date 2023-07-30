@@ -6,9 +6,11 @@ class PageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(0),
-      child: child,
+    return SafeArea(
+      child: Padding(
+        padding: const EdgeInsets.all(0),
+        child: child,
+      ),
     );
   }
 }
