@@ -91,10 +91,10 @@ class _RunnerAppState extends State<RunnerApp> {
           ),
           elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-              foregroundColor: const Color(0xFF986605),
-              backgroundColor: const Color(0xFF8C6924).withOpacity(.3),
+              foregroundColor: const Color(0xFF8C6924),
+              backgroundColor: const Color(0xFF8c6924).withOpacity(.2),
               elevation: 0,
-              textStyle: GoogleFonts.outfitTextTheme().labelLarge!..copyWith(),
+              textStyle: GoogleFonts.outfitTextTheme().labelLarge!.copyWith(),
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(30.r)),
               padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.w),

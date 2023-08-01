@@ -1,2 +1,2 @@
-export 'home_view.dart';
+export 'home_view/home_view.dart';
 export 'blogs_view.dart';

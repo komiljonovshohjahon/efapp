@@ -2,8 +2,6 @@
 
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class FirestoreDep {
   //create singleton
@@ -20,17 +18,13 @@ class FirestoreDep {
 
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-  static String usersCn = 'users';
-  static String ceremonyCn = 'ceremony';
-  static String devotionCn = 'devotion';
-  static String praiseReportCn = 'praise_report';
-  static String churchScheduleCn = 'church_schedule';
-  static String prayerRequestCn = 'prayer_request';
-  static String specialRequestCn = 'special_request';
-  static String pastoralCareCn = 'pastoral_care';
-  static String contactChurchCn = 'contact_church';
-  static String basicCn = 'basic';
-  static String socialMediaCn = 'social_media';
+  static String booksCn = 'books';
+  late final booksQuery = fire.collection(booksCn);
+  static String blogsCn = 'blogs';
+  late final blogsQuery = fire.collection(blogsCn);
+  static String galleryCn = 'gallery';
+  static String galleryImagesCn = 'gallery_images';
+  static String ytVideosCn = 'youtube_videos';
 
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 

@@ -72,8 +72,7 @@ class DefaultFirebaseOptions {
     projectId: 'francis-c34ff',
     databaseURL: 'https://francis-c34ff.firebaseio.com',
     storageBucket: 'francis-c34ff.appspot.com',
-    iosClientId:
-        '1017296850809-604n5aupq9iuibpgr88agub8sp8i1e3a.apps.googleusercontent.com',
+    iosClientId: '1017296850809-604n5aupq9iuibpgr88agub8sp8i1e3a.apps.googleusercontent.com',
     iosBundleId: 'com.christianappdevelopers.efapp.efapp',
   );
 }

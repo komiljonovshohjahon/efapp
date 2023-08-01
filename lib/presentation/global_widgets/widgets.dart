@@ -16,3 +16,4 @@ export 'modals/yt_popup.dart';
 export 'default_list_tile.dart';
 export 'modals/confirm_dialog.dart';
 export 'default_firebase_image_provider.dart';
+export 'default_search_bar.dart';
