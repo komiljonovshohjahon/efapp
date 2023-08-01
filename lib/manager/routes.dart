@@ -41,15 +41,15 @@ class MCANavigation extends IMCANavigation {
                   path: blogs.substring(1),
                   name: blogs.substring(1),
                   pageBuilder: (context, state) {
-                    return MaterialPage<void>(
+                    return NoTransitionPage<void>(
                       key: state.pageKey,
-                      child: BlogsView(),
+                      child: const BlogsView(),
                     );
                   },
                 ),
               ],
               pageBuilder: (context, state) {
-                return MaterialPage<void>(
+                return NoTransitionPage<void>(
                   key: state.pageKey,
                   child: HomeView(),
                 );
@@ -57,7 +57,7 @@ class MCANavigation extends IMCANavigation {
             ),
           ]),
     ],
-    errorPageBuilder: (context, state) => MaterialPage<void>(
+    errorPageBuilder: (context, state) => NoTransitionPage<void>(
       key: state.pageKey,
       child: Scaffold(
           body: Center(

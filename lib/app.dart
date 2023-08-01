@@ -26,27 +26,27 @@ class _RunnerAppState extends State<RunnerApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseMessaging.onMessage.listen(firebaseMessagingHandler);
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
-      if (!(!kIsWeb && Platform.isLinux)) {
-        final pending = await NotificationService()
-            .notificationsPlugin
-            .getNotificationAppLaunchDetails();
-        final bool didNotificationLaunchApp =
-            pending?.didNotificationLaunchApp ?? false;
-        final notificationResponse = pending?.notificationResponse;
-        bool shouldMoveToRoute = false;
-        if (didNotificationLaunchApp &&
-            notificationResponse != null &&
-            notificationResponse.payload != null &&
-            notificationResponse.payload!.isNotEmpty) {
-          shouldMoveToRoute = true;
-        }
-        if (shouldMoveToRoute) {
-          onBgNotificationResponse(pending!.notificationResponse!);
-        }
-      }
-    });
+    // FirebaseMessaging.onMessage.listen(firebaseMessagingHandler);
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
+    //   if (!(!kIsWeb && Platform.isLinux)) {
+    //     final pending = await NotificationService()
+    //         .notificationsPlugin
+    //         .getNotificationAppLaunchDetails();
+    //     final bool didNotificationLaunchApp =
+    //         pending?.didNotificationLaunchApp ?? false;
+    //     final notificationResponse = pending?.notificationResponse;
+    //     bool shouldMoveToRoute = false;
+    //     if (didNotificationLaunchApp &&
+    //         notificationResponse != null &&
+    //         notificationResponse.payload != null &&
+    //         notificationResponse.payload!.isNotEmpty) {
+    //       shouldMoveToRoute = true;
+    //     }
+    //     if (shouldMoveToRoute) {
+    //       onBgNotificationResponse(pending!.notificationResponse!);
+    //     }
+    //   }
+    // });
   }
 
   //1. call BotToastInit

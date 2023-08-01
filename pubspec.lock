@@ -25,30 +25,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.11.0"
-  audio_service:
-    dependency: "direct main"
-    description:
-      name: audio_service
-      sha256: "8b719ac7982fdea1a54a528f19e345907295489c53709ba4cdee65a2955c0f4d"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.18.10"
-  audio_service_platform_interface:
-    dependency: transitive
-    description:
-      name: audio_service_platform_interface
-      sha256: "2c3a1d52803931e836b9693547a71c0c3585ad54219d2214219ed5cfcc3c1af4"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
-  audio_service_web:
-    dependency: transitive
-    description:
-      name: audio_service_web
-      sha256: "523e64ddc914c714d53eec2da85bba1074f08cf26c786d4efb322de510815ea7"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.1"
   audio_session:
     dependency: transitive
     description:
@@ -97,6 +73,13 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.2"
+  cad_audio_service:
+    dependency: "direct main"
+    description:
+      path: cad_audio_service
+      relative: true
+    source: path
+    version: "0.0.1"
   characters:
     dependency: transitive
     description:
@@ -169,6 +152,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  dart_des:
+    dependency: "direct main"
+    description:
+      name: dart_des
+      sha256: "0a66afb8883368c824497fd2a1fd67bdb1a785965a3956728382c03d40747c33"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.2"
   dbus:
     dependency: transitive
     description:
@@ -188,10 +179,10 @@ packages:
     dependency: transitive
     description:
       name: dio
-      sha256: "3866d67f93523161b643187af65f5ac08bc991a5bcdaf41a2d587fe4ccb49993"
+      sha256: "9d6445da1caf8412070670c03c39ad5b12a78cc8c2361417b220905a2bcbdd2f"
       url: "https://pub.dev"
     source: hosted
-    version: "5.3.0"
+    version: "5.3.1"
   dropdown_button2:
     dependency: "direct main"
     description:
@@ -450,6 +441,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.0.15"
+  flutter_redux:
+    dependency: transitive
+    description:
+      name: flutter_redux
+      sha256: "3b20be9e08d0038e1452fbfa1fdb1ea0a7c3738c997734530b3c6d0bb5fcdbdc"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.10.0"
   flutter_screenutil:
     dependency: "direct main"
     description:
@@ -557,7 +556,7 @@ packages:
     source: hosted
     version: "4.8.1"
   just_audio:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: just_audio
       sha256: "890cd0fc41a1a4530c171e375a2a3fb6a09d84e9d508c5195f40bcff54330327"
@@ -672,10 +671,10 @@ packages:
     dependency: transitive
     description:
       name: path_provider_platform_interface
-      sha256: "57585299a729335f1298b43245842678cb9f43a6310351b18fb577d6e33165ec"
+      sha256: bced5679c7df11190e1ddc35f3222c858f328fff85c3942e46e7f5589bf9eb84
       url: "https://pub.dev"
     source: hosted
-    version: "2.0.6"
+    version: "2.1.0"
   path_provider_windows:
     dependency: transitive
     description:
@@ -716,6 +715,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "4.2.4"
+  redux:
+    dependency: transitive
+    description:
+      name: redux
+      sha256: "1e86ed5b1a9a717922d0a0ca41f9bf49c1a587d50050e9426fc65b14e85ec4d7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.0.0"
   rxdart:
     dependency: transitive
     description:
@@ -929,6 +936,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "6.3.0"
+  xml2json:
+    dependency: transitive
+    description:
+      name: xml2json
+      sha256: c8cb35b83cce879c2ea86951fd257f4e765b0030a0298b35cf94f2b3d0f32095
+      url: "https://pub.dev"
+    source: hosted
+    version: "5.3.6"
   youtube:
     dependency: "direct main"
     description:
@@ -937,6 +952,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.1"
+  youtube_data_api:
+    dependency: "direct main"
+    description:
+      name: youtube_data_api
+      sha256: "8414841e9bbfa69d25d707cc8905babac28806beb51912b1cb67c8e3edf3a09a"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   youtube_explode_dart:
     dependency: "direct main"
     description:
