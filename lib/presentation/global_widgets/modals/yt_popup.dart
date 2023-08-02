@@ -36,11 +36,25 @@ class _YtPopupState extends State<YtPopup> {
       contentPadding: EdgeInsets.all(16.w),
       titlePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      title: Text(
-        widget.item.title,
-        maxLines: 4,
-        overflow: TextOverflow.ellipsis,
-        softWrap: true,
+      title: Row(
+        children: [
+          SizedBox(
+            width: context.width * 0.7,
+            child: Text(
+              widget.item.title,
+              maxLines: 4,
+              overflow: TextOverflow.ellipsis,
+              softWrap: true,
+            ),
+          ),
+          const Spacer(),
+          IconButton(
+            onPressed: () async {
+              context.pop();
+            },
+            icon: const Icon(Icons.close),
+          ),
+        ],
       ),
       children: [
         Hero(
