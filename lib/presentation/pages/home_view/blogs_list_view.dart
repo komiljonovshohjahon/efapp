@@ -41,7 +41,7 @@ class _NewBlogsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 150.h,
+      height: 138.h,
       child: FirestoreListView<BlogMd>(
         query: FirebaseFirestore.instance
             .collection(FirestoreDep.blogsCn)
@@ -75,6 +75,7 @@ class _NewBlogsListView extends StatelessWidget {
 
 class _BlogWidget extends StatelessWidget {
   final BlogMd model;
+
   const _BlogWidget({required this.model});
 
   @override
@@ -82,44 +83,61 @@ class _BlogWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 16.w),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(8.r),
-        child: SizedBox(
-          height: 150.h,
-          width: 91.w,
-          child: GestureDetector(
-            onTap: () {
-              //todo:
-              // launchURL(model.url);
-            },
-            child: DecoratedBox(
-                decoration: BoxDecoration(color: context.colorScheme.primary),
-                child:
-                    // model.imageUrl.isEmpty
-                    //     ?
-                    Center(
-                  child: Text(model.title,
-                      maxLines: 4,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context)
-                          .textTheme
-                          .headlineSmall!
-                          .copyWith(color: Colors.white, fontSize: 14.sp)),
-                )
+          borderRadius: BorderRadius.circular(8.r),
+          child: SizedBox(
+            width: 91.w,
+            child: GestureDetector(
+              onTap: () {
                 //todo:
-                // : CachedNetworkImage(
-                //     imageUrl: model.imageUrl,
-                //     fit: BoxFit.fill,
-                //     placeholder: (context, url) => const Center(
-                //       child: CircularProgressIndicator(),
-                //     ),
-                //     errorWidget: (context, url, error) =>
-                //         const Icon(Icons.error),
-                //   ),
+                // launchURL(model.url);
+              },
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: DefaultCachedFirebaseImageProvider(model.imagePath),
+                    fit: BoxFit.fitHeight,
+                  ),
+                  color: context.colorScheme.primary,
                 ),
-          ),
-        ),
-      ),
+                // child: model.imagePath.isEmpty
+                //     ? Center(
+                //         child: Text(model.title,
+                //             maxLines: 4,
+                //             overflow: TextOverflow.ellipsis,
+                //             textAlign: TextAlign.center,
+                //             style: Theme.of(context)
+                //                 .textTheme
+                //                 .headlineSmall!
+                //                 .copyWith(
+                //                     color: Colors.white, fontSize: 14.sp)),
+                //       )
+                //     : Image(
+                //         errorBuilder: (context, error, stackTrace) {
+                //           return Center(
+                //             child: Text(model.title,
+                //                 maxLines: 4,
+                //                 overflow: TextOverflow.ellipsis,
+                //                 textAlign: TextAlign.center,
+                //                 style: Theme.of(context)
+                //                     .textTheme
+                //                     .headlineSmall!
+                //                     .copyWith(
+                //                         color: Colors.white, fontSize: 14.sp)),
+                //           );
+                //         },
+                //         loadingBuilder: (context, child, loadingProgress) {
+                //           if (loadingProgress == null) return child;
+                //           return const Center(
+                //             child: CircularProgressIndicator(),
+                //           );
+                //         },
+                //         fit: BoxFit.fitHeight,
+                //         image:
+                //             DefaultCachedFirebaseImageProvider(model.imagePath),
+                //       ),
+              ),
+            ),
+          )),
     );
   }
 }

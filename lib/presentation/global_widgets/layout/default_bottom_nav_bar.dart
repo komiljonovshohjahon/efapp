@@ -39,7 +39,7 @@ class _DefaultBottomNavigationBarState
             currentRoute)?["index"] ??
         0;
     return BottomNavigationBar(
-      elevation: .1,
+      elevation: 8,
       currentIndex: currentIndex,
       onTap: _onItemTapped,
       items: const <BottomNavigationBarItem>[

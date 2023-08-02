@@ -46,7 +46,7 @@ class _NewBooksListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250.h,
+      height: 200.h,
       child: FirestoreListView<BookMd>(
         query: FirebaseFirestore.instance
             .collection(FirestoreDep.booksCn)
@@ -88,12 +88,11 @@ class _BookWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.only(right: 16.w),
+      padding: EdgeInsets.only(right: 8.w),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16.r),
         child: SizedBox(
-          height: 250.h,
-          width: 150.w,
+          width: 136.w,
           child: GestureDetector(
             onTap: () {
               context.goToWebView(model.url);
@@ -111,12 +110,19 @@ class _BookWidget extends StatelessWidget {
                     )
                   : CachedNetworkImage(
                       imageUrl: model.imageUrl,
-                      fit: BoxFit.fill,
+                      fit: BoxFit.fitHeight,
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
+                      errorWidget: (context, url, error) => Center(
+                        child: Text(model.title,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                    color: Colors.white, fontSize: 24.sp)),
+                      ),
                     ),
             ),
           ),

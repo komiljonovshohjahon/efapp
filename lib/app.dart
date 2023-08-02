@@ -50,11 +50,12 @@ class _RunnerAppState extends State<RunnerApp> {
   }
 
   //1. call BotToastInit
+
   @override
   Widget build(BuildContext context) {
     final router = _dependencyManager.navigation.router;
     return ScreenUtilInit(
-      designSize: const Size(375, 888),
+      designSize: const Size(360, 720),
       builder: (context, child) => MaterialApp.router(
         routerConfig: router,
         debugShowCheckedModeBanner: kDebugMode,
