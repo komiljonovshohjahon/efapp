@@ -1,6 +1,7 @@
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/presentation/pages/pages.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
@@ -42,7 +43,7 @@ class MCANavigation extends IMCANavigation {
                   path: blogs.substring(1),
                   name: blogs.substring(1),
                   pageBuilder: (context, state) {
-                    return NoTransitionPage<void>(
+                    return MaterialPage<void>(
                       key: state.pageKey,
                       child: const BlogsView(),
                     );
@@ -53,7 +54,7 @@ class MCANavigation extends IMCANavigation {
                   name: webView.substring(1),
                   pageBuilder: (context, state) {
                     final url = state.extra as String;
-                    return NoTransitionPage<void>(
+                    return MaterialPage<void>(
                       key: state.pageKey,
                       child: DefaultWebView(url: url),
                     );
@@ -61,7 +62,7 @@ class MCANavigation extends IMCANavigation {
                 ),
               ],
               pageBuilder: (context, state) {
-                return NoTransitionPage<void>(
+                return MaterialPage<void>(
                   key: state.pageKey,
                   child: HomeView(),
                 );
@@ -69,7 +70,7 @@ class MCANavigation extends IMCANavigation {
             ),
           ]),
     ],
-    errorPageBuilder: (context, state) => NoTransitionPage<void>(
+    errorPageBuilder: (context, state) => MaterialPage<void>(
       key: state.pageKey,
       child: Scaffold(
           body: Center(

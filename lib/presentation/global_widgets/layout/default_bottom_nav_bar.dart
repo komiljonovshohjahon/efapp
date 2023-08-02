@@ -27,8 +27,16 @@ class DefaultBottomNavigationBar extends StatefulWidget {
 
 class _DefaultBottomNavigationBarState
     extends State<DefaultBottomNavigationBar> {
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index, BuildContext context) {
     context.go("${MCANavigation.home}${navigations[index]!["route"]}");
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    DependencyManager.instance.navigation.router.addListener(() {
+      setState(() {});
+    });
   }
 
   @override
@@ -38,10 +46,11 @@ class _DefaultBottomNavigationBarState
             "${MCANavigation.home}${element["route"]}" ==
             currentRoute)?["index"] ??
         0;
+    print("currentRoute: $currentRoute currentIndex: $currentIndex");
     return BottomNavigationBar(
       elevation: 8,
       currentIndex: currentIndex,
-      onTap: _onItemTapped,
+      onTap: (value) => _onItemTapped(value, context),
       items: const <BottomNavigationBarItem>[
         BottomNavigationBarItem(
           icon: Icon(Icons.home),

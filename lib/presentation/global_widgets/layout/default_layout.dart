@@ -38,6 +38,15 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.blogs}") {
+      return AppBar(
+        title: const Text("Blogs"),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: context.pop,
+        ),
+      );
+    }
     return const DefaultAppBar();
   }
 }

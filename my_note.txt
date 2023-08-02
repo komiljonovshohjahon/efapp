@@ -115,3 +115,6 @@
         }
       }
 
+
+
+    context.go("${MCANavigation.home}${navigations[index]!["route"]}");

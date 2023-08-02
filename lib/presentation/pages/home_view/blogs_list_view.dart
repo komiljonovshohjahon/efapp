@@ -1,5 +1,6 @@
 import 'package:dependency_plugin/dependencies/dependencies.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
+import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -25,7 +26,11 @@ class BlogsListView extends StatelessWidget {
                       .headlineSmall!
                       .copyWith(color: Colors.black)),
               const Spacer(),
-              ElevatedButton(onPressed: () {}, child: const Text("See All"))
+              ElevatedButton(
+                  onPressed: () {
+                    context.go("${MCANavigation.home}${MCANavigation.blogs}");
+                  },
+                  child: const Text("See All"))
             ],
           ),
         ),
@@ -74,7 +79,7 @@ class _NewBlogsListView extends StatelessWidget {
                 return Center(
                   child: IconButton(
                     onPressed: () {
-                      //todo:
+                      context.go("${MCANavigation.home}${MCANavigation.blogs}");
                     },
                     icon: const Icon(Icons.arrow_forward_ios),
                   ),

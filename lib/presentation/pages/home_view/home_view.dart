@@ -15,6 +15,33 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
+    return CustomScrollView(
+      slivers: [
+        SliverPadding(
+          padding: EdgeInsets.symmetric(vertical: 16.h),
+          sliver: SliverAppBar(
+            titleSpacing: 0,
+            title: const DefaultSearchBar(),
+            centerTitle: true,
+            pinned: true,
+          ),
+        ),
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              //Books list
+              BooksListView(),
+
+              //Blogs list
+              BlogsListView(),
+
+              //Love offering
+              LoveOfferingWidget(),
+            ],
+          ),
+        ),
+      ],
+    );
     return SingleChildScrollView(
       padding: EdgeInsets.symmetric(vertical: 32.h),
       child: SpacedColumn(

@@ -51,7 +51,7 @@ class _DefaultSearchBarState extends State<DefaultSearchBar> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 24.w),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: SearchAnchor.bar(
           barHintText: 'Search',
           isFullScreen: false,
@@ -104,7 +104,7 @@ class SearchSuggestion extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
         child: Text(
           title,
           style: Theme.of(context).textTheme.titleMedium,
