@@ -136,75 +136,15 @@ Map<int, String> prayerRequestTypes = {
 };
 
 final Map<String, Map<String, dynamic>> adminDestinations = {
-  "ceremonies": {
-    'route': "/ceremonies",
-    'title': "The Ministry of Ps Dilkumar",
-    'icon': Icons.video_library_outlined,
-  },
-  "uaeYoutube": {
-    'route': "/uaeYoutube",
-    'title': "KRCI, UAE",
-    'icon': Icons.video_library_outlined,
-  },
-  "devotion": {
-    'route': "/devotion",
-    'title': "Daily Devotional Message",
-    'icon': Icons.settings_system_daydream_outlined,
-  },
-  "banners": {
-    'route': "/banners",
-    "title": "Banners",
-    'icon': Icons.image_outlined,
-  },
-  "scripture": {
-    'route': "/scripture",
-    "title": "Scripture",
+  "books": {
+    'route': "/books",
+    'title': "Books",
     'icon': Icons.book_outlined,
   },
-  "praiseReport": {
-    'route': "/praiseReport",
-    "title": "Praise Report",
-    'icon': Icons.report_outlined,
-  },
-  "churchSchedule": {
-    'route': "/churchSchedule",
-    "title": "Church Schedule",
-    'icon': Icons.schedule_outlined,
-  },
-  "pastoralCare": {
-    'route': "/pastoralCare",
-    "title": "Pastoral Care",
-    'icon': Icons.person_outline,
-  },
-  "users": {
-    'route': "/users",
-    "title": "Users",
-    'icon': Icons.people_outlined,
-  },
-  "prayerRequests": {
-    'route': "/prayerRequests",
-    "title": "Prayer Requests",
-    'icon': Icons.contact_support_outlined,
-  },
-  "specialRequests": {
-    'route': "/specialRequests",
-    "title": "Special Requests",
-    'icon': Icons.folder_special_outlined,
-  },
-  "contactChurchOffice": {
-    'route': "/contactChurchOffice",
-    "title": "Contact Church Office Requests",
-    'icon': Icons.contact_mail_outlined,
-  },
-  "basic": {
-    'route': "/basic",
-    "title": "Default Menus",
-    'icon': Icons.menu_outlined,
-  },
-  "socialMedia": {
-    'route': "/socialMedia",
-    "title": "Social Media",
-    'icon': Icons.share_outlined,
+  "books1": {
+    'route': "/books",
+    'title': "Books1",
+    'icon': Icons.book_outlined,
   },
 };
 

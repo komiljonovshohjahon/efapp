@@ -2,6 +2,7 @@
 
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class FirestoreDep {
   //create singleton
@@ -53,6 +54,7 @@ class FirestoreDep {
 
   Future<Either<bool, String>> sendNotification(
       Map<String, String> payload) async {
+    throw UnimplementedError();
     try {
       final headers = <String, String>{
         'Content-Type': 'application/json',
@@ -130,6 +132,70 @@ class FirestoreDep {
       return fromJson(res.data()!);
     } catch (e) {
       return null;
+    }
+  }
+
+  //GET books
+  Future<Either<List<BookMd>, String>> getBooks() async {
+    try {
+      final res = await _fire.collection(booksCn).get();
+      final list = res.docs.map((e) => BookMd.fromJson(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  //CREATE OR UPDATE Book
+  Future<Either<String, void>> createOrUpdateBook(
+      {required BookMd model,
+      required List<Uint8List?> images,
+      bool sendNotification = false}) async {
+    final docs =
+        await _fire.collection(booksCn).where("id", isEqualTo: model.id).get();
+
+    payload(String id) {
+      return _makePayload(
+          route: booksCn, collection: booksCn, documentId: id, title: "Book");
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      var m = BookMd.init();
+      m = model.copyWith(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        createdDate: DateTime.now().toString(),
+      );
+
+      //upload image
+      if (images.isNotEmpty) {
+        for (int i = 0; i < images.length; i++) {
+          if (images[i] == null) continue;
+          try {
+            final imageData = images[i];
+            final res = await DependencyManager.instance.fireStorage
+                .uploadImage(data: imageData!, path: "$booksCn/${m.id}/$i");
+            if (res.isLeft) {
+              //error
+              Logger.e("Error uploading image: ${res.left}");
+            }
+          } catch (e) {}
+        }
+      }
+
+      return firestoreHandler(_fire.collection(booksCn).add(m.toJson()))
+          .then((value) {
+        if (sendNotification) {
+          this.sendNotification(payload(value.right.id));
+        }
+        return value;
+      });
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(booksCn)
+          .doc(docs.docs.first.id)
+          .update(model.toJson()));
     }
   }
 }
