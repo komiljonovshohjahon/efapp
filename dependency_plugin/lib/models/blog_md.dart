@@ -1,13 +1,13 @@
 class BlogMd {
   final String id;
-  final String createAt;
+  final String createdAt;
   final String title;
   final String description;
   final String imagePath;
 
   const BlogMd({
     required this.id,
-    required this.createAt,
+    required this.createdAt,
     required this.title,
     required this.description,
     required this.imagePath,
@@ -16,14 +16,14 @@ class BlogMd {
   //copyWith
   BlogMd copyWith({
     String? id,
-    String? createAt,
+    String? createdAt,
     String? title,
     String? description,
     String? imagePath,
   }) {
     return BlogMd(
       id: id ?? this.id,
-      createAt: createAt ?? this.createAt,
+      createdAt: createdAt ?? this.createdAt,
       title: title ?? this.title,
       description: description ?? this.description,
       imagePath: imagePath ?? this.imagePath,
@@ -34,7 +34,7 @@ class BlogMd {
   factory BlogMd.fromMap(Map<String, dynamic> map) {
     return BlogMd(
       id: map['id'] as String,
-      createAt: map['create_at'] as String,
+      createdAt: map['created_at'] as String,
       title: map['title'] as String,
       description: map['description'] as String,
       imagePath: map['image'] as String,
@@ -45,7 +45,7 @@ class BlogMd {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'createAt': createAt,
+      'createdAt': createdAt,
       'title': title,
       'description': description,
       'imagePath': imagePath,
@@ -56,7 +56,7 @@ class BlogMd {
   static BlogMd init() {
     return const BlogMd(
       id: '',
-      createAt: '',
+      createdAt: '',
       title: '',
       description: '',
       imagePath: '',

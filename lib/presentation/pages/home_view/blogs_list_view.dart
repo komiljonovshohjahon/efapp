@@ -29,7 +29,7 @@ class BlogsListView extends StatelessWidget {
             ],
           ),
         ),
-        _NewBlogsListView(),
+        const _NewBlogsListView(),
       ],
     );
   }
@@ -45,8 +45,8 @@ class _NewBlogsListView extends StatelessWidget {
       child: FirestoreListView<BlogMd>(
         query: FirebaseFirestore.instance
             .collection(FirestoreDep.blogsCn)
-            .orderBy("createdDate", descending: true)
             .limit(4)
+            .orderBy("created_at", descending: true)
             .withConverter(
           fromFirestore: (snapshot, options) {
             final data = snapshot.data()!;
@@ -58,18 +58,24 @@ class _NewBlogsListView extends StatelessWidget {
         ),
         padding: EdgeInsets.only(left: 24.w),
         scrollDirection: Axis.horizontal,
+        loadingBuilder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        },
+        emptyBuilder: (context) {
+          return const Center(child: Text("No blogs found"));
+        },
         itemBuilder: (context, snapshot) {
           final model = snapshot.data();
-          return BookWidget(model: model);
+          return _BlogWidget(model: model);
         },
       ),
     );
   }
 }
 
-class BookWidget extends StatelessWidget {
+class _BlogWidget extends StatelessWidget {
   final BlogMd model;
-  const BookWidget({super.key, required this.model});
+  const _BlogWidget({required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +98,13 @@ class BookWidget extends StatelessWidget {
                     //     ?
                     Center(
                   child: Text(model.title,
+                      maxLines: 4,
+                      overflow: TextOverflow.ellipsis,
                       textAlign: TextAlign.center,
                       style: Theme.of(context)
                           .textTheme
                           .headlineSmall!
-                          .copyWith(color: Colors.white, fontSize: (16).sp)),
+                          .copyWith(color: Colors.white, fontSize: 14.sp)),
                 )
                 //todo:
                 // : CachedNetworkImage(

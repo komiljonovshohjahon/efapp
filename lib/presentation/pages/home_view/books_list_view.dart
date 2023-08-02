@@ -34,7 +34,7 @@ class BooksListView extends StatelessWidget {
             ],
           ),
         ),
-        _NewBooksListView(),
+        const _NewBooksListView(),
       ],
     );
   }
@@ -51,7 +51,7 @@ class _NewBooksListView extends StatelessWidget {
         query: FirebaseFirestore.instance
             .collection(FirestoreDep.booksCn)
             .orderBy("createdDate", descending: true)
-            .limit(4)
+            .limit(1)
             .withConverter(
           fromFirestore: (snapshot, options) {
             final data = snapshot.data()!;
@@ -61,20 +61,29 @@ class _NewBooksListView extends StatelessWidget {
             return value.toJson();
           },
         ),
+        loadingBuilder: (context) {
+          return const Center(child: CircularProgressIndicator());
+        },
+        emptyBuilder: (context) {
+          return const Center(child: Text("No books yet"));
+        },
+        errorBuilder: (context, error, st) {
+          return Center(child: Text(error.toString()));
+        },
         padding: EdgeInsets.only(left: 24.w),
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, snapshot) {
           final model = snapshot.data();
-          return BookWidget(model: model);
+          return _BookWidget(model: model);
         },
       ),
     );
   }
 }
 
-class BookWidget extends StatelessWidget {
+class _BookWidget extends StatelessWidget {
   final BookMd model;
-  const BookWidget({super.key, required this.model});
+  const _BookWidget({required this.model});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +96,7 @@ class BookWidget extends StatelessWidget {
           width: 150.w,
           child: GestureDetector(
             onTap: () {
-              launchURL(model.url);
+              context.goToWebView(model.url);
             },
             child: DecoratedBox(
               decoration: BoxDecoration(color: context.colorScheme.primary),
