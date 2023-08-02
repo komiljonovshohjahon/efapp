@@ -20,7 +20,7 @@ class BooksListView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Row(
             children: [
-              Text("New Books",
+              Text("Latest Books",
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!

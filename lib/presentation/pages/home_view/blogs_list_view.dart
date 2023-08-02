@@ -20,7 +20,7 @@ class BlogsListView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Row(
             children: [
-              Text("New Blogs",
+              Text("Latest Blogs",
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!
