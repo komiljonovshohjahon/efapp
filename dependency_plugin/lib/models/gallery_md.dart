@@ -41,7 +41,7 @@ class GalleryMd {
   factory GalleryMd.fromMap(Map<String, dynamic> map) {
     return GalleryMd(
       id: map['id'] as String,
-      image: map['image'] as String,
+      image: map['image'] ?? "",
       title: map['title'] as String,
       createdAt: map['created_at'] as String,
     );

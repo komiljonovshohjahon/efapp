@@ -20,6 +20,12 @@ Map<int, dynamic> navigations = {
     "route": MCANavigation.yt,
     "icon": Icons.video_collection,
     "index": 2,
+  },
+  3: {
+    "title": "Gallery",
+    "route": MCANavigation.gallery,
+    "icon": Icons.photo_album,
+    "index": 3,
   }
 };
 

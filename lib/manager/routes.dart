@@ -21,6 +21,7 @@ class MCANavigation extends IMCANavigation {
   static const String blogs = '/blogs';
   static const String webView = '/webView';
   static const String yt = '/yt';
+  static const String gallery = '/gallery';
 
   /// router
   @override
@@ -92,6 +93,16 @@ class MCANavigation extends IMCANavigation {
                     return MaterialPage<void>(
                       key: state.pageKey,
                       child: DefaultWebView(url: url),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: gallery.substring(1),
+                  name: gallery.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: const GalleryView(),
                     );
                   },
                 ),

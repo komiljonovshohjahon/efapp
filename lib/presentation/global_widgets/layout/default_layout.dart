@@ -46,6 +46,15 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.gallery}") {
+      return AppBar(
+        title: const Text("Gallery Album"),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: context.pop,
+        ),
+      );
+    }
     return AppBar(
       leading: BackButton(
         onPressed: context.pop,
