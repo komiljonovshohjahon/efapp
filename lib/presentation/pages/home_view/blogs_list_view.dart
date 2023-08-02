@@ -1,6 +1,5 @@
 import 'package:dependency_plugin/dependencies/dependencies.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
-import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -8,8 +7,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-class BooksListView extends StatelessWidget {
-  const BooksListView({super.key});
+class BlogsListView extends StatelessWidget {
+  const BlogsListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -20,45 +19,41 @@ class BooksListView extends StatelessWidget {
           padding: EdgeInsets.symmetric(horizontal: 24.w),
           child: Row(
             children: [
-              Text("New Books",
+              Text("New Blogs",
                   style: Theme.of(context)
                       .textTheme
                       .headlineSmall!
                       .copyWith(color: Colors.black)),
               const Spacer(),
-              ElevatedButton(
-                  onPressed: () {
-                    context.goToWebView(Urls.booksUrl);
-                  },
-                  child: const Text("See All"))
+              ElevatedButton(onPressed: () {}, child: const Text("See All"))
             ],
           ),
         ),
-        _NewBooksListView(),
+        _NewBlogsListView(),
       ],
     );
   }
 }
 
-class _NewBooksListView extends StatelessWidget {
-  const _NewBooksListView();
+class _NewBlogsListView extends StatelessWidget {
+  const _NewBlogsListView();
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 250.h,
-      child: FirestoreListView<BookMd>(
+      height: 150.h,
+      child: FirestoreListView<BlogMd>(
         query: FirebaseFirestore.instance
-            .collection(FirestoreDep.booksCn)
+            .collection(FirestoreDep.blogsCn)
             .orderBy("createdDate", descending: true)
             .limit(4)
             .withConverter(
           fromFirestore: (snapshot, options) {
             final data = snapshot.data()!;
-            return BookMd.fromJson(data);
+            return BlogMd.fromMap(data);
           },
           toFirestore: (value, options) {
-            return value.toJson();
+            return value.toMap();
           },
         ),
         padding: EdgeInsets.only(left: 24.w),
@@ -73,7 +68,7 @@ class _NewBooksListView extends StatelessWidget {
 }
 
 class BookWidget extends StatelessWidget {
-  final BookMd model;
+  final BlogMd model;
   const BookWidget({super.key, required this.model});
 
   @override
@@ -81,35 +76,39 @@ class BookWidget extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(right: 16.w),
       child: ClipRRect(
-        borderRadius: BorderRadius.circular(16.r),
+        borderRadius: BorderRadius.circular(8.r),
         child: SizedBox(
-          height: 250.h,
-          width: 150.w,
+          height: 150.h,
+          width: 91.w,
           child: GestureDetector(
             onTap: () {
-              launchURL(model.url);
+              //todo:
+              // launchURL(model.url);
             },
             child: DecoratedBox(
-              decoration: BoxDecoration(color: context.colorScheme.primary),
-              child: model.imageUrl.isEmpty
-                  ? Center(
-                      child: Text(model.title,
-                          textAlign: TextAlign.center,
-                          style: Theme.of(context)
-                              .textTheme
-                              .headlineSmall!
-                              .copyWith(color: Colors.white, fontSize: 24.sp)),
-                    )
-                  : CachedNetworkImage(
-                      imageUrl: model.imageUrl,
-                      fit: BoxFit.fill,
-                      placeholder: (context, url) => const Center(
-                        child: CircularProgressIndicator(),
-                      ),
-                      errorWidget: (context, url, error) =>
-                          const Icon(Icons.error),
-                    ),
-            ),
+                decoration: BoxDecoration(color: context.colorScheme.primary),
+                child:
+                    // model.imageUrl.isEmpty
+                    //     ?
+                    Center(
+                  child: Text(model.title,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .headlineSmall!
+                          .copyWith(color: Colors.white, fontSize: (16).sp)),
+                )
+                //todo:
+                // : CachedNetworkImage(
+                //     imageUrl: model.imageUrl,
+                //     fit: BoxFit.fill,
+                //     placeholder: (context, url) => const Center(
+                //       child: CircularProgressIndicator(),
+                //     ),
+                //     errorWidget: (context, url, error) =>
+                //         const Icon(Icons.error),
+                //   ),
+                ),
           ),
         ),
       ),

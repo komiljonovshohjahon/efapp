@@ -18,3 +18,7 @@ class GlobalConstants {
 
   static const developerWebsiteUrl = "https://www.christianappdevelopers.com";
 }
+
+class Urls {
+  static const booksUrl = "https://notionpress.com/author/evans_francis";
+}

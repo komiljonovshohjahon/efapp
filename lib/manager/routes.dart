@@ -18,6 +18,7 @@ class MCANavigation extends IMCANavigation {
   // Routes
   static const String home = '/home';
   static const String blogs = '/blogs';
+  static const String webView = '/webView';
 
   /// router
   @override
@@ -44,6 +45,17 @@ class MCANavigation extends IMCANavigation {
                     return NoTransitionPage<void>(
                       key: state.pageKey,
                       child: const BlogsView(),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: webView.substring(1),
+                  name: webView.substring(1),
+                  pageBuilder: (context, state) {
+                    final url = state.extra as String;
+                    return NoTransitionPage<void>(
+                      key: state.pageKey,
+                      child: DefaultWebView(url: url),
                     );
                   },
                 ),

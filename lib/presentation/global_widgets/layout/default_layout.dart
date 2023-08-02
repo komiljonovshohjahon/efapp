@@ -1,6 +1,8 @@
 import 'package:dependency_plugin/dependencies/dependency_manager.dart';
+import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/layout/default_bottom_nav_bar.dart';
+import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:efapp/presentation/global_widgets/layout/page_wrapper.dart';
 
@@ -17,11 +19,26 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   Widget build(BuildContext context) {
     final currentRoute = DependencyManager.instance.navigation.router.location;
     return Scaffold(
-      appBar: currentRoute == MCANavigation.home ? null : const DefaultAppBar(),
+      appBar: _getAppBar(currentRoute),
       resizeToAvoidBottomInset: true,
       body: PageWrapper(child: widget.child),
       bottomNavigationBar: const DefaultBottomNavigationBar(),
     );
+  }
+
+  PreferredSizeWidget? _getAppBar(String currentRoute) {
+    logger('currentRoute: $currentRoute');
+    if (currentRoute == MCANavigation.home) {
+      return null;
+    }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.webView}") {
+      return AppBar(
+        leading: BackButton(
+          onPressed: context.pop,
+        ),
+      );
+    }
+    return const DefaultAppBar();
   }
 }
 

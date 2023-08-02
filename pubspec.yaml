@@ -37,6 +37,7 @@ dependencies:
   very_good_infinite_list: ^0.7.0
   youtube_data_api: ^1.0.4
   dart_des: ^1.0.2
+  webview_flutter: ^4.2.2
 
 dependency_overrides:
   http: ^0.13.4

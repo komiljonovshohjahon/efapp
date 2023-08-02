@@ -3,12 +3,14 @@ class BookMd {
   final String url;
   final String createdDate;
   final String title;
+  final String imageUrl;
 
   const BookMd({
     required this.id,
     required this.url,
     required this.createdDate,
     required this.title,
+    required this.imageUrl,
   });
 
   //copyWith
@@ -17,12 +19,14 @@ class BookMd {
     String? url,
     String? createdDate,
     String? title,
+    String? imageUrl,
   }) {
     return BookMd(
       id: id ?? this.id,
       url: url ?? this.url,
       createdDate: createdDate ?? this.createdDate,
       title: title ?? this.title,
+      imageUrl: imageUrl ?? this.imageUrl,
     );
   }
 
@@ -32,7 +36,8 @@ class BookMd {
         id: json["id"],
         url: json['url'],
         createdDate: json['createdDate'],
-        title: json['title']);
+        title: json['title'],
+        imageUrl: json['imageUrl'] ?? "");
   }
 
   //toJson
@@ -42,6 +47,7 @@ class BookMd {
       "url": url,
       "createdDate": createdDate,
       "title": title,
+      "imageUrl": imageUrl,
     };
   }
 
@@ -52,6 +58,7 @@ class BookMd {
       url: "",
       createdDate: "",
       title: "",
+      imageUrl: "",
     );
   }
 }

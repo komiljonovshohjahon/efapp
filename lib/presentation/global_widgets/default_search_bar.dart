@@ -15,8 +15,10 @@ class DefaultSearchBar extends StatefulWidget {
 class _DefaultSearchBarState extends State<DefaultSearchBar> {
   final blogsQuery =
       FirebaseFirestore.instance.collection(FirestoreDep.blogsCn);
+  final booksQuery =
+      FirebaseFirestore.instance.collection(FirestoreDep.booksCn);
 
-  final list = <String>[];
+  final list = <Map<String, dynamic>>[];
 
   @override
   void initState() {
@@ -24,7 +26,20 @@ class _DefaultSearchBarState extends State<DefaultSearchBar> {
     WidgetsBinding.instance.endOfFrame.then((_) async {
       final snapshot = await blogsQuery.get();
       for (final item in snapshot.docs) {
-        list.add(item['title']);
+        list.add({
+          "id": item.id,
+          "title": item.data()["title"],
+          "isBook": false,
+        });
+      }
+
+      final snapshot2 = await booksQuery.get();
+      for (final item in snapshot2.docs) {
+        list.add({
+          "url": item.data()["url"],
+          "title": item.data()["title"],
+          "isBook": true,
+        });
       }
     });
   }
@@ -38,7 +53,7 @@ class _DefaultSearchBarState extends State<DefaultSearchBar> {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 24.w),
       child: SearchAnchor.bar(
-          barHintText: 'Search Blogs',
+          barHintText: 'Search',
           isFullScreen: false,
           barBackgroundColor: MaterialStateProperty.all(
               Theme.of(context).scaffoldBackgroundColor),
@@ -51,15 +66,26 @@ class _DefaultSearchBarState extends State<DefaultSearchBar> {
               .copyWith(color: context.colorScheme.primary)),
           barLeading: Icon(Icons.search, color: context.colorScheme.primary),
           suggestionsBuilder: (context, controller) {
-            return [
-              for (final item in list.where((element) => element
+            final newList = <Map<String, dynamic>>[];
+            for (final item in list) {
+              if (item["title"]
+                  .toString()
                   .toLowerCase()
-                  .contains(controller.text.toLowerCase())))
+                  .contains(controller.text.toLowerCase())) {
+                newList.add(item);
+              }
+            }
+            return [
+              for (int i = 0; i < newList.length; i++)
                 SearchSuggestion(
-                  title: item,
+                  title: newList[i]["title"],
                   onTap: () {
-                    controller.text = item;
+                    final item = newList[i];
+                    controller.text = item["title"];
                     controller.closeView(null);
+                    if (item['isBook']) {
+                      launchURL(item["url"]);
+                    }
                   },
                 ),
             ];

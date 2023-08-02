@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 
+import '../manager/routes.dart';
 import 'global_functions.dart';
 
 ///////////
@@ -421,6 +422,14 @@ extension ContextHelper on BuildContext {
         },
       ),
     );
+  }
+
+  void goToWebView(String url) {
+    try {
+      go("${MCANavigation.home}${MCANavigation.webView}", extra: url);
+    } catch (e) {
+      print(e);
+    }
   }
 }
 

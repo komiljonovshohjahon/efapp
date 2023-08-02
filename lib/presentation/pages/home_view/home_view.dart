@@ -1,4 +1,5 @@
 import 'package:efapp/presentation/global_widgets/widgets.dart';
+import 'package:efapp/presentation/pages/home_view/blogs_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/books_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/love_offering_widget.dart';
 import 'package:flutter/material.dart';
@@ -19,15 +20,15 @@ class _HomeViewState extends State<HomeView> {
       child: SpacedColumn(
         crossAxisAlignment: CrossAxisAlignment.start,
         verticalSpace: 32.h,
-        children: [
+        children: const [
           //Search Bar
           DefaultSearchBar(),
 
           //Books list
-          BooksListView(title: "New Books"),
+          BooksListView(),
 
           //Blogs list
-          BooksListView(title: "New Blogs", isLarge: false),
+          BlogsListView(),
 
           //Love offering
           LoveOfferingWidget(),
