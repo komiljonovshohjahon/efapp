@@ -27,7 +27,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   }
 
   PreferredSizeWidget? _getAppBar(String currentRoute) {
-    logger('currentRoute: $currentRoute');
     if (currentRoute == MCANavigation.home) {
       return null;
     }
@@ -47,7 +46,11 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
-    return const DefaultAppBar();
+    return AppBar(
+      leading: BackButton(
+        onPressed: context.pop,
+      ),
+    );
   }
 }
 

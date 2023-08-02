@@ -42,6 +42,19 @@ class MCANavigation extends IMCANavigation {
                 GoRoute(
                   path: blogs.substring(1),
                   name: blogs.substring(1),
+                  routes: [
+                    GoRoute(
+                      path: ':id',
+                      name: ':id',
+                      pageBuilder: (context, state) {
+                        final blog = state.extra as BlogMd;
+                        return MaterialPage<void>(
+                          key: state.pageKey,
+                          child: BlogDetailsView(blog: blog),
+                        );
+                      },
+                    ),
+                  ],
                   pageBuilder: (context, state) {
                     return MaterialPage<void>(
                       key: state.pageKey,

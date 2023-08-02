@@ -1,5 +1,6 @@
 import 'package:dependency_plugin/dependencies/firestore_dep.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
+import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/default_firebase_image_provider.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -11,27 +12,30 @@ class MainBlogWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Hero(
-      tag: blog.id,
-      child: InkWell(
-        onTap: () {},
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(blog.title,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: Theme.of(context).textTheme.titleLarge!.copyWith(
-                  decoration: TextDecoration.underline,
-                  decorationColor: context.colorScheme.primary.withOpacity(.3),
-                  decorationThickness: 3,
-                  shadows: [
-                    const Shadow(
-                      color: Colors.black12,
-                      blurRadius: 2,
-                      offset: Offset(2, 2),
-                    )
-                  ])),
-          SizedBox(height: 16.h),
-          DecoratedBox(
+    return GestureDetector(
+      onTap: () {
+        context.go("${MCANavigation.home}${MCANavigation.blogs}/${blog.id}",
+            extra: blog);
+      },
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Text(blog.title,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                decoration: TextDecoration.underline,
+                decorationColor: context.colorScheme.primary.withOpacity(.3),
+                decorationThickness: 3,
+                shadows: [
+                  const Shadow(
+                    color: Colors.black12,
+                    blurRadius: 2,
+                    offset: Offset(2, 2),
+                  )
+                ])),
+        SizedBox(height: 16.h),
+        Hero(
+          tag: blog.id,
+          child: DecoratedBox(
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(8.r),
               image: DecorationImage(
@@ -43,26 +47,26 @@ class MainBlogWidget extends StatelessWidget {
               height: 180.h,
             ),
           ),
-          Row(
-            children: [
-              Text(DateTime.tryParse(blog.createdAt)?.toDateWithSlash ?? "N/A",
-                  style: Theme.of(context)
-                      .textTheme
-                      .labelMedium!
-                      .copyWith(color: context.colorScheme.primary)),
-              const Spacer(),
-              //share button
-              IconButton(
-                iconSize: 20.r,
-                onPressed: () {
-                  //todo:
-                },
-                icon: const Icon(Icons.share),
-              ),
-            ],
-          ),
-        ]),
-      ),
+        ),
+        Row(
+          children: [
+            Text(DateTime.tryParse(blog.createdAt)?.toDateWithSlash ?? "N/A",
+                style: Theme.of(context)
+                    .textTheme
+                    .labelMedium!
+                    .copyWith(color: context.colorScheme.primary)),
+            const Spacer(),
+            //share button
+            IconButton(
+              iconSize: 20.r,
+              onPressed: () {
+                //todo:
+              },
+              icon: const Icon(Icons.share),
+            ),
+          ],
+        ),
+      ]),
     );
   }
 }

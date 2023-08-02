@@ -1,4 +1,5 @@
 import 'package:dependency_plugin/dependency_plugin.dart';
+import 'package:efapp/manager/routes.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/presentation/pages/blogs_view/blog_card_widget.dart';
 import 'package:efapp/presentation/pages/blogs_view/main_blog_widget.dart';
@@ -94,7 +95,7 @@ class _BlogsViewState extends State<BlogsView> {
             ),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
-                return const CircularProgressIndicator();
+                return const Center(child: CircularProgressIndicator());
               }
               if (snapshot.hasError) {
                 return Text('error ${snapshot.error}');
@@ -122,5 +123,10 @@ class _BlogsViewState extends State<BlogsView> {
         ),
       ],
     );
+  }
+
+  void gotoBlogDetail(BlogMd blog) {
+    context.go("${MCANavigation.home}/${MCANavigation.blogs}:${blog.id}",
+        extra: blog);
   }
 }
