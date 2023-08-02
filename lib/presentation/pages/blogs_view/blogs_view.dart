@@ -1,5 +1,6 @@
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
+import 'package:efapp/presentation/pages/blogs_view/blog_card_widget.dart';
 import 'package:efapp/presentation/pages/blogs_view/main_blog_widget.dart';
 import 'package:efapp/utils/global_functions.dart';
 import 'package:efapp/utils/utils.dart';
@@ -99,25 +100,23 @@ class _BlogsViewState extends State<BlogsView> {
                 return Text('error ${snapshot.error}');
               }
 
-              return ListView.builder(
-                padding: EdgeInsets.symmetric(horizontal: 24.w),
-                itemCount: snapshot.docs.length,
-                itemBuilder: (context, index) {
-                  // if we reached the end of the currently obtained items, we try to
-                  // obtain more items
-                  if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
-                    // Tell FirestoreQueryBuilder to try to obtain more items.
-                    // It is safe to call this function from within the build method.
-                    snapshot.fetchMore();
-                  }
+              return ListView.separated(
+                  separatorBuilder: (context, index) {
+                    return SizedBox(height: 6.h);
+                  },
+                  padding: EdgeInsets.symmetric(horizontal: 16.w),
+                  itemCount: snapshot.docs.length,
+                  itemBuilder: (context, index) {
+                    if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+                      snapshot.fetchMore();
+                    }
 
-                  final blog = snapshot.docs[index].data();
-                  if (index == 0) {
-                    return MainBlogWidget(blog: blog);
-                  }
-                  return Text(blog.title);
-                },
-              );
+                    final blog = snapshot.docs[index].data();
+                    if (index == 0) {
+                      return MainBlogWidget(blog: blog);
+                    }
+                    return BlogCardWidget(blog: blog);
+                  });
             },
           ),
         ),
