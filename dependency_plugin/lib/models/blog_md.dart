@@ -4,6 +4,7 @@ class BlogMd {
   final String title;
   final String description;
   final String imagePath;
+  final String substr_date;
 
   const BlogMd({
     required this.id,
@@ -11,6 +12,9 @@ class BlogMd {
     required this.title,
     required this.description,
     required this.imagePath,
+
+    ///must be Jan 2023 format [MMM yyyy]
+    required this.substr_date,
   });
 
   //copyWith
@@ -20,6 +24,7 @@ class BlogMd {
     String? title,
     String? description,
     String? imagePath,
+    String? substr_date,
   }) {
     return BlogMd(
       id: id ?? this.id,
@@ -27,6 +32,7 @@ class BlogMd {
       title: title ?? this.title,
       description: description ?? this.description,
       imagePath: imagePath ?? this.imagePath,
+      substr_date: substr_date ?? this.substr_date,
     );
   }
 
@@ -38,6 +44,7 @@ class BlogMd {
       title: map['title'] as String,
       description: map['description'] as String,
       imagePath: map['image'] as String,
+      substr_date: map['substr_date'] ?? '',
     );
   }
 
@@ -49,6 +56,7 @@ class BlogMd {
       'title': title,
       'description': description,
       'imagePath': imagePath,
+      'substr_date': substr_date,
     };
   }
 
@@ -60,6 +68,7 @@ class BlogMd {
       title: '',
       description: '',
       imagePath: '',
+      substr_date: '',
     );
   }
 }

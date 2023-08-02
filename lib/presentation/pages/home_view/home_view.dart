@@ -19,9 +19,9 @@ class _HomeViewState extends State<HomeView> {
       slivers: [
         SliverPadding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
-          sliver: SliverAppBar(
+          sliver: const SliverAppBar(
             titleSpacing: 0,
-            title: const DefaultSearchBar(),
+            title: DefaultSearchBar(),
             centerTitle: true,
             pinned: true,
           ),
@@ -30,13 +30,18 @@ class _HomeViewState extends State<HomeView> {
           delegate: SliverChildListDelegate(
             [
               //Books list
-              BooksListView(),
+              const BooksListView(),
+
+              SizedBox(height: 32.h),
 
               //Blogs list
-              BlogsListView(),
+              const BlogsListView(),
 
+              SizedBox(height: 32.h),
               //Love offering
-              LoveOfferingWidget(),
+              const LoveOfferingWidget(),
+
+              SizedBox(height: 16.h),
             ],
           ),
         ),

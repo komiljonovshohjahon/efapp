@@ -11,10 +11,10 @@ class GlobalConstants {
   static const String debugpassword = kDebugMode ? "test123!" : "";
   static const String debugpin = kDebugMode ? "192d7b" : "";
 
-  static bool enableLogger = true;
+  static bool enableLogger = kDebugMode;
 
   static bool enableDebugCodes = kDebugMode;
-  static bool enableLoadingIndicator = true;
+  static bool enableLoadingIndicator = kDebugMode;
 
   static const developerWebsiteUrl = "https://www.christianappdevelopers.com";
 }

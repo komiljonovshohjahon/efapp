@@ -111,6 +111,7 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
                 Border.all(color: context.colorScheme.primary.withOpacity(.5)),
           ),
           width: widget.width?.w,
+          height: widget.height?.h,
         ),
         iconStyleData: IconStyleData(
           iconEnabledColor: Theme.of(context).colorScheme.primary,

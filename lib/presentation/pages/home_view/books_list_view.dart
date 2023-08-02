@@ -62,7 +62,7 @@ class _NewBooksListView extends StatelessWidget {
         ),
         builder: (context, snapshot, child) {
           if (snapshot.isFetching) {
-            return const CircularProgressIndicator();
+            return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return const Center(child: Text("Error fetching data"));
