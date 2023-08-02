@@ -47,11 +47,10 @@ class _NewBooksListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200.h,
-      child: FirestoreListView<BookMd>(
+      child: FirestoreQueryBuilder<BookMd>(
         query: FirebaseFirestore.instance
             .collection(FirestoreDep.booksCn)
             .orderBy("createdDate", descending: true)
-            .limit(1)
             .withConverter(
           fromFirestore: (snapshot, options) {
             final data = snapshot.data()!;
@@ -61,20 +60,34 @@ class _NewBooksListView extends StatelessWidget {
             return value.toJson();
           },
         ),
-        loadingBuilder: (context) {
-          return const Center(child: CircularProgressIndicator());
-        },
-        emptyBuilder: (context) {
-          return const Center(child: Text("No books yet"));
-        },
-        errorBuilder: (context, error, st) {
-          return Center(child: Text(error.toString()));
-        },
-        padding: EdgeInsets.only(left: 24.w),
-        scrollDirection: Axis.horizontal,
-        itemBuilder: (context, snapshot) {
-          final model = snapshot.data();
-          return _BookWidget(model: model);
+        builder: (context, snapshot, child) {
+          if (snapshot.isFetching) {
+            return const CircularProgressIndicator();
+          }
+          if (snapshot.hasError) {
+            return const Center(child: Text("Error fetching data"));
+          }
+          final len = snapshot.docs.length > 5 ? 5 : snapshot.docs.length;
+          return ListView.separated(
+            separatorBuilder: (context, index) => SizedBox(width: 16.w),
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            scrollDirection: Axis.horizontal,
+            itemCount: len,
+            itemBuilder: (context, index) {
+              if (index == len - 1) {
+                return Center(
+                  child: IconButton(
+                    onPressed: () {
+                      context.goToWebView(Urls.booksUrl);
+                    },
+                    icon: const Icon(Icons.arrow_forward_ios),
+                  ),
+                );
+              }
+              final model = snapshot.docs[index].data();
+              return _BookWidget(model: model);
+            },
+          );
         },
       ),
     );
