@@ -26,6 +26,7 @@ class FirestoreDep {
   static String galleryCn = 'gallery';
   static String galleryImagesCn = 'gallery_images';
   static String ytVideosCn = 'youtube_videos';
+  late final ytVideosQuery = fire.collection(ytVideosCn);
 
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 

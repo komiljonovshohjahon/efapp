@@ -16,29 +16,33 @@
 
 class YtVideoMd {
   final String id;
-  final String createAt;
+  final String createdAt;
   final String title;
   final String videoId;
+  final substr_date;
 
   const YtVideoMd({
     required this.id,
-    required this.createAt,
+    required this.createdAt,
     required this.title,
     required this.videoId,
+    required this.substr_date,
   });
 
   //copyWith
   YtVideoMd copyWith({
     String? id,
-    String? createAt,
+    String? createdAt,
     String? title,
     String? videoId,
+    String? substr_date,
   }) {
     return YtVideoMd(
       id: id ?? this.id,
-      createAt: createAt ?? this.createAt,
+      createdAt: createdAt ?? this.createdAt,
       title: title ?? this.title,
       videoId: videoId ?? this.videoId,
+      substr_date: substr_date ?? this.substr_date,
     );
   }
 
@@ -46,9 +50,10 @@ class YtVideoMd {
   factory YtVideoMd.fromMap(Map<String, dynamic> map) {
     return YtVideoMd(
       id: map['id'] as String,
-      createAt: map['create_at'] as String,
+      createdAt: map['created_at'] as String,
       title: map['title'] as String,
       videoId: map['youtube_video_id'] as String,
+      substr_date: map['substr_date'] ?? '',
     );
   }
 
@@ -56,9 +61,10 @@ class YtVideoMd {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'created_at': createAt,
+      'created_at': createdAt,
       'title': title,
       'youtube_video_id': videoId,
+      'substr_date': substr_date,
     };
   }
 
@@ -66,9 +72,10 @@ class YtVideoMd {
   static YtVideoMd init() {
     return const YtVideoMd(
       id: '',
-      createAt: '',
+      createdAt: '',
       title: '',
       videoId: '',
+      substr_date: '',
     );
   }
 }

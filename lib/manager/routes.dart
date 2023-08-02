@@ -20,6 +20,7 @@ class MCANavigation extends IMCANavigation {
   static const String home = '/home';
   static const String blogs = '/blogs';
   static const String webView = '/webView';
+  static const String yt = '/yt';
 
   /// router
   @override
@@ -48,8 +49,19 @@ class MCANavigation extends IMCANavigation {
                       name: ':id',
                       pageBuilder: (context, state) {
                         final blog = state.extra as BlogMd;
-                        return MaterialPage<void>(
+                        return CustomTransitionPage<void>(
                           key: state.pageKey,
+                          transitionsBuilder: (BuildContext context,
+                              Animation<double> animation,
+                              Animation<double> secondaryAnimation,
+                              Widget child) {
+                            return Align(
+                                child: FadeTransition(
+                              opacity: animation,
+                              child: child,
+                            ));
+                          },
+                          transitionDuration: const Duration(milliseconds: 400),
                           child: BlogDetailsView(blog: blog),
                         );
                       },
@@ -59,6 +71,16 @@ class MCANavigation extends IMCANavigation {
                     return MaterialPage<void>(
                       key: state.pageKey,
                       child: const BlogsView(),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: yt.substring(1),
+                  name: yt.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: const YtVideoView(),
                     );
                   },
                 ),

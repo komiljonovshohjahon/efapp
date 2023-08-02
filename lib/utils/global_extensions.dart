@@ -5,6 +5,7 @@ import 'package:efapp/presentation/global_widgets/widgets.dart';
 
 import '../manager/routes.dart';
 import 'global_functions.dart';
+import 'package:timeago/timeago.dart' as ta;
 
 ///////////
 
@@ -23,6 +24,10 @@ extension DateTimeHelpers on DateTime {
 
   //2023/01/01 11:00
   String get toDateTimeWithSlash => DateFormat("yyyy/MM/dd HH:mm").format(this);
+
+  String get timeago {
+    return ta.format(this, locale: 'en');
+  }
 }
 
 ///////////
@@ -410,7 +415,7 @@ extension ContextHelper on BuildContext {
         fullscreenDialog: true,
         opaque: false,
         barrierColor: Colors.black.withOpacity(0.5),
-        transitionDuration: const Duration(milliseconds: 500),
+        transitionDuration: const Duration(milliseconds: 400),
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
           return FadeTransition(
             opacity: animation,

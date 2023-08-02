@@ -14,6 +14,12 @@ Map<int, dynamic> navigations = {
     "route": MCANavigation.blogs,
     "icon": Icons.newspaper,
     "index": 1,
+  },
+  2: {
+    "title": "Videos",
+    "route": MCANavigation.yt,
+    "icon": Icons.video_collection,
+    "index": 2,
   }
 };
 
@@ -51,17 +57,12 @@ class _DefaultBottomNavigationBarState
       elevation: 8,
       currentIndex: currentIndex,
       onTap: (value) => _onItemTapped(value, context),
-      items: const <BottomNavigationBarItem>[
-        BottomNavigationBarItem(
-          icon: Icon(Icons.home),
-          label: 'Home',
-          backgroundColor: Colors.red,
-        ),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.newspaper),
-          label: 'Blogs',
-          backgroundColor: Colors.green,
-        ),
+      items: <BottomNavigationBarItem>[
+        for (var item in navigations.values)
+          BottomNavigationBarItem(
+            icon: Icon(item["icon"]),
+            label: item["title"],
+          ),
       ],
     );
   }

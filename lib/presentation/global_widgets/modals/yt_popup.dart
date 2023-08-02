@@ -32,28 +32,15 @@ class _YtPopupState extends State<YtPopup> {
   @override
   Widget build(BuildContext context) {
     return SimpleDialog(
-      titleTextStyle: context.textTheme.titleMedium,
+      titleTextStyle: context.textTheme.titleLarge,
       contentPadding: EdgeInsets.all(16.w),
       titlePadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       insetPadding: const EdgeInsets.symmetric(horizontal: 0, vertical: 0),
-      title: Row(
-        children: [
-          SizedBox(
-              width: context.width * 0.8,
-              child: Text(
-                widget.item.title,
-                maxLines: 4,
-                overflow: TextOverflow.ellipsis,
-                softWrap: true,
-              )),
-          const Spacer(),
-          IconButton(
-            onPressed: () {
-              context.pop();
-            },
-            icon: const Icon(Icons.close),
-          )
-        ],
+      title: Text(
+        widget.item.title,
+        maxLines: 4,
+        overflow: TextOverflow.ellipsis,
+        softWrap: true,
       ),
       children: [
         Hero(
