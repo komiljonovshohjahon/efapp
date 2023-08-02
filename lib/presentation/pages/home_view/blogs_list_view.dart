@@ -108,53 +108,57 @@ class _BlogWidget extends StatelessWidget {
           width: 91.w,
           child: GestureDetector(
             onTap: () {
-              //todo:
-              // launchURL(model.url);
+              context.push(
+                  "${MCANavigation.home}${MCANavigation.blogs}/${model.id}",
+                  extra: model);
             },
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: DefaultCachedFirebaseImageProvider(model.imagePath),
-                  fit: BoxFit.fitHeight,
+            child: Hero(
+              tag: model.id,
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: DefaultCachedFirebaseImageProvider(model.imagePath),
+                    fit: BoxFit.fitHeight,
+                  ),
+                  color: context.colorScheme.primary,
                 ),
-                color: context.colorScheme.primary,
+                // child: model.imagePath.isEmpty
+                //     ? Center(
+                //         child: Text(model.title,
+                //             maxLines: 4,
+                //             overflow: TextOverflow.ellipsis,
+                //             textAlign: TextAlign.center,
+                //             style: Theme.of(context)
+                //                 .textTheme
+                //                 .headlineSmall!
+                //                 .copyWith(
+                //                     color: Colors.white, fontSize: 14.sp)),
+                //       )
+                //     : Image(
+                //         errorBuilder: (context, error, stackTrace) {
+                //           return Center(
+                //             child: Text(model.title,
+                //                 maxLines: 4,
+                //                 overflow: TextOverflow.ellipsis,
+                //                 textAlign: TextAlign.center,
+                //                 style: Theme.of(context)
+                //                     .textTheme
+                //                     .headlineSmall!
+                //                     .copyWith(
+                //                         color: Colors.white, fontSize: 14.sp)),
+                //           );
+                //         },
+                //         loadingBuilder: (context, child, loadingProgress) {
+                //           if (loadingProgress == null) return child;
+                //           return const Center(
+                //             child: CircularProgressIndicator(),
+                //           );
+                //         },
+                //         fit: BoxFit.fitHeight,
+                //         image:
+                //             DefaultCachedFirebaseImageProvider(model.imagePath),
+                //       ),
               ),
-              // child: model.imagePath.isEmpty
-              //     ? Center(
-              //         child: Text(model.title,
-              //             maxLines: 4,
-              //             overflow: TextOverflow.ellipsis,
-              //             textAlign: TextAlign.center,
-              //             style: Theme.of(context)
-              //                 .textTheme
-              //                 .headlineSmall!
-              //                 .copyWith(
-              //                     color: Colors.white, fontSize: 14.sp)),
-              //       )
-              //     : Image(
-              //         errorBuilder: (context, error, stackTrace) {
-              //           return Center(
-              //             child: Text(model.title,
-              //                 maxLines: 4,
-              //                 overflow: TextOverflow.ellipsis,
-              //                 textAlign: TextAlign.center,
-              //                 style: Theme.of(context)
-              //                     .textTheme
-              //                     .headlineSmall!
-              //                     .copyWith(
-              //                         color: Colors.white, fontSize: 14.sp)),
-              //           );
-              //         },
-              //         loadingBuilder: (context, child, loadingProgress) {
-              //           if (loadingProgress == null) return child;
-              //           return const Center(
-              //             child: CircularProgressIndicator(),
-              //           );
-              //         },
-              //         fit: BoxFit.fitHeight,
-              //         image:
-              //             DefaultCachedFirebaseImageProvider(model.imagePath),
-              //       ),
             ),
           ),
         ));

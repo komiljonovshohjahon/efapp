@@ -26,11 +26,11 @@ class BlogCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //image
-              Hero(
-                tag: blog.id,
-                child: SizedBox(
-                  width: 84.w,
-                  height: 84.h,
+              SizedBox(
+                width: 84.w,
+                height: 84.h,
+                child: Hero(
+                  tag: blog.id,
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(8.r),
