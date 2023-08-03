@@ -119,7 +119,8 @@ class _DefaultDropdownState extends State<DefaultDropdown> {
         hint: widget.label != null
             ? Text(
                 widget.label!,
-                style: const TextStyle(color: Colors.grey),
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                    color: context.colorScheme.primary.withOpacity(.44)),
               )
             : null,
         menuItemStyleData: MenuItemStyleData(

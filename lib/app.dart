@@ -100,6 +100,7 @@ class _RunnerAppState extends State<RunnerApp> {
                   borderRadius: BorderRadius.circular(30.r)),
               padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 20.w),
               shadowColor: const Color(0xFFFAF8F1),
+              surfaceTintColor: const Color(0xFFFAF8F1),
             ),
           ),
           textTheme: GoogleFonts.outfitTextTheme(
