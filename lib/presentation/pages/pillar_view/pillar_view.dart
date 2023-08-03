@@ -226,6 +226,7 @@ class _PillarViewState extends State<PillarView> {
                 }
                 if (country == null) {
                   context.showError("Please select a country");
+                  return;
                 }
                 _submit();
               },
