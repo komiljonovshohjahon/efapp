@@ -22,7 +22,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       appBar: _getAppBar(currentRoute),
       resizeToAvoidBottomInset: true,
       body: PageWrapper(child: widget.child),
-      bottomNavigationBar: const DefaultBottomNavigationBar(),
+      bottomNavigationBar: _getBottomBar(currentRoute),
     );
   }
 
@@ -46,7 +46,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
-    if (currentRoute == "${MCANavigation.home}${MCANavigation.gallery}") {
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.galleryAlbum}") {
       return AppBar(
         title: const Text("Gallery Album"),
         centerTitle: true,
@@ -55,11 +55,24 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
+    if (currentRoute.split("/").contains("gallery")) {
+      return null;
+    }
     return AppBar(
       leading: BackButton(
         onPressed: context.pop,
       ),
     );
+  }
+
+  Widget? _getBottomBar(String currentRoute) {
+    //hide bottom bar when viewing gallery
+    if (currentRoute
+        .split("/")
+        .contains(MCANavigation.galleryAlbum.substring(1))) {
+      return null;
+    }
+    return const DefaultBottomNavigationBar();
   }
 }
 

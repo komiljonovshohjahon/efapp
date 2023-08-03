@@ -12,7 +12,7 @@ class GalleryCardWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        //todo:
+        context.goToGalleryAlbumImages(model);
       },
       child: DecoratedBox(
         decoration: BoxDecoration(

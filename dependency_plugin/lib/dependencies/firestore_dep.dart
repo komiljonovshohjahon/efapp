@@ -26,6 +26,7 @@ class FirestoreDep {
   static String galleryCn = 'gallery';
   late final galleryQuery = fire.collection(galleryCn);
   static String galleryImagesCn = 'gallery_images';
+  late final galleryImagesQuery = fire.collection(galleryImagesCn);
   static String ytVideosCn = 'youtube_videos';
   late final ytVideosQuery = fire.collection(ytVideosCn);
 

@@ -436,6 +436,23 @@ extension ContextHelper on BuildContext {
       print(e);
     }
   }
+
+  void goToBlogDetails(BlogMd blog) {
+    try {
+      go("${MCANavigation.home}${MCANavigation.blogs}/${blog.id}", extra: blog);
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  void goToGalleryAlbumImages(GalleryMd gallery) {
+    try {
+      go("${MCANavigation.home}${MCANavigation.galleryAlbum}/gallery/${gallery.id}",
+          extra: gallery);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
 
 /////////////

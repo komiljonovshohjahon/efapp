@@ -14,8 +14,7 @@ class MainBlogWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        context.go("${MCANavigation.home}${MCANavigation.blogs}/${blog.id}",
-            extra: blog);
+        context.goToBlogDetails(blog);
       },
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Text(blog.title,

@@ -22,8 +22,8 @@ Map<int, dynamic> navigations = {
     "index": 2,
   },
   3: {
-    "title": "Gallery",
-    "route": MCANavigation.gallery,
+    "title": "Gallery Album",
+    "route": MCANavigation.galleryAlbum,
     "icon": Icons.photo_album,
     "index": 3,
   }

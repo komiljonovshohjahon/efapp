@@ -21,7 +21,7 @@ class MCANavigation extends IMCANavigation {
   static const String blogs = '/blogs';
   static const String webView = '/webView';
   static const String yt = '/yt';
-  static const String gallery = '/gallery';
+  static const String galleryAlbum = '/galleryAlbum';
 
   /// router
   @override
@@ -97,15 +97,27 @@ class MCANavigation extends IMCANavigation {
                   },
                 ),
                 GoRoute(
-                  path: gallery.substring(1),
-                  name: gallery.substring(1),
-                  pageBuilder: (context, state) {
-                    return MaterialPage<void>(
-                      key: state.pageKey,
-                      child: const GalleryView(),
-                    );
-                  },
-                ),
+                    path: galleryAlbum.substring(1),
+                    name: galleryAlbum.substring(1),
+                    pageBuilder: (context, state) {
+                      return MaterialPage<void>(
+                        key: state.pageKey,
+                        child: const GalleryAlbumView(),
+                      );
+                    },
+                    routes: [
+                      GoRoute(
+                        path: 'gallery/:id',
+                        name: 'gallery/:id',
+                        pageBuilder: (context, state) {
+                          final model = state.extra as GalleryMd;
+                          return MaterialPage<void>(
+                            key: state.pageKey,
+                            child: GalleryAlbumImagesView(model: model),
+                          );
+                        },
+                      ),
+                    ]),
               ],
               pageBuilder: (context, state) {
                 return MaterialPage<void>(

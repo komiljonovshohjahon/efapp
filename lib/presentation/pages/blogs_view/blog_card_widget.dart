@@ -14,8 +14,7 @@ class BlogCardWidget extends StatelessWidget {
     //Card with white background, has image on the left, the rest is filled with column of title and date
     return GestureDetector(
       onTap: () {
-        context.go("${MCANavigation.home}${MCANavigation.blogs}/${blog.id}",
-            extra: blog);
+        context.goToBlogDetails(blog);
       },
       child: Card(
         elevation: 1,

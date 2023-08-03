@@ -1,20 +1,19 @@
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/routes.dart';
-import 'package:efapp/presentation/global_widgets/widgets.dart';
-import 'package:efapp/presentation/pages/gallery_view/gallery_card_widget.dart';
-import 'package:efapp/utils/utils.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class GalleryView extends StatefulWidget {
-  const GalleryView({super.key});
+import 'gallery_card_widget.dart';
+
+class GalleryAlbumView extends StatefulWidget {
+  const GalleryAlbumView({super.key});
 
   @override
-  State<GalleryView> createState() => _GalleryViewState();
+  State<GalleryAlbumView> createState() => _GalleryAlbumViewState();
 }
 
-class _GalleryViewState extends State<GalleryView> {
+class _GalleryAlbumViewState extends State<GalleryAlbumView> {
   @override
   void initState() {
     super.initState();
