@@ -20,15 +20,55 @@ class FirestoreDep {
   FirebaseMessaging messaging = FirebaseMessaging.instance;
 
   static String booksCn = 'books';
-  late final booksQuery = fire.collection(booksCn);
+  late final booksQuery = fire.collection(booksCn).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return BookMd.fromJson(data);
+      },
+      toFirestore: (value, options) => value.toJson());
   static String blogsCn = 'blogs';
-  late final blogsQuery = fire.collection(blogsCn);
+  late final blogsQuery = fire.collection(blogsCn).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return BlogMd.fromMap(data);
+      },
+      toFirestore: (value, options) => value.toMap());
   static String galleryCn = 'gallery';
-  late final galleryQuery = fire.collection(galleryCn);
+  late final galleryQuery = fire.collection(galleryCn).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return GalleryMd.fromMap(data);
+      },
+      toFirestore: (value, options) => value.toMap());
   static String galleryImagesCn = 'gallery_images';
-  late final galleryImagesQuery = fire.collection(galleryImagesCn);
+  late final galleryImagesQuery =
+      fire.collection(galleryImagesCn).withConverter(
+          fromFirestore: (snapshot, options) {
+            final data = snapshot.data()!;
+            return GalleryImageMd.fromMap(data);
+          },
+          toFirestore: (value, options) => value.toMap());
   static String ytVideosCn = 'youtube_videos';
-  late final ytVideosQuery = fire.collection(ytVideosCn);
+  late final ytVideosQuery = fire.collection(ytVideosCn).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return YtVideoMd.fromMap(data);
+      },
+      toFirestore: (value, options) => value.toMap());
+  static String pillarOfCloud = 'pillar_of_cloud';
+  late final pillarOfCloudQuery = fire.collection(pillarOfCloud).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return PillarMd.fromMap(data);
+      },
+      toFirestore: (value, options) => value.toMap());
+  static String pillarOfFire = 'pillar_of_fire';
+  late final pillarOfFireQuery = fire.collection(pillarOfFire).withConverter(
+      fromFirestore: (snapshot, options) {
+        final data = snapshot.data()!;
+        return PillarMd.fromMap(data);
+      },
+      toFirestore: (value, options) => value.toMap());
 
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 

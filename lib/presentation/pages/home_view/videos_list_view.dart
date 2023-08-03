@@ -49,19 +49,10 @@ class _NewVideosListView extends StatelessWidget {
     return SizedBox(
       height: 90.h,
       child: StreamBuilder<QuerySnapshot<YtVideoMd>>(
-        stream: FirebaseFirestore.instance
-            .collection(FirestoreDep.ytVideosCn)
+        stream: DependencyManager.instance.firestore.ytVideosQuery
             .limit(5)
             .orderBy("created_at", descending: true)
-            .withConverter(
-          fromFirestore: (snapshot, options) {
-            final data = snapshot.data()!;
-            return YtVideoMd.fromMap(data);
-          },
-          toFirestore: (value, options) {
-            return value.toMap();
-          },
-        ).snapshots(),
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

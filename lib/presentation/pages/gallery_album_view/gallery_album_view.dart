@@ -26,16 +26,7 @@ class _GalleryAlbumViewState extends State<GalleryAlbumView> {
         SliverFillRemaining(
           child: FirestoreQueryBuilder<GalleryMd>(
             query: FirestoreDep.instance.galleryQuery
-                .orderBy('created_at', descending: true)
-                .withConverter(
-              fromFirestore: (snapshot, options) {
-                final data = snapshot.data()!;
-                return GalleryMd.fromMap(data);
-              },
-              toFirestore: (value, options) {
-                return value.toMap();
-              },
-            ),
+                .orderBy('created_at', descending: true),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
                 return const Center(child: CircularProgressIndicator());

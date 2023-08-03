@@ -87,16 +87,7 @@ class _YtVideoViewState extends State<YtVideoView> {
           child: FirestoreQueryBuilder<YtVideoMd>(
             query: FirestoreDep.instance.ytVideosQuery
                 .where("substr_date", isEqualTo: selectedDate?.title)
-                .orderBy('created_at', descending: true)
-                .withConverter(
-              fromFirestore: (snapshot, options) {
-                final data = snapshot.data()!;
-                return YtVideoMd.fromMap(data);
-              },
-              toFirestore: (value, options) {
-                return value.toMap();
-              },
-            ),
+                .orderBy('created_at', descending: true),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
                 return const Center(child: CircularProgressIndicator());

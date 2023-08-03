@@ -48,19 +48,10 @@ class _NewBlogsListView extends StatelessWidget {
     return SizedBox(
       height: 138.h,
       child: StreamBuilder<QuerySnapshot<BlogMd>>(
-        stream: FirebaseFirestore.instance
-            .collection(FirestoreDep.blogsCn)
+        stream: DependencyManager.instance.firestore.blogsQuery
             .limit(5)
             .orderBy("created_at", descending: true)
-            .withConverter(
-          fromFirestore: (snapshot, options) {
-            final data = snapshot.data()!;
-            return BlogMd.fromMap(data);
-          },
-          toFirestore: (value, options) {
-            return value.toMap();
-          },
-        ).snapshots(),
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

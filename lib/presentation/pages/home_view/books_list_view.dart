@@ -46,19 +46,10 @@ class _NewBooksListView extends StatelessWidget {
     return SizedBox(
       height: 200.h,
       child: StreamBuilder<QuerySnapshot<BookMd>>(
-        stream: FirebaseFirestore.instance
-            .collection(FirestoreDep.booksCn)
+        stream: DependencyManager.instance.firestore.booksQuery
             .limit(5)
             .orderBy("createdDate", descending: true)
-            .withConverter(
-          fromFirestore: (snapshot, options) {
-            final data = snapshot.data()!;
-            return BookMd.fromJson(data);
-          },
-          toFirestore: (value, options) {
-            return value.toJson();
-          },
-        ).snapshots(),
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());

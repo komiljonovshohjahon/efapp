@@ -84,16 +84,7 @@ class _BlogsViewState extends State<BlogsView> {
           child: FirestoreQueryBuilder<BlogMd>(
             query: FirestoreDep.instance.blogsQuery
                 .where("substr_date", isEqualTo: selectedDate?.title)
-                .orderBy('created_at', descending: true)
-                .withConverter(
-              fromFirestore: (snapshot, options) {
-                final data = snapshot.data()!;
-                return BlogMd.fromMap(data);
-              },
-              toFirestore: (value, options) {
-                return value.toMap();
-              },
-            ),
+                .orderBy('created_at', descending: true),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
                 return const Center(child: CircularProgressIndicator());
