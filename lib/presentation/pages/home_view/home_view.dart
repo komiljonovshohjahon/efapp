@@ -2,6 +2,7 @@ import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/presentation/pages/home_view/blogs_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/books_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/love_offering_widget.dart';
+import 'package:efapp/presentation/pages/home_view/videos_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,6 +39,12 @@ class _HomeViewState extends State<HomeView> {
               const BlogsListView(),
 
               SizedBox(height: 32.h),
+
+              //Latest Videos
+              const VideosListView(),
+
+              SizedBox(height: 32.h),
+
               //Love offering
               const LoveOfferingWidget(),
 

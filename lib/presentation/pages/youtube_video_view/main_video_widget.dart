@@ -39,7 +39,7 @@ class MainVideoWidget extends StatelessWidget {
               image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                      YoutubeThumbnail(youtubeId: model.videoId).standard())),
+                      YoutubeThumbnail(youtubeId: model.videoId).hq())),
             ),
             child: SizedBox(
               width: double.infinity,

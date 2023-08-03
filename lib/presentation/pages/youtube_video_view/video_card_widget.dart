@@ -37,8 +37,7 @@ class VideoCardWidget extends StatelessWidget {
                       image: DecorationImage(
                           fit: BoxFit.cover,
                           image: NetworkImage(
-                              YoutubeThumbnail(youtubeId: model.videoId)
-                                  .standard())),
+                              YoutubeThumbnail(youtubeId: model.videoId).hd())),
                     ),
                     child: Center(
                       child: Container(

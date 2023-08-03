@@ -69,7 +69,7 @@ class _YtPopupState extends State<YtPopup> {
                       fit: BoxFit.fill,
                       image: NetworkImage(
                           YoutubeThumbnail(youtubeId: widget.item.videoId)
-                              .standard()),
+                              .hd()),
                     )
                   : InAppWebView(
                       onWebViewCreated: (controller) {
