@@ -1,5 +1,6 @@
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/manager.dart';
+import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 Map<int, dynamic> navigations = {
@@ -26,7 +27,19 @@ Map<int, dynamic> navigations = {
     "route": MCANavigation.galleryAlbum,
     "icon": Icons.photo_album,
     "index": 3,
-  }
+  },
+  4: {
+    "title": "Pillar of Cloud",
+    "route": MCANavigation.pillar,
+    "icon": Icons.cloud,
+    "index": 4,
+  },
+  5: {
+    "title": "Pillar of Fire",
+    "route": MCANavigation.pillar,
+    "icon": Icons.fireplace,
+    "index": 5,
+  },
 };
 
 class DefaultBottomNavigationBar extends StatefulWidget {
@@ -40,6 +53,14 @@ class DefaultBottomNavigationBar extends StatefulWidget {
 class _DefaultBottomNavigationBarState
     extends State<DefaultBottomNavigationBar> {
   void _onItemTapped(int index, BuildContext context) {
+    if (index == 4) {
+      context.goToPillar(FirestoreDep.pillarOfCloud);
+      return;
+    }
+    if (index == 5) {
+      context.goToPillar(FirestoreDep.pillarOfFire);
+      return;
+    }
     context.go("${MCANavigation.home}${navigations[index]!["route"]}");
   }
 

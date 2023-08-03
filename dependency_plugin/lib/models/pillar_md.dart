@@ -1,27 +1,27 @@
 class PillarMd {
   //id
-  //createAt
+  //createdAt
   //description
 
   final String id;
-  final String createAt;
+  final String createdAt;
   final String description;
 
   const PillarMd({
     required this.id,
-    required this.createAt,
+    required this.createdAt,
     required this.description,
   });
 
   //copyWith
   PillarMd copyWith({
     String? id,
-    String? createAt,
+    String? createdAt,
     String? description,
   }) {
     return PillarMd(
       id: id ?? this.id,
-      createAt: createAt ?? this.createAt,
+      createdAt: createdAt ?? this.createdAt,
       description: description ?? this.description,
     );
   }
@@ -30,7 +30,7 @@ class PillarMd {
   factory PillarMd.fromMap(Map<String, dynamic> map) {
     return PillarMd(
       id: map['id'] as String,
-      createAt: map['create_at'] as String,
+      createdAt: map['created_at'] as String,
       description: map['description'] as String,
     );
   }
@@ -39,7 +39,7 @@ class PillarMd {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'create_at': createAt,
+      'create_at': createdAt,
       'description': description,
     };
   }
@@ -48,7 +48,7 @@ class PillarMd {
   static PillarMd init() {
     return const PillarMd(
       id: '',
-      createAt: '',
+      createdAt: '',
       description: '',
     );
   }

@@ -27,7 +27,9 @@ class _DefaultLayoutState extends State<DefaultLayout> {
   }
 
   PreferredSizeWidget? _getAppBar(String currentRoute) {
-    if (currentRoute == MCANavigation.home) {
+    if (currentRoute == MCANavigation.home ||
+        currentRoute.split("/").contains("gallery") ||
+        currentRoute.split("/").contains(MCANavigation.pillar.substring(1))) {
       return null;
     }
     if (currentRoute == "${MCANavigation.home}${MCANavigation.webView}") {
@@ -54,9 +56,6 @@ class _DefaultLayoutState extends State<DefaultLayout> {
           onPressed: context.pop,
         ),
       );
-    }
-    if (currentRoute.split("/").contains("gallery")) {
-      return null;
     }
     return AppBar(
       leading: BackButton(

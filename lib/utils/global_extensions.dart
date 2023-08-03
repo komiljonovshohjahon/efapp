@@ -453,6 +453,14 @@ extension ContextHelper on BuildContext {
       print(e);
     }
   }
+
+  void goToPillar(String collection) {
+    try {
+      go("${MCANavigation.home}${MCANavigation.pillar}", extra: collection);
+    } catch (e) {
+      print(e);
+    }
+  }
 }
 
 /////////////
