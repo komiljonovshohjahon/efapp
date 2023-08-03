@@ -21,4 +21,5 @@ class GlobalConstants {
 
 class Urls {
   static const booksUrl = "https://notionpress.com/author/evans_francis";
+  static const investYourGraveUrl = "https://investbeyondyourgrave.com";
 }

@@ -6,6 +6,8 @@ import 'package:efapp/presentation/pages/home_view/videos_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import 'invent_your_grave.dart';
+
 class HomeView extends StatefulWidget {
   HomeView({Key? key}) : super(key: key);
 
@@ -45,8 +47,11 @@ class _HomeViewState extends State<HomeView> {
 
               SizedBox(height: 32.h),
 
-              //Love offering
-              const LoveOfferingWidget(),
+              //Invest Beyond your grave
+              const InvestYourGrave(),
+
+              // //Love offering
+              // const LoveOfferingWidget(),
 
               SizedBox(height: 16.h),
             ],

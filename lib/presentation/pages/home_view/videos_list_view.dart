@@ -48,9 +48,10 @@ class _NewVideosListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 90.h,
-      child: FirestoreQueryBuilder<YtVideoMd>(
-        query: FirebaseFirestore.instance
+      child: StreamBuilder<QuerySnapshot<YtVideoMd>>(
+        stream: FirebaseFirestore.instance
             .collection(FirestoreDep.ytVideosCn)
+            .limit(5)
             .orderBy("created_at", descending: true)
             .withConverter(
           fromFirestore: (snapshot, options) {
@@ -60,15 +61,18 @@ class _NewVideosListView extends StatelessWidget {
           toFirestore: (value, options) {
             return value.toMap();
           },
-        ),
-        builder: (context, snapshot, child) {
-          if (snapshot.isFetching) {
+        ).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return const Center(child: Text("Error fetching data"));
           }
-          final len = snapshot.docs.length > 5 ? 5 : snapshot.docs.length;
+          if (snapshot.data == null) {
+            return const Center(child: Text("No videos found"));
+          }
+          final len = snapshot.data!.docs.length;
           return ListView.separated(
             separatorBuilder: (context, index) => SizedBox(width: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -86,7 +90,7 @@ class _NewVideosListView extends StatelessWidget {
                   ),
                 );
               }
-              final model = snapshot.docs[index].data();
+              final model = snapshot.data!.docs[index].data();
               return _VideoWidget(model: model);
             },
           );
@@ -151,42 +155,6 @@ class _VideoWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                // child: model.imagePath.isEmpty
-                //     ? Center(
-                //         child: Text(model.title,
-                //             maxLines: 4,
-                //             overflow: TextOverflow.ellipsis,
-                //             textAlign: TextAlign.center,
-                //             style: Theme.of(context)
-                //                 .textTheme
-                //                 .headlineSmall!
-                //                 .copyWith(
-                //                     color: Colors.white, fontSize: 14.sp)),
-                //       )
-                //     : Image(
-                //         errorBuilder: (context, error, stackTrace) {
-                //           return Center(
-                //             child: Text(model.title,
-                //                 maxLines: 4,
-                //                 overflow: TextOverflow.ellipsis,
-                //                 textAlign: TextAlign.center,
-                //                 style: Theme.of(context)
-                //                     .textTheme
-                //                     .headlineSmall!
-                //                     .copyWith(
-                //                         color: Colors.white, fontSize: 14.sp)),
-                //           );
-                //         },
-                //         loadingBuilder: (context, child, loadingProgress) {
-                //           if (loadingProgress == null) return child;
-                //           return const Center(
-                //             child: CircularProgressIndicator(),
-                //           );
-                //         },
-                //         fit: BoxFit.fitHeight,
-                //         image:
-                //             DefaultCachedFirebaseImageProvider(model.imagePath),
-                //       ),
               ),
             ),
           ),

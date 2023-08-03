@@ -1,13 +1,10 @@
-import 'package:dependency_plugin/dependencies/dependencies.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
-import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:intl/intl.dart';
 
 class BooksListView extends StatelessWidget {
   const BooksListView({super.key});
@@ -29,13 +26,7 @@ class BooksListView extends StatelessWidget {
               const Spacer(),
               ElevatedButton(
                   onPressed: () {
-                    DateTime date = DateTime.now();
-                    String formattedDate = DateFormat('MMM yyyy').format(date);
-                    //create a new DateTime object and obtain from formattedDate
-                    DateTime newDate =
-                        DateFormat("MMM yyyy").parse(formattedDate);
-                    print(newDate);
-                    // context.goToWebView(Urls.booksUrl);
+                    context.goToWebView(Urls.booksUrl);
                   },
                   child: const Text("See All"))
             ],
@@ -54,9 +45,10 @@ class _NewBooksListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 200.h,
-      child: FirestoreQueryBuilder<BookMd>(
-        query: FirebaseFirestore.instance
+      child: StreamBuilder<QuerySnapshot<BookMd>>(
+        stream: FirebaseFirestore.instance
             .collection(FirestoreDep.booksCn)
+            .limit(5)
             .orderBy("createdDate", descending: true)
             .withConverter(
           fromFirestore: (snapshot, options) {
@@ -66,15 +58,18 @@ class _NewBooksListView extends StatelessWidget {
           toFirestore: (value, options) {
             return value.toJson();
           },
-        ),
-        builder: (context, snapshot, child) {
-          if (snapshot.isFetching) {
+        ).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return const Center(child: Text("Error fetching data"));
           }
-          final len = snapshot.docs.length > 5 ? 5 : snapshot.docs.length;
+          if (snapshot.data == null) {
+            return const Center(child: Text("No books found"));
+          }
+          final len = snapshot.data!.docs.length;
           return ListView.separated(
             separatorBuilder: (context, index) => SizedBox(width: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -91,7 +86,7 @@ class _NewBooksListView extends StatelessWidget {
                   ),
                 );
               }
-              final model = snapshot.docs[index].data();
+              final model = snapshot.data!.docs[index].data();
               return _BookWidget(model: model);
             },
           );

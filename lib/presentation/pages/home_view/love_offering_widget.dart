@@ -39,7 +39,7 @@ class _LoveOfferingContainer extends StatelessWidget {
         height: 200.h,
         decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.r),
-            gradient: LinearGradient(colors: [
+            gradient: const LinearGradient(colors: [
               Color(0xFF8C6924),
               Color(0xFFf9ad34),
             ]),

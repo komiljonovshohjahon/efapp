@@ -47,9 +47,10 @@ class _NewBlogsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 138.h,
-      child: FirestoreQueryBuilder<BlogMd>(
-        query: FirebaseFirestore.instance
+      child: StreamBuilder<QuerySnapshot<BlogMd>>(
+        stream: FirebaseFirestore.instance
             .collection(FirestoreDep.blogsCn)
+            .limit(5)
             .orderBy("created_at", descending: true)
             .withConverter(
           fromFirestore: (snapshot, options) {
@@ -59,15 +60,19 @@ class _NewBlogsListView extends StatelessWidget {
           toFirestore: (value, options) {
             return value.toMap();
           },
-        ),
-        builder: (context, snapshot, child) {
-          if (snapshot.isFetching) {
+        ).snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
           }
           if (snapshot.hasError) {
             return const Center(child: Text("Error fetching data"));
           }
-          final len = snapshot.docs.length > 5 ? 5 : snapshot.docs.length;
+          if (snapshot.data!.docs.isEmpty) {
+            return const Center(child: Text("No blogs found"));
+          }
+
+          final len = snapshot.data!.docs.length;
           return ListView.separated(
             separatorBuilder: (context, index) => SizedBox(width: 16.w),
             padding: EdgeInsets.symmetric(horizontal: 24.w),
@@ -85,7 +90,7 @@ class _NewBlogsListView extends StatelessWidget {
                   ),
                 );
               }
-              final model = snapshot.docs[index].data();
+              final model = snapshot.data!.docs[index].data();
               return _BlogWidget(model: model);
             },
           );
