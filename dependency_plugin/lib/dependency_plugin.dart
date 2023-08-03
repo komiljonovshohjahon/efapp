@@ -10,6 +10,7 @@ export 'package:cloud_firestore/cloud_firestore.dart';
 export 'package:go_router/go_router.dart';
 export 'package:firebase_messaging/firebase_messaging.dart';
 export 'package:font_awesome_flutter/font_awesome_flutter.dart';
+export 'package:intl/intl.dart';
 
 //Local
 export 'dependencies/dependencies.dart';

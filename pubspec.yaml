@@ -18,7 +18,6 @@ dependencies:
   cad_audio_service:
     path: cad_audio_service
 
-  intl: ^0.18.0
   google_fonts: ^5.0.0
   dropdown_button2: ^2.1.4
   bot_toast: ^4.0.4

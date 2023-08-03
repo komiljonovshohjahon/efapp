@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:intl/intl.dart';
 
 class BooksListView extends StatelessWidget {
   const BooksListView({super.key});
@@ -28,7 +29,13 @@ class BooksListView extends StatelessWidget {
               const Spacer(),
               ElevatedButton(
                   onPressed: () {
-                    context.goToWebView(Urls.booksUrl);
+                    DateTime date = DateTime.now();
+                    String formattedDate = DateFormat('MMM yyyy').format(date);
+                    //create a new DateTime object and obtain from formattedDate
+                    DateTime newDate =
+                        DateFormat("MMM yyyy").parse(formattedDate);
+                    print(newDate);
+                    // context.goToWebView(Urls.booksUrl);
                   },
                   child: const Text("See All"))
             ],

@@ -14,12 +14,22 @@
 // youtube_video_id
 // "OpFDnqP5C9k"
 
+import 'package:intl/intl.dart';
+
 class YtVideoMd {
   final String id;
   final String createdAt;
   final String title;
   final String videoId;
-  final substr_date;
+  final String substr_date;
+  DateTime? get date {
+    try {
+      DateTime? newDate = DateFormat("MMM yyyy").parse(substr_date);
+      return newDate;
+    } catch (e) {
+      return null;
+    }
+  }
 
   const YtVideoMd({
     required this.id,

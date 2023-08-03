@@ -41,13 +41,14 @@ class _YtVideoViewState extends State<YtVideoView> {
       );
       if (res.isRight) return;
       if (res.isLeft) {
-        final data = res.left;
+        final data = res.left
+          ..removeWhere((element) => element.date == null)
+          ..sort((a, b) => b.date!.compareTo(a.date!));
         for (var element in data) {
           if (!dates.contains(element.substr_date)) {
             dates.add(element.substr_date);
           }
         }
-        dates.sort((a, b) => b.compareTo(a));
         if (dates.isNotEmpty) {
           selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
         }

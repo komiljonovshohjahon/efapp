@@ -19,6 +19,7 @@ class _DefaultWebViewState extends State<DefaultWebView> {
     WidgetsBinding.instance.endOfFrame.then((_) async {
       try {
         await _controller.loadRequest(Uri.parse(widget.url));
+        _controller.setJavaScriptMode(JavaScriptMode.unrestricted);
       } catch (e) {
         Logger.e(e);
       }
