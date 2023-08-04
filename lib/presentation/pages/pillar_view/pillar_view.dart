@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:country_picker/country_picker.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/presentation/global_widgets/default_dropdown.dart';
@@ -35,70 +37,73 @@ class _PillarViewState extends State<PillarView> {
   int? prayerHours;
   Country? country;
 
+  PillarMd? pillarMd;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.endOfFrame.then((_) async {
+      fetchPillarMd();
+    });
+  }
+
+  void fetchPillarMd() {
+    context.futureLoading(() async {
+      try {
+        final res = await DependencyManager.instance.firestore.fire
+            .collection(widget.collection)
+            .withConverter<PillarMd>(
+          fromFirestore: (snapshot, options) {
+            final data = snapshot.data()!;
+            return PillarMd.fromMap(data);
+          },
+          toFirestore: (value, options) {
+            return value.toMap();
+          },
+        ).get();
+        if (res.docs.isEmpty) {
+          context.pop();
+          context.showError("No data found");
+          return;
+        }
+        setState(() {
+          pillarMd = res.docs.first.data();
+        });
+      } catch (e) {
+        context.pop();
+        context.showError(e.toString());
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<QuerySnapshot<PillarMd>>(
-      stream: DependencyManager.instance.firestore.fire
-          .collection(widget.collection)
-          .withConverter<PillarMd>(
-        fromFirestore: (snapshot, options) {
-          final data = snapshot.data()!;
-          return PillarMd.fromMap(data);
-        },
-        toFirestore: (value, options) {
-          return value.toMap();
-        },
-      ).snapshots(),
-      builder: (context, snapshot) {
-        //loading
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        //error
-        if (snapshot.hasError) {
-          return const Center(
-            child: Text("Error"),
-          );
-        }
-        //no data
-        if (snapshot.data!.docs.isEmpty) {
-          return const Center(
-            child: Text("No data"),
-          );
-        }
-        //data
-        final data = snapshot.data!.docs.first.data();
-        return CustomScrollView(
-          slivers: [
-            //Header
-            SliverAppBar(
-              title: Text(title),
-              centerTitle: true,
-              snap: true,
-              floating: true,
-            ),
-            //Body
-            SliverList(
-              delegate: SliverChildListDelegate(
-                [
-                  Html(data: data.description, style: {
-                    //change all with bold style to context.colorScheme.primary
-                    "strong":
-                        Style(color: Theme.of(context).colorScheme.primary),
-                  }),
-                  _getForm(),
-                ],
-              ),
-            ),
-          ],
-        );
-      },
+    return CustomScrollView(
+      slivers: [
+        //Header
+        SliverAppBar(
+          title: Text(title),
+          centerTitle: true,
+          snap: true,
+          floating: true,
+        ),
+        //Body
+        SliverList(
+          delegate: SliverChildListDelegate(
+            [
+              if (pillarMd != null)
+                Html(data: pillarMd!.description, style: {
+                  //change all with bold style to context.colorScheme.primary
+                  "strong": Style(color: Theme.of(context).colorScheme.primary),
+                }),
+              _getForm(),
+            ],
+          ),
+        ),
+      ],
     );
   }
 
-  //todo: form later
   Widget _getForm() {
     return Container(
       padding: const EdgeInsets.all(8).w,
@@ -239,7 +244,36 @@ class _PillarViewState extends State<PillarView> {
 
   void _submit() {
     context.futureLoading(() async {
-      //todo: submit
+      final res = await DependencyManager.instance.firestore
+          .createOrUpdatePillarForm(
+              model: PillarMdForm.init().copyWith(
+                  prayerHours: prayerHours?.toString(),
+                  phone: phoneController.text,
+                  amount: amountController.text,
+                  country: country!.name,
+                  email: emailController.text,
+                  firstName: firstNameController.text,
+                  lastName: lastNameController.text,
+                  middleName: middleNameController.text),
+              isCloud: isCloud);
+      if (res.isRight) {
+        //clear form
+        firstNameController.clear();
+        middleNameController.clear();
+        lastNameController.clear();
+        emailController.clear();
+        phoneController.clear();
+        amountController.clear();
+        setState(() {
+          country = null;
+          prayerHours = null;
+        });
+        context.showSuccess("Submitted successfully");
+      } else if (res.isLeft) {
+        context.showError(res.left);
+      } else {
+        context.showError("Something went wrong");
+      }
     });
   }
 }

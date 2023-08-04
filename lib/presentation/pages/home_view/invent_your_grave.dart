@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/global_constants.dart';
 import 'package:efapp/utils/global_extensions.dart';
@@ -29,7 +30,7 @@ class InvestYourGrave extends StatelessWidget {
 }
 
 class _InvestYourGraveContainer extends StatelessWidget {
-  const _InvestYourGraveContainer();
+  const _InvestYourGraveContainer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,7 +52,7 @@ class _InvestYourGraveContainer extends StatelessWidget {
             ],
             image: const DecorationImage(
                 alignment: Alignment.centerRight,
-                image: NetworkImage(
+                image: CachedNetworkImageProvider(
                     "https://investbeyondyourgrave.com/assets/images/image02.jpg?v=7cde060d"),
                 fit: BoxFit.fill)),
         padding: EdgeInsets.symmetric(horizontal: 24.w),

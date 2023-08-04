@@ -70,6 +70,9 @@ class FirestoreDep {
       },
       toFirestore: (value, options) => value.toMap());
 
+  static String pillarOfFireForm = 'fire_form_data';
+  static String pillarOfCloudForm = 'cloud_form_data';
+
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 
   FirebaseFirestore get fire => _fire;
@@ -239,6 +242,48 @@ class FirestoreDep {
           .collection(booksCn)
           .doc(docs.docs.first.id)
           .update(model.toJson()));
+    }
+  }
+
+  //CREATE OR UPDATE Pillar
+  Future<Either<String, void>> createOrUpdatePillarForm(
+      {required PillarMdForm model, required bool isCloud}) async {
+    final docs = await _fire
+        .collection(isCloud ? pillarOfCloudForm : pillarOfFireForm)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    if (docs.docs.isEmpty) {
+      //create
+      var m = PillarMdForm.init();
+      m = model.copyWith(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        createdAt: DateTime.now().toString(),
+      );
+
+      return firestoreHandler(_fire
+          .collection(isCloud ? pillarOfCloudForm : pillarOfFireForm)
+          .add(m.toMap()));
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(isCloud ? pillarOfCloudForm : pillarOfFireForm)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
+    }
+  }
+
+  //GET Pillar of Cloud
+  Future<Either<List<PillarMdForm>, String>> getPillarForms(
+      {required bool isCloud}) async {
+    try {
+      final res = await _fire
+          .collection(isCloud ? pillarOfCloudForm : pillarOfFireForm)
+          .get();
+      final list = res.docs.map((e) => PillarMdForm.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
     }
   }
 }
