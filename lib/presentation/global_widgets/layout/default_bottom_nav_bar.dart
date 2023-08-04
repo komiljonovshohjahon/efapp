@@ -40,6 +40,12 @@ Map<int, dynamic> navigations = {
     "icon": Icons.fireplace,
     "index": 5,
   },
+  6: {
+    "title": "Love Offering",
+    "route": MCANavigation.loveOffering,
+    "icon": Icons.favorite,
+    "index": 6,
+  },
 };
 
 class DefaultBottomNavigationBar extends StatefulWidget {

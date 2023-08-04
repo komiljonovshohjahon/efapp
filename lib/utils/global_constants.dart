@@ -15,11 +15,19 @@ class GlobalConstants {
 
   static bool enableDebugCodes = kDebugMode;
   static bool enableLoadingIndicator = kDebugMode;
-
-  static const developerWebsiteUrl = "https://www.christianappdevelopers.com";
 }
 
 class Urls {
   static const booksUrl = "https://notionpress.com/author/evans_francis";
   static const investYourGraveUrl = "https://investbeyondyourgrave.com";
+  static const evansPaypalUrl = "https://www.paypal.com/paypalme/evansfrancis";
+  static const developerWebsiteUrl = "https://www.christianappdevelopers.com";
+  static const evansEmail = "evensfrancis333@oksbi";
+  static const evansPaytmNumber = "9960877313";
+  static const alansEmail = "alanalex138@gmail.com";
+  static const sbiAccountName = "Evans Francis Albert";
+  static const sbiAccountNumber = "32783806272";
+  static const sbiAccountBank = "State Bank of India";
+  static const sbiAccountIFSC = "SBIN0014726";
+  static const sbiAccountBranch = "Jaripatka";
 }

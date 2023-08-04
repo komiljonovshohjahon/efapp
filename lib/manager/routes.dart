@@ -23,6 +23,7 @@ class MCANavigation extends IMCANavigation {
   static const String yt = '/yt';
   static const String galleryAlbum = '/galleryAlbum';
   static const String pillar = '/pillar';
+  static const String loveOffering = '/loveOffering';
 
   /// router
   @override
@@ -127,6 +128,16 @@ class MCANavigation extends IMCANavigation {
                     return MaterialPage<void>(
                       key: state.pageKey,
                       child: PillarView(collection: collection),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: loveOffering.substring(1),
+                  name: loveOffering.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: const LoveOfferingView(),
                     );
                   },
                 ),
