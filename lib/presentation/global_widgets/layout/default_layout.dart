@@ -2,6 +2,7 @@ import 'package:dependency_plugin/dependencies/dependency_manager.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/manager.dart';
 import 'package:efapp/presentation/global_widgets/layout/default_bottom_nav_bar.dart';
+import 'package:efapp/presentation/global_widgets/layout/default_drawer.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:efapp/presentation/global_widgets/layout/page_wrapper.dart';
@@ -23,13 +24,15 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       resizeToAvoidBottomInset: true,
       body: PageWrapper(child: widget.child),
       bottomNavigationBar: _getBottomBar(currentRoute),
+      drawer: DefaultDrawer(),
     );
   }
 
   PreferredSizeWidget? _getAppBar(String currentRoute) {
     if (currentRoute == MCANavigation.home ||
         currentRoute.split("/").contains("gallery") ||
-        currentRoute.split("/").contains(MCANavigation.pillar.substring(1))) {
+        currentRoute == "${MCANavigation.home}${MCANavigation.pillarCloud}" ||
+        currentRoute == "${MCANavigation.home}${MCANavigation.pillarFire}") {
       return null;
     }
     if (currentRoute == "${MCANavigation.home}${MCANavigation.webView}") {
@@ -57,21 +60,47 @@ class _DefaultLayoutState extends State<DefaultLayout> {
         ),
       );
     }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.yt}") {
+      return AppBar(
+        title: const Text("Videos"),
+        centerTitle: true,
+        leading: BackButton(
+          onPressed: context.pop,
+        ),
+      );
+    }
     return AppBar(
-      leading: BackButton(
-        onPressed: context.pop,
-      ),
+      title: Text(_getTitle(currentRoute)),
+      centerTitle: true,
     );
+  }
+
+  String _getTitle(String currentRoute) {
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.blogs}") {
+      return "Blogs";
+    }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.galleryAlbum}") {
+      return "Gallery";
+    }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.yt}") {
+      return "Videos";
+    }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.loveOffering}") {
+      return "Love Offering";
+    }
+
+    return "";
   }
 
   Widget? _getBottomBar(String currentRoute) {
     //hide bottom bar when viewing gallery
-    if (currentRoute
-        .split("/")
-        .contains(MCANavigation.galleryAlbum.substring(1))) {
-      return null;
+    if (currentRoute == MCANavigation.home ||
+        currentRoute == "${MCANavigation.home}${MCANavigation.pillarCloud}" ||
+        currentRoute == "${MCANavigation.home}${MCANavigation.pillarFire}" ||
+        currentRoute == "${MCANavigation.home}${MCANavigation.loveOffering}") {
+      return const DefaultBottomNavigationBar();
     }
-    return const DefaultBottomNavigationBar();
+    return null;
   }
 }
 

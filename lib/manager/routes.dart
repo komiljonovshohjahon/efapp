@@ -22,7 +22,8 @@ class MCANavigation extends IMCANavigation {
   static const String webView = '/webView';
   static const String yt = '/yt';
   static const String galleryAlbum = '/galleryAlbum';
-  static const String pillar = '/pillar';
+  static const String pillarCloud = '/pillarCloud';
+  static const String pillarFire = '/pillarFire';
   static const String loveOffering = '/loveOffering';
 
   /// router
@@ -121,13 +122,22 @@ class MCANavigation extends IMCANavigation {
                       ),
                     ]),
                 GoRoute(
-                  path: pillar.substring(1),
-                  name: pillar.substring(1),
+                  path: pillarCloud.substring(1),
+                  name: pillarCloud.substring(1),
                   pageBuilder: (context, state) {
-                    final String collection = state.extra as String;
                     return MaterialPage<void>(
                       key: state.pageKey,
-                      child: PillarView(collection: collection),
+                      child: PillarView(collection: FirestoreDep.pillarOfCloud),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: pillarFire.substring(1),
+                  name: pillarFire.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: PillarView(collection: FirestoreDep.pillarOfFire),
                     );
                   },
                 ),

@@ -456,7 +456,13 @@ extension ContextHelper on BuildContext {
 
   void goToPillar(String collection) {
     try {
-      go("${MCANavigation.home}${MCANavigation.pillar}", extra: collection);
+      if (collection == FirestoreDep.pillarOfCloud) {
+        go("${MCANavigation.home}${MCANavigation.pillarCloud}",
+            extra: collection);
+      } else {
+        go("${MCANavigation.home}${MCANavigation.pillarFire}",
+            extra: collection);
+      }
     } catch (e) {
       print(e);
     }
