@@ -387,6 +387,22 @@ class FirestoreDep {
     return firestoreHandler(
         _fire.collection(blogsCn).doc(docs.docs.first.id).delete());
   }
+
+  //GET YOUTUBE VIDEOS
+  Future<Either<List<YtVideoMd>, String>> getYtVideos(
+      {required String substr_date}) async {
+    print("substr_date: $substr_date");
+    try {
+      final res = await _fire
+          .collection(ytVideosCn)
+          .where("substr_date", isEqualTo: substr_date)
+          .get();
+      final list = res.docs.map((e) => YtVideoMd.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
 }
 
 Future<Either<String, T>> firestoreHandler<T>(Future callback) async {

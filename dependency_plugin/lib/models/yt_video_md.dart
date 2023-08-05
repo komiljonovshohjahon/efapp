@@ -21,6 +21,7 @@ class YtVideoMd {
   final String createdAt;
   final String title;
   final String videoId;
+  String get url => "https://www.youtube.com/watch?v=$videoId";
   final String substr_date;
   DateTime? get date {
     try {

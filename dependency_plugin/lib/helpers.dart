@@ -146,6 +146,12 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Blogs",
     'icon': Icons.newspaper_outlined,
   },
+  //youtube videos
+  "videos": {
+    'route': "/videos",
+    'title': "Videos",
+    'icon': Icons.video_library_outlined,
+  },
 };
 
 Map<String, String> basicTypes = {
