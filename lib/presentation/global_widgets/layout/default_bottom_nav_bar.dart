@@ -12,15 +12,15 @@ Map<int, dynamic> navigations = {
     "index": 0,
   },
   1: {
-    "title": "Pillar of Cloud",
-    "route": MCANavigation.pillarCloud,
-    "icon": Icons.cloud,
-    "index": 1,
-  },
-  2: {
     "title": "Pillar of Fire",
     "route": MCANavigation.pillarFire,
     "icon": Icons.fireplace,
+    "index": 1,
+  },
+  2: {
+    "title": "Pillar of Cloud",
+    "route": MCANavigation.pillarCloud,
+    "icon": Icons.cloud,
     "index": 2,
   },
   3: {
@@ -42,11 +42,11 @@ class DefaultBottomNavigationBar extends StatefulWidget {
 class _DefaultBottomNavigationBarState
     extends State<DefaultBottomNavigationBar> {
   void _onItemTapped(int index, BuildContext context) {
-    if (index == 1) {
+    if (index == 2) {
       context.goToPillar(FirestoreDep.pillarOfCloud);
       return;
     }
-    if (index == 2) {
+    if (index == 1) {
       context.goToPillar(FirestoreDep.pillarOfFire);
       return;
     }

@@ -19,14 +19,16 @@ class LoveOfferingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
+      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 20.h),
       child: Column(
         children: [
           //Image
           Container(
-            width: 314.82.w,
+            alignment: Alignment.center,
+            // width: 400.82.w,
             height: 339.35.h,
             child: Stack(
+              alignment: Alignment.center,
               children: [
                 Positioned(
                   left: 0,
@@ -42,10 +44,7 @@ class LoveOfferingView extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment(0.47.w, -0.88.h),
                           end: const Alignment(-0.47, 0.88),
-                          colors: [
-                            const Color(0xFFF8AE34),
-                            const Color(0xFF8C6924)
-                          ],
+                          colors: const [Color(0xFFF8AE34), Color(0xFF8C6924)],
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10).r,
@@ -78,20 +77,20 @@ class LoveOfferingView extends StatelessWidget {
                   ),
                 ),
                 Positioned(
-                  left: 42.64.w,
+                  left: 10.64.w,
                   top: 0,
                   child: Transform(
                     transform: Matrix4.identity()
                       ..translate(0.0, 0.0)
-                      ..rotateZ(0.12.r),
+                      ..rotateZ(0.10.r),
                     child: Container(
-                      width: 268.w,
+                      width: 330.w,
                       height: 310.h,
                       decoration: ShapeDecoration(
                         image: const DecorationImage(
                           image:
-                              AssetImage("assets/images/love_offering_img.jpg"),
-                          fit: BoxFit.cover,
+                              AssetImage("assets/images/love_offering_img.png"),
+                          fit: BoxFit.fill,
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10).r,
