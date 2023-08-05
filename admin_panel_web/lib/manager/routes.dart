@@ -80,6 +80,16 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+            GoRoute(
+              path: adminDestinations['fireForms']!['route']!,
+              name: adminDestinations['fireForms']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const PillarOfFireFormsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(

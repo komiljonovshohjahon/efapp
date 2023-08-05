@@ -454,6 +454,31 @@ class FirestoreDep {
     return firestoreHandler(
         _fire.collection(ytVideosCn).doc(docs.docs.first.id).delete());
   }
+
+  //GET Pillar of fire forms
+  Future<Either<List<PillarMdForm>, String>> getPillarOfFireForms(
+      {int? stAt, int? edAt, String? id}) async {
+    try {
+      final foundDocument = await _fire
+          .collection(pillarOfFireForm)
+          .where("id", isEqualTo: id)
+          .get();
+
+      final res = await _fire
+          .collection(pillarOfFireForm)
+          .orderBy("created_at", descending: true)
+          .limit(10)
+          .get();
+
+      print(stAt);
+      print(edAt);
+
+      final list = res.docs.map((e) => PillarMdForm.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
 }
 
 Future<Either<String, T>> firestoreHandler<T>(Future callback) async {

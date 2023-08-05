@@ -4,70 +4,77 @@ import 'package:admin_panel_web/presentation/global_widgets/default_table.dart';
 import 'package:admin_panel_web/presentation/global_widgets/widgets.dart';
 import 'package:admin_panel_web/presentation/pages/blogs_view/new_blog_view.dart';
 import 'package:admin_panel_web/utils/global_extensions.dart';
+import 'package:admin_panel_web/utils/global_functions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class PillarOfFireBlogs extends StatefulWidget {
-  const PillarOfFireBlogs({Key? key}) : super(key: key);
+class PillarOfFireFormsView extends StatefulWidget {
+  const PillarOfFireFormsView({Key? key}) : super(key: key);
 
   @override
-  State<PillarOfFireBlogs> createState() => _PillarOfFireBlogsState();
+  State<PillarOfFireFormsView> createState() => _PillarOfFireFormsViewState();
 }
 
-class _PillarOfFireBlogsState extends State<PillarOfFireBlogs>
-    with TableFocusNodeMixin<PillarOfFireBlogs, BlogMd> {
+class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
+    with TableFocusNodeMixin<PillarOfFireFormsView, PillarMdForm> {
   @override
-  Future<List<BlogMd>?> fetch() async {
-    final res = await DependencyManager.instance.firestore.getBlogs(
-        substr_date: DateFormat("MMM yyyy").format(selectedDate.value));
-    if (res.isLeft) {
-      return res.left;
-    } else if (res.isRight) {
-      context.showError(res.right);
-    } else {
-      context.showError('Something went wrong');
-    }
+  Future<List<PillarMdForm>?> fetch() async {
+    // final res =
+    //     await DependencyManager.instance.firestore.getPillarOfFireForms();
+    // if (res.isLeft) {
+    //   return res.left;
+    // } else if (res.isRight) {
+    //   context.showError(res.right);
+    // } else {
+    //   context.showError('Something went wrong');
+    // }
     return null;
   }
 
   @override
   List<PlutoColumn> get columns => [
         PlutoColumn(
-          title: "Title",
-          field: "title",
+          title: "First Name",
+          field: "first_name",
           type: PlutoColumnType.text(),
           enableRowChecked: true,
-          width: 100,
         ),
-        //description
         PlutoColumn(
-          title: "Description",
-          field: "description",
+          title: "Middle Name",
+          field: "middle_name",
           type: PlutoColumnType.text(),
-          renderer: (rendererContext) {
-            return Html(data: rendererContext.cell.value);
-          },
         ),
-        //date
         PlutoColumn(
-          title: "Date",
-          field: "date",
-          type: PlutoColumnType.date(format: "yyyy-MM-dd"),
-          width: 50,
+          title: "Last Name",
+          field: "last_name",
+          type: PlutoColumnType.text(),
+        ),
+        //country
+        PlutoColumn(
+          title: "Country",
+          field: "country",
+          type: PlutoColumnType.text(),
+        ),
+        //amount
+        PlutoColumn(
+          title: "Amount",
+          field: "amount",
+          type: PlutoColumnType.number(format: "#,###"),
         ),
         //action
         PlutoColumn(
           title: "Action",
           field: "action",
+          enableFilterMenuItem: false,
           type: PlutoColumnType.text(),
           width: 40,
           renderer: (rendererContext) {
             return rendererContext.actionMenuWidget(
-                onEdit: () => onEdit(
-                    (p0) => NewBlogView(model: p0), rendererContext.cell.value),
+                // onEdit: () => onEdit(
+                //     (p0) => NewBlogView(model: p0), rendererContext.cell.value),
                 onDelete: () => onDelete(
                     () async => await deleteSelected(rendererContext.row),
                     showError: false));
@@ -76,13 +83,61 @@ class _PillarOfFireBlogsState extends State<PillarOfFireBlogs>
       ];
 
   @override
-  PlutoRow buildRow(BlogMd model) {
+  PlutoRow buildRow(PillarMdForm model) {
     return PlutoRow(cells: {
-      "title": PlutoCell(value: model.title),
-      "description": PlutoCell(value: model.description),
-      "date": PlutoCell(value: model.createdAt),
+      "first_name": PlutoCell(value: model.firstName),
+      "middle_name": PlutoCell(value: model.middleName),
+      "last_name": PlutoCell(value: model.lastName),
+      "country": PlutoCell(value: model.country),
+      "amount": PlutoCell(value: model.amount),
       "action": PlutoCell(value: model),
     });
+  }
+
+  String? lastId;
+
+  Future<PlutoLazyPaginationResponse> lazyFetch(
+    PlutoLazyPaginationRequest request,
+  ) async {
+    final totalItems = await DependencyManager.instance.firestore.fire
+        .collection(FirestoreDep.pillarOfFireForm)
+        .count()
+        .get();
+
+    final success =
+        await DependencyManager.instance.firestore.getPillarOfFireForms(
+      stAt: request.page == 1 ? 1 : request.page * stateManager!.pageSize,
+      edAt: request.page * stateManager!.pageSize,
+    );
+
+    List<PlutoRow> tempList = [];
+    if (success.isLeft) {
+      tempList = success.left.map((e) => buildRow(e)).toList();
+      lastId = success.left.last.id;
+    } else {
+      return PlutoLazyPaginationResponse(rows: [], totalPage: 0);
+    }
+
+    if (request.sortColumn != null && !request.sortColumn!.sort.isNone) {
+      tempList = [...tempList];
+
+      tempList.sort((a, b) {
+        final sortA = request.sortColumn!.sort.isAscending ? a : b;
+        final sortB = request.sortColumn!.sort.isAscending ? b : a;
+
+        return request.sortColumn!.type.compare(
+          sortA.cells[request.sortColumn!.field]!.valueForSorting,
+          sortB.cells[request.sortColumn!.field]!.valueForSorting,
+        );
+      });
+    }
+
+    final totalPage = (totalItems.count) / stateManager!.pageSize;
+
+    return Future.value(PlutoLazyPaginationResponse(
+      totalPage: totalPage.toInt(),
+      rows: tempList.toList(),
+    ));
   }
 
   @override
@@ -91,8 +146,6 @@ class _PillarOfFireBlogsState extends State<PillarOfFireBlogs>
       headerEnd: SpacedRow(
         horizontalSpace: 10,
         children: [
-          monthSelectorWidget,
-          //button to add new, delete selected
           ElevatedButton(
               style: ElevatedButton.styleFrom(
                   foregroundColor: Colors.white, backgroundColor: Colors.red),
@@ -100,13 +153,24 @@ class _PillarOfFireBlogsState extends State<PillarOfFireBlogs>
                   showError: false),
               child: const Text("Delete Selected")),
           ElevatedButton(
-              onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
+              onPressed: null,
+              // onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
               child: const Text("Add New")),
         ],
       ),
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
+      createFooter: (p0) {
+        return PlutoLazyPagination(
+          stateManager: p0,
+          fetch: lazyFetch,
+          initialPage: 1,
+          initialFetch: true,
+          fetchWithFiltering: true,
+          fetchWithSorting: true,
+        );
+      },
     );
   }
 

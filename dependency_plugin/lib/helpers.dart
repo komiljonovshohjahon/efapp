@@ -152,6 +152,12 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Videos",
     'icon': Icons.video_library_outlined,
   },
+  //pillar of fire forms
+  "fireForms": {
+    'route': "/fireForms",
+    'title': "Pillar of fire Forms",
+    'icon': Icons.format_align_center_outlined,
+  },
 };
 
 Map<String, String> basicTypes = {

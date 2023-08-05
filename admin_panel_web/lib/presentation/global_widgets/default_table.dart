@@ -48,20 +48,21 @@ class DefaultTable extends StatelessWidget {
         // e.titleTextAlign = PlutoColumnTextAlign.center;
         return e;
       }).toList(),
-      createFooter: hasFooter
-          ? (stateManager) {
-              return DefaultTablePaginationFooter(stateManager: stateManager);
-            }
-          : null,
-      createHeader: createFooter ??
-          (hasHeader
+      createFooter: createFooter ??
+          (hasFooter
               ? (stateManager) {
-                  return DefaultTableHeader(
-                      stateManager: stateManager,
-                      focusNode: focusNode,
-                      headerEnd: headerEnd);
+                  return DefaultTablePaginationFooter(
+                      stateManager: stateManager);
                 }
               : null),
+      createHeader: (hasHeader
+          ? (stateManager) {
+              return DefaultTableHeader(
+                  stateManager: stateManager,
+                  focusNode: focusNode,
+                  headerEnd: headerEnd);
+            }
+          : null),
       rowColorCallback: rowColorCallback,
       configuration: PlutoGridConfiguration(
         style: PlutoGridStyleConfig(
