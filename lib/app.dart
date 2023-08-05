@@ -103,6 +103,12 @@ class _RunnerAppState extends State<RunnerApp> {
               surfaceTintColor: const Color(0xFFFAF8F1),
             ),
           ),
+          iconButtonTheme: IconButtonThemeData(
+            style: ButtonStyle(
+              foregroundColor: MaterialStateProperty.all(Color(0xFF8C6924)),
+              overlayColor: MaterialStateProperty.all(Color(0xFFFAF8F1)),
+            ),
+          ),
           textTheme: GoogleFonts.outfitTextTheme(
             Theme.of(context).textTheme,
           ),

@@ -68,10 +68,7 @@ class LoveOfferingView extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment(0.47.w, -0.88.h),
                           end: Alignment(-0.47.w, 0.88.h),
-                          colors: [
-                            const Color(0xFF8C6924),
-                            const Color(0xFF8C6924)
-                          ],
+                          colors: const [Color(0xFF8C6924), Color(0xFF8C6924)],
                         ),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(10).r,
@@ -208,11 +205,9 @@ class LoveOfferingView extends StatelessWidget {
                           icon: Icon(Icons.open_in_new_rounded, size: 20.w),
                           label: const Text('paypal/EvansFrancis')),
                       subtitle: TextButton(
-                        child: const Text("${Urls.alansEmail} (Click to copy)"),
+                        child: const Text(Urls.alansEmail),
                         onPressed: () {
-                          Clipboard.setData(
-                                  const ClipboardData(text: Urls.alansEmail))
-                              .then((value) {});
+                          copy(Urls.alansEmail);
                         },
                       ),
                     ),
@@ -223,17 +218,13 @@ class LoveOfferingView extends StatelessWidget {
                         width: 30.w,
                         height: 30.h,
                       ),
-                      title: TextButton(
-                          onPressed: () {
-                            Clipboard.setData(
-                                    const ClipboardData(text: Urls.evansEmail))
-                                .then((value) {});
-                          },
-                          style: TextButton.styleFrom(
-                            alignment: Alignment.centerLeft,
-                          ),
-                          child:
-                              const Text("${Urls.evansEmail} (Click to copy)")),
+                      trailing: IconButton(
+                        onPressed: () {
+                          copy(Urls.evansEmail);
+                        },
+                        icon: const Icon(Icons.copy_outlined),
+                      ),
+                      title: const Text(Urls.evansEmail),
                     ),
                   if (title == "Paytm")
                     ListTile(
@@ -242,17 +233,13 @@ class LoveOfferingView extends StatelessWidget {
                         width: 30.w,
                         height: 30.h,
                       ),
-                      title: TextButton(
-                          onPressed: () {
-                            Clipboard.setData(const ClipboardData(
-                                    text: Urls.evansPaytmNumber))
-                                .then((value) {});
-                          },
-                          style: TextButton.styleFrom(
-                            alignment: Alignment.centerLeft,
-                          ),
-                          child: const Text(
-                              "${Urls.evansPaytmNumber} (Click to copy)")),
+                      trailing: IconButton(
+                        onPressed: () {
+                          copy(Urls.evansPaytmNumber);
+                        },
+                        icon: const Icon(Icons.copy_outlined),
+                      ),
+                      title: const Text(Urls.evansPaytmNumber),
                     ),
                   if (title == "SBI")
                     SpacedColumn(
@@ -265,21 +252,13 @@ class LoveOfferingView extends StatelessWidget {
                             "Account Holder Name",
                             style: context.textTheme.titleSmall,
                           ),
-                          subtitle: TextButton(
-                              style: TextButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                              onPressed: () {
-                                Clipboard.setData(const ClipboardData(
-                                        text: Urls.sbiAccountName))
-                                    .then((value) {
-                                  BotToast.showText(
-                                      text: 'Copied to clipboard');
-                                });
-                              },
-                              child: const Text(Urls.sbiAccountName)),
+                          trailing: IconButton(
+                            onPressed: () {
+                              copy(Urls.sbiAccountName);
+                            },
+                            icon: const Icon(Icons.copy_outlined),
+                          ),
+                          subtitle: const Text(Urls.sbiAccountName),
                         ),
                         //account number
                         ListTile(
@@ -289,21 +268,13 @@ class LoveOfferingView extends StatelessWidget {
                             "Account Number",
                             style: context.textTheme.titleSmall,
                           ),
-                          subtitle: TextButton(
-                              style: TextButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                              onPressed: () {
-                                Clipboard.setData(const ClipboardData(
-                                        text: Urls.sbiAccountNumber))
-                                    .then((value) {
-                                  BotToast.showText(
-                                      text: 'Copied to clipboard');
-                                });
-                              },
-                              child: const Text(Urls.sbiAccountNumber)),
+                          trailing: IconButton(
+                            onPressed: () {
+                              copy(Urls.sbiAccountNumber);
+                            },
+                            icon: const Icon(Icons.copy_outlined),
+                          ),
+                          subtitle: const Text(Urls.sbiAccountNumber),
                         ),
                         //bank
                         ListTile(
@@ -313,21 +284,13 @@ class LoveOfferingView extends StatelessWidget {
                             "Bank",
                             style: context.textTheme.titleSmall,
                           ),
-                          subtitle: TextButton(
-                              style: TextButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                              onPressed: () {
-                                Clipboard.setData(const ClipboardData(
-                                        text: Urls.sbiAccountBank))
-                                    .then((value) {
-                                  BotToast.showText(
-                                      text: 'Copied to clipboard');
-                                });
-                              },
-                              child: const Text(Urls.sbiAccountBank)),
+                          trailing: IconButton(
+                            onPressed: () {
+                              copy(Urls.sbiAccountBank);
+                            },
+                            icon: const Icon(Icons.copy_outlined),
+                          ),
+                          subtitle: const Text(Urls.sbiAccountBank),
                         ),
                         //IFSC
                         ListTile(
@@ -337,21 +300,13 @@ class LoveOfferingView extends StatelessWidget {
                             "IFSC Code",
                             style: context.textTheme.titleSmall,
                           ),
-                          subtitle: TextButton(
-                              style: TextButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                              onPressed: () {
-                                Clipboard.setData(const ClipboardData(
-                                        text: Urls.sbiAccountIFSC))
-                                    .then((value) {
-                                  BotToast.showText(
-                                      text: 'Copied to clipboard');
-                                });
-                              },
-                              child: const Text(Urls.sbiAccountIFSC)),
+                          trailing: IconButton(
+                            onPressed: () {
+                              copy(Urls.sbiAccountIFSC);
+                            },
+                            icon: const Icon(Icons.copy_outlined),
+                          ),
+                          subtitle: const Text(Urls.sbiAccountIFSC),
                         ),
                         //branch
                         ListTile(
@@ -361,21 +316,13 @@ class LoveOfferingView extends StatelessWidget {
                             "Branch",
                             style: context.textTheme.titleSmall,
                           ),
-                          subtitle: TextButton(
-                              style: TextButton.styleFrom(
-                                alignment: Alignment.centerLeft,
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 0),
-                              ),
-                              onPressed: () {
-                                Clipboard.setData(const ClipboardData(
-                                        text: Urls.sbiAccountBranch))
-                                    .then((value) {
-                                  BotToast.showText(
-                                      text: 'Copied to clipboard');
-                                });
-                              },
-                              child: const Text(Urls.sbiAccountBranch)),
+                          trailing: IconButton(
+                            onPressed: () {
+                              copy(Urls.sbiAccountBranch);
+                            },
+                            icon: const Icon(Icons.copy_outlined),
+                          ),
+                          subtitle: const Text(Urls.sbiAccountBranch),
                         ),
                       ],
                     )
@@ -410,5 +357,11 @@ class LoveOfferingView extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  void copy(String value) {
+    Clipboard.setData(ClipboardData(text: value)).then((value) {
+      BotToast.showText(text: 'Copied to clipboard');
+    });
   }
 }
