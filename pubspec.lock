@@ -264,7 +264,7 @@ packages:
     source: hosted
     version: "5.6.2"
   firebase_cached_image:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: firebase_cached_image
       sha256: "80f7073a8803e9fc788e5866b115d62a78df661be50206d58f75511b875c6820"
@@ -715,6 +715,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  month_year_picker:
+    dependency: transitive
+    description:
+      name: month_year_picker
+      sha256: a9af8179b6519960a4261147f20b87e0da0794e4dd9db49a079b79aedd14b7f1
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.3.0+1"
   numberpicker:
     dependency: transitive
     description:

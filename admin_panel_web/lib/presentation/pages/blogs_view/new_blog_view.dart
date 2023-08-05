@@ -32,23 +32,6 @@ class _NewBlogViewState extends State<NewBlogView> {
     WidgetsBinding.instance.endOfFrame.then((_) async {
       if (!isNew) {
         _titleController.text = model.title;
-        final image = await DependencyManager.instance.fireStorage
-            .getImages(model.imagePath);
-        if (image.isRight) {
-          logger(model.imagePath);
-          for (final i in image.right.items) {
-            final bytes = await i.getData();
-            final meta = await i.getMetadata();
-            _image = PlatformFile(
-              name: meta.name,
-              size: meta.size ?? 0,
-              bytes: bytes,
-              identifier: meta.fullPath,
-              path: meta.fullPath,
-            );
-          }
-          setState(() {});
-        }
       }
     });
   }
@@ -64,6 +47,13 @@ class _NewBlogViewState extends State<NewBlogView> {
         images: [_image?.bytes],
         sendNotification: true,
       );
+      if (res.isRight) {
+        context.pop(true);
+      } else if (res.isLeft) {
+        context.showError(res.left);
+      } else {
+        context.showError("Something went wrong");
+      }
     });
   }
 
@@ -106,7 +96,16 @@ class _NewBlogViewState extends State<NewBlogView> {
                   },
                   child: const Text("Pick Image")),
               if (_image?.bytes != null)
-                Image.memory(_image!.bytes!, width: 200, height: 200),
+                Image.memory(_image!.bytes!, width: 200, height: 200)
+              else
+                Image(
+                  width: 200,
+                  height: 200,
+                  image: DefaultCachedFirebaseImageProvider(model.imagePath),
+                  errorBuilder: (context, error, stackTrace) {
+                    return const SizedBox();
+                  },
+                )
             ],
           ))
         ]),

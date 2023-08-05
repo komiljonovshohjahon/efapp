@@ -15,3 +15,4 @@ export 'default_checkbox.dart';
 export 'default_card.dart';
 export 'default_quill.dart';
 export 'default_html_editor.dart';
+export 'default_firebase_image_provider.dart';

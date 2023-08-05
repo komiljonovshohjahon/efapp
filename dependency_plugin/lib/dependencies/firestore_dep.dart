@@ -307,9 +307,14 @@ class FirestoreDep {
   }
 
   //GET Blogs
-  Future<Either<List<BlogMd>, String>> getBlogs() async {
+  Future<Either<List<BlogMd>, String>> getBlogs(
+      {required String substr_date}) async {
+    print("substr_date: $substr_date");
     try {
-      final res = await _fire.collection(blogsCn).get();
+      final res = await _fire
+          .collection(blogsCn)
+          .where("substr_date", isEqualTo: substr_date)
+          .get();
       final list = res.docs.map((e) => BlogMd.fromMap(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -364,6 +369,23 @@ class FirestoreDep {
           .doc(docs.docs.first.id)
           .update(model.toMap()));
     }
+  }
+
+  //DELETE Blog
+  Future<Either<String, void>> deleteBlog(String id) async {
+    Logger.d('deleteBlog: $id');
+    final docs =
+        await _fire.collection(blogsCn).where("id", isEqualTo: id).get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    try {
+      //delete recursively
+      await DependencyManager.instance.fireStorage
+          .deleteFolder("${FirestoreDep.blogsCn}/$id");
+    } catch (e) {
+      Logger.e(e.toString());
+    }
+    return firestoreHandler(
+        _fire.collection(blogsCn).doc(docs.docs.first.id).delete());
   }
 }
 

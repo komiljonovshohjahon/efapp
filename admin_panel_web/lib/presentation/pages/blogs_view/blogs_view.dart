@@ -7,7 +7,7 @@ import 'package:admin_panel_web/utils/global_extensions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:html_editor_enhanced/html_editor.dart';
+import 'package:flutter_html/flutter_html.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class BLogsView extends StatefulWidget {
@@ -19,9 +19,13 @@ class BLogsView extends StatefulWidget {
 
 class _BLogsViewState extends State<BLogsView>
     with TableFocusNodeMixin<BLogsView, BlogMd> {
+  ValueNotifier<DateTime> selectedDate = ValueNotifier(DateTime.now());
+
   @override
   Future<List<BlogMd>?> fetch() async {
-    final res = await DependencyManager.instance.firestore.getBlogs();
+    final res = await DependencyManager.instance.firestore.getBlogs(
+      substr_date: DateFormat("MMM yyyy").format(selectedDate.value),
+    );
     if (res.isLeft) {
       return res.left;
     } else if (res.isRight) {
@@ -46,6 +50,9 @@ class _BLogsViewState extends State<BLogsView>
           title: "Description",
           field: "description",
           type: PlutoColumnType.text(),
+          renderer: (rendererContext) {
+            return Html(data: rendererContext.cell.value);
+          },
         ),
         //date
         PlutoColumn(
@@ -62,14 +69,11 @@ class _BLogsViewState extends State<BLogsView>
           width: 40,
           renderer: (rendererContext) {
             return rendererContext.actionMenuWidget(
-              onEdit: () => onEdit(
-                  (p0) => NewBlogView(model: p0), rendererContext.cell.value),
-              onDelete: () {
-                // onDelete(() async {
-                //   return await deleteSelected(rendererContext.row);
-                // }, showError: false);
-              },
-            );
+                onEdit: () => onEdit(
+                    (p0) => NewBlogView(model: p0), rendererContext.cell.value),
+                onDelete: () => onDelete(
+                    () async => await deleteSelected(rendererContext.row),
+                    showError: false));
           },
         ),
       ];
@@ -90,24 +94,68 @@ class _BLogsViewState extends State<BLogsView>
         headerEnd: SpacedRow(
           horizontalSpace: 10,
           children: [
+            ValueListenableBuilder(
+              valueListenable: selectedDate,
+              builder: (context, value, child) => ElevatedButton(
+                  onPressed: () {
+                    showCustomMonthPicker(
+                      context,
+                      initialTime: value,
+                    ).then((v) {
+                      if (v != null) {
+                        setState(() {
+                          selectedDate.value = v;
+                        });
+                      }
+                    });
+                  },
+                  child: Text(
+                      "Select Month : ${DateFormat("MMM yyyy").format(selectedDate.value)}")),
+            ),
             //button to add new, delete selected
             ElevatedButton(
                 style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white, backgroundColor: Colors.red),
-                onPressed: () {
-                  // onDelete(() async {
-                  // return await deleteSelected(null);
-                  // }, showError: false);
-                },
+                onPressed: () => onDelete(
+                    () async => await deleteSelected(null),
+                    showError: false),
                 child: const Text("Delete Selected")),
             ElevatedButton(
                 onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
                 child: const Text("Add New")),
           ],
         ),
-        onLoaded: onLoaded,
+        onLoaded: (p0) {
+          onLoaded(p0);
+          selectedDate.addListener(() {
+            onLoaded(p0);
+          });
+        },
         columns: columns,
         rows: rows,
         focusNode: focusNode);
+  }
+
+  Future<bool> deleteSelected(PlutoRow? singleRow) async {
+    final selected = [...stateManager!.checkedRows];
+    if (singleRow != null) {
+      selected.clear();
+      selected.add(singleRow);
+    }
+    if (selected.isEmpty) {
+      return false;
+    }
+    final List<String> delFailed = [];
+    for (final row in selected) {
+      final id = row.cells['action']!.value.id;
+      final res = await dependencyManager.firestore.deleteBlog(id);
+      if (res.isLeft) {
+        delFailed.add(row.cells['title']!.value);
+      }
+    }
+    if (delFailed.isNotEmpty) {
+      context.showError("Failed to delete ${delFailed.join(", ")}");
+    }
+    return delFailed.isEmpty;
   }
 }

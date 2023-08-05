@@ -138,6 +138,5 @@ class _BooksViewState extends State<BooksView>
       context.showError("Failed to delete ${delFailed.join(", ")}");
     }
     return delFailed.isEmpty;
-    return false;
   }
 }

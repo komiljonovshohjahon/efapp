@@ -10,9 +10,6 @@ dependencies:
   flutter:
     sdk: flutter
 
-  #Core
-  intl: ^0.18.1
-
   #UI
   google_fonts: ^5.0.0
   dropdown_button2: ^2.1.4

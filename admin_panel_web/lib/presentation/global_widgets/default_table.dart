@@ -26,7 +26,7 @@ class DefaultTable extends StatelessWidget {
       this.onChanged,
       this.mode = PlutoGridMode.selectWithOneTap,
       this.headerEnd,
-      this.hasFooter = true,
+      this.hasFooter = false,
       this.hasHeader = true,
       this.focusNode});
 
