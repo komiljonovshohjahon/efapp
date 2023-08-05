@@ -60,6 +60,16 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+            GoRoute(
+              path: adminDestinations['blogs']!['route']!,
+              name: adminDestinations['blogs']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const BLogsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(

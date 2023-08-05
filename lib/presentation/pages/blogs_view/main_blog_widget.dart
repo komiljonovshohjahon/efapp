@@ -32,21 +32,22 @@ class MainBlogWidget extends StatelessWidget {
                   )
                 ])),
         SizedBox(height: 16.h),
-        Hero(
-          tag: blog.id,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8.r),
-              image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: DefaultCachedFirebaseImageProvider(blog.imagePath)),
-            ),
-            child: SizedBox(
-              width: double.infinity,
-              height: 180.h,
+        if (blog.imagePath.isNotEmpty)
+          Hero(
+            tag: blog.id,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8.r),
+                image: DecorationImage(
+                    fit: BoxFit.cover,
+                    image: DefaultCachedFirebaseImageProvider(blog.imagePath)),
+              ),
+              child: SizedBox(
+                width: double.infinity,
+                height: 180.h,
+              ),
             ),
           ),
-        ),
         Row(
           children: [
             Text(DateTime.tryParse(blog.createdAt)?.toDateWithSlash ?? "N/A",

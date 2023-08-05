@@ -212,9 +212,7 @@ class LoveOfferingView extends StatelessWidget {
                         onPressed: () {
                           Clipboard.setData(
                                   const ClipboardData(text: Urls.alansEmail))
-                              .then((value) {
-                            BotToast.showText(text: 'Copied to clipboard');
-                          });
+                              .then((value) {});
                         },
                       ),
                     ),
@@ -229,9 +227,7 @@ class LoveOfferingView extends StatelessWidget {
                           onPressed: () {
                             Clipboard.setData(
                                     const ClipboardData(text: Urls.evansEmail))
-                                .then((value) {
-                              BotToast.showText(text: 'Copied to clipboard');
-                            });
+                                .then((value) {});
                           },
                           style: TextButton.styleFrom(
                             alignment: Alignment.centerLeft,
@@ -250,9 +246,7 @@ class LoveOfferingView extends StatelessWidget {
                           onPressed: () {
                             Clipboard.setData(const ClipboardData(
                                     text: Urls.evansPaytmNumber))
-                                .then((value) {
-                              BotToast.showText(text: 'Copied to clipboard');
-                            });
+                                .then((value) {});
                           },
                           style: TextButton.styleFrom(
                             alignment: Alignment.centerLeft,

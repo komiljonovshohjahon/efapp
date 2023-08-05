@@ -44,7 +44,7 @@ class _NewBooksListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 200.h,
+      height: 230.h,
       child: StreamBuilder<QuerySnapshot<BookMd>>(
         stream: DependencyManager.instance.firestore.booksQuery
             .limit(5)
@@ -116,7 +116,7 @@ class _BookWidget extends StatelessWidget {
                     )
                   : CachedNetworkImage(
                       imageUrl: model.imageUrl,
-                      fit: BoxFit.fitHeight,
+                      fit: BoxFit.cover,
                       placeholder: (context, url) => const Center(
                         child: CircularProgressIndicator(),
                       ),

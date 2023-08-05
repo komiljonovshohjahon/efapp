@@ -118,26 +118,26 @@ class _BooksViewState extends State<BooksView>
   }
 
   Future<bool> deleteSelected(PlutoRow? singleRow) async {
-    // final selected = [...stateManager!.checkedRows];
-    // if (singleRow != null) {
-    //   selected.clear();
-    //   selected.add(singleRow);
-    // }
-    // if (selected.isEmpty) {
-    //   return false;
-    // }
-    // final List<String> delFailed = [];
-    // for (final row in selected) {
-    //   final id = row.cells['action']!.value.id;
-    //   final res = await dependencyManager.firestore.deleteDailyDevotion(id);
-    //   if (res.isLeft) {
-    //     delFailed.add(row.cells['title']!.value);
-    //   }
-    // }
-    // if (delFailed.isNotEmpty) {
-    //   context.showError("Failed to delete ${delFailed.join(", ")}");
-    // }
-    // return delFailed.isEmpty;
+    final selected = [...stateManager!.checkedRows];
+    if (singleRow != null) {
+      selected.clear();
+      selected.add(singleRow);
+    }
+    if (selected.isEmpty) {
+      return false;
+    }
+    final List<String> delFailed = [];
+    for (final row in selected) {
+      final id = row.cells['action']!.value.id;
+      final res = await dependencyManager.firestore.deleteBook(id);
+      if (res.isLeft) {
+        delFailed.add(row.cells['title']!.value);
+      }
+    }
+    if (delFailed.isNotEmpty) {
+      context.showError("Failed to delete ${delFailed.join(", ")}");
+    }
+    return delFailed.isEmpty;
     return false;
   }
 }

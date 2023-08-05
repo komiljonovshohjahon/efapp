@@ -27,22 +27,27 @@ class BlogMd {
     required this.substr_date,
   });
 
+  String getSubstrDate(DateTime d) {
+    try {
+      return DateFormat("MMM yyyy").format(d);
+    } catch (e) {
+      return '';
+    }
+  }
+
   //copyWith
   BlogMd copyWith({
-    String? id,
-    String? createdAt,
     String? title,
     String? description,
     String? imagePath,
-    String? substr_date,
   }) {
     return BlogMd(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
+      id: id,
+      createdAt: createdAt,
+      substr_date: substr_date,
       title: title ?? this.title,
       description: description ?? this.description,
       imagePath: imagePath ?? this.imagePath,
-      substr_date: substr_date ?? this.substr_date,
     );
   }
 
@@ -53,7 +58,7 @@ class BlogMd {
       createdAt: map['created_at'] as String,
       title: map['title'] as String,
       description: map['description'] as String,
-      imagePath: map['image'] as String,
+      imagePath: map['image'] ?? '',
       substr_date: map['substr_date'] ?? '',
     );
   }
@@ -62,23 +67,23 @@ class BlogMd {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'createdAt': createdAt,
+      'created_at': createdAt,
       'title': title,
       'description': description,
-      'imagePath': imagePath,
+      'image': imagePath,
       'substr_date': substr_date,
     };
   }
 
   //init
   static BlogMd init() {
-    return const BlogMd(
-      id: '',
-      createdAt: '',
+    return BlogMd(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      createdAt: DateTime.now().toIso8601String(),
       title: '',
       description: '',
       imagePath: '',
-      substr_date: '',
+      substr_date: DateFormat("MMM yyyy").format(DateTime.now()),
     );
   }
 }

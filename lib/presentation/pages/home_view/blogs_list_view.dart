@@ -46,7 +46,7 @@ class _NewBlogsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 138.h,
+      height: 150.h,
       child: StreamBuilder<QuerySnapshot<BlogMd>>(
         stream: DependencyManager.instance.firestore.blogsQuery
             .limit(5)
@@ -101,7 +101,7 @@ class _BlogWidget extends StatelessWidget {
     return ClipRRect(
         borderRadius: BorderRadius.circular(8.r),
         child: SizedBox(
-          width: 91.w,
+          width: 100.w,
           child: GestureDetector(
             onTap: () {
               context.push(
@@ -112,48 +112,44 @@ class _BlogWidget extends StatelessWidget {
               tag: model.id,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  image: DecorationImage(
-                    image: DefaultCachedFirebaseImageProvider(model.imagePath),
-                    fit: BoxFit.fitHeight,
-                  ),
                   color: context.colorScheme.primary,
                 ),
-                // child: model.imagePath.isEmpty
-                //     ? Center(
-                //         child: Text(model.title,
-                //             maxLines: 4,
-                //             overflow: TextOverflow.ellipsis,
-                //             textAlign: TextAlign.center,
-                //             style: Theme.of(context)
-                //                 .textTheme
-                //                 .headlineSmall!
-                //                 .copyWith(
-                //                     color: Colors.white, fontSize: 14.sp)),
-                //       )
-                //     : Image(
-                //         errorBuilder: (context, error, stackTrace) {
-                //           return Center(
-                //             child: Text(model.title,
-                //                 maxLines: 4,
-                //                 overflow: TextOverflow.ellipsis,
-                //                 textAlign: TextAlign.center,
-                //                 style: Theme.of(context)
-                //                     .textTheme
-                //                     .headlineSmall!
-                //                     .copyWith(
-                //                         color: Colors.white, fontSize: 14.sp)),
-                //           );
-                //         },
-                //         loadingBuilder: (context, child, loadingProgress) {
-                //           if (loadingProgress == null) return child;
-                //           return const Center(
-                //             child: CircularProgressIndicator(),
-                //           );
-                //         },
-                //         fit: BoxFit.fitHeight,
-                //         image:
-                //             DefaultCachedFirebaseImageProvider(model.imagePath),
-                //       ),
+                child: model.imagePath.isEmpty
+                    ? Center(
+                        child: Text(model.title,
+                            maxLines: 4,
+                            overflow: TextOverflow.ellipsis,
+                            textAlign: TextAlign.center,
+                            style: Theme.of(context)
+                                .textTheme
+                                .headlineSmall!
+                                .copyWith(
+                                    color: Colors.white, fontSize: 14.sp)),
+                      )
+                    : Image(
+                        errorBuilder: (context, error, stackTrace) {
+                          return Center(
+                            child: Text(model.title,
+                                maxLines: 4,
+                                overflow: TextOverflow.ellipsis,
+                                textAlign: TextAlign.center,
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .headlineSmall!
+                                    .copyWith(
+                                        color: Colors.white, fontSize: 14.sp)),
+                          );
+                        },
+                        loadingBuilder: (context, child, loadingProgress) {
+                          if (loadingProgress == null) return child;
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        },
+                        fit: BoxFit.cover,
+                        image:
+                            DefaultCachedFirebaseImageProvider(model.imagePath),
+                      ),
               ),
             ),
           ),

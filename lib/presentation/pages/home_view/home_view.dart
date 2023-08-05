@@ -24,9 +24,9 @@ class _HomeViewState extends State<HomeView> {
           padding: EdgeInsets.symmetric(vertical: 16.h),
           sliver: const SliverAppBar(
             titleSpacing: 0,
-            title: DefaultSearchBar(),
+            title: Text("Evans Francis"),
             centerTitle: true,
-            pinned: true,
+            floating: true,
           ),
         ),
         SliverList(

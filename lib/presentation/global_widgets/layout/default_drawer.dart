@@ -13,13 +13,13 @@ final List<Map<String, dynamic>> drawerDestinations = [
   },
   //blogs
   {
-    "title": "All Blogs",
+    "title": "Blogs",
     "icon": Icons.article,
     "route": "${MCANavigation.home}${MCANavigation.blogs}",
   },
   //books
   {
-    "title": "All Books",
+    "title": "Books",
     "icon": Icons.book,
     "route": "/books",
   },
@@ -31,7 +31,7 @@ final List<Map<String, dynamic>> drawerDestinations = [
   },
   //videos
   {
-    "title": "All Videos",
+    "title": "Videos",
     "icon": Icons.video_library,
     "route": "${MCANavigation.home}${MCANavigation.yt}",
   },

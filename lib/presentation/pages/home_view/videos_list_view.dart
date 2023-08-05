@@ -47,7 +47,7 @@ class _NewVideosListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 90.h,
+      height: 75.h,
       child: StreamBuilder<QuerySnapshot<YtVideoMd>>(
         stream: DependencyManager.instance.firestore.ytVideosQuery
             .limit(5)
@@ -126,7 +126,7 @@ class _VideoWidget extends StatelessWidget {
                         alignment: Alignment.center,
                         image: NetworkImage(
                             YoutubeThumbnail(youtubeId: model.videoId).hq()),
-                        fit: BoxFit.fill,
+                        fit: BoxFit.cover,
                       ),
                     ),
                     Center(

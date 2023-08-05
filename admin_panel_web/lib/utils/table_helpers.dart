@@ -112,8 +112,6 @@ extension WidgetHelper on PlutoColumnRendererContext {
 mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
   final DependencyManager dependencyManager = DependencyManager.instance;
 
-  bool enableLoading = true;
-
   late final FocusNode focusNode;
 
   PlutoGridStateManager? stateManager;
@@ -169,12 +167,12 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
   }
 
   Future<A> loading<A>(Future<A> Function() callback) async {
-    if (GlobalConstants.enableLoadingIndicator && enableLoading) {
+    if (GlobalConstants.enableLoadingIndicator) {
       stateManager!.setShowLoading(true, level: PlutoGridLoadingLevel.rows);
     }
     final res = await callback();
 
-    if (GlobalConstants.enableLoadingIndicator && enableLoading) {
+    if (GlobalConstants.enableLoadingIndicator) {
       stateManager!.setShowLoading(false);
     }
     return res;

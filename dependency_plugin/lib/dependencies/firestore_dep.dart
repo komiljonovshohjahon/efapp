@@ -79,7 +79,8 @@ class FirestoreDep {
 
   User? get currentUser => FirebaseAuth.instance.currentUser;
 
-  static const String messagingTopic = "send-scheduled-notifications";
+  static const String messagingTopic =
+      "send-scheduled-notifications-evans-francis";
 
   Map<String, String> _makePayload(
       {required String route,
@@ -100,7 +101,8 @@ class FirestoreDep {
 
   Future<Either<bool, String>> sendNotification(
       Map<String, String> payload) async {
-    throw UnimplementedError();
+    // throw UnimplementedError();
+    return const Right("Not implemented");
     try {
       final headers = <String, String>{
         'Content-Type': 'application/json',
@@ -245,6 +247,23 @@ class FirestoreDep {
     }
   }
 
+  //DELETE BOOK
+  Future<Either<String, void>> deleteBook(String id) async {
+    Logger.d('deleteBook: $id');
+    final docs =
+        await _fire.collection(booksCn).where("id", isEqualTo: id).get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    try {
+      //delete recursively
+      await DependencyManager.instance.fireStorage
+          .deleteFolder("${FirestoreDep.booksCn}/$id");
+    } catch (e) {
+      Logger.e(e.toString());
+    }
+    return firestoreHandler(
+        _fire.collection(booksCn).doc(docs.docs.first.id).delete());
+  }
+
   //CREATE OR UPDATE Pillar
   Future<Either<String, void>> createOrUpdatePillarForm(
       {required PillarMdForm model, required bool isCloud}) async {
@@ -284,6 +303,66 @@ class FirestoreDep {
       return Left(list);
     } catch (e) {
       return Right(e.toString());
+    }
+  }
+
+  //GET Blogs
+  Future<Either<List<BlogMd>, String>> getBlogs() async {
+    try {
+      final res = await _fire.collection(blogsCn).get();
+      final list = res.docs.map((e) => BlogMd.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  //CREATE OR UPDATE Blog
+  Future<Either<String, void>> createOrUpdateBlog(
+      {required BlogMd model,
+      required List<Uint8List?> images,
+      bool sendNotification = false}) async {
+    final docs =
+        await _fire.collection(blogsCn).where("id", isEqualTo: model.id).get();
+
+    payload(String id) {
+      return _makePayload(
+          route: blogsCn, collection: blogsCn, documentId: id, title: "Blog");
+    }
+
+    //upload image
+    if (images.isNotEmpty) {
+      for (int i = 0; i < images.length; i++) {
+        if (images[i] == null) continue;
+        try {
+          final imageData = images[i];
+          final imgPath = "$blogsCn/${model.id}/$i";
+          final res = await DependencyManager.instance.fireStorage
+              .uploadImage(data: imageData!, path: imgPath);
+          model = model.copyWith(imagePath: imgPath);
+          if (res.isLeft) {
+            //error
+            Logger.e("Error uploading image: ${res.left}");
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(_fire.collection(blogsCn).add(model.toMap()))
+          .then((value) {
+        if (sendNotification) {
+          this.sendNotification(payload(value.right.id));
+        }
+        return value;
+      });
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(blogsCn)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
     }
   }
 }

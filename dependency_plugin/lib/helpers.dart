@@ -141,10 +141,10 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Books",
     'icon': Icons.book_outlined,
   },
-  "books1": {
-    'route': "/books",
-    'title': "Books1",
-    'icon': Icons.book_outlined,
+  "blogs": {
+    'route': "/blogs",
+    'title': "Blogs",
+    'icon': Icons.newspaper_outlined,
   },
 };
 

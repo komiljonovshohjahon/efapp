@@ -14,3 +14,4 @@ export 'default_switch.dart';
 export 'default_checkbox.dart';
 export 'default_card.dart';
 export 'default_quill.dart';
+export 'default_html_editor.dart';
