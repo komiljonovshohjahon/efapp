@@ -56,6 +56,7 @@ class _BLogsViewState extends State<BLogsView>
         PlutoColumn(
           title: "Date",
           field: "date",
+          enableFilterMenuItem: false,
           type: PlutoColumnType.date(format: "yyyy-MM-dd"),
           width: 50,
         ),
@@ -63,6 +64,7 @@ class _BLogsViewState extends State<BLogsView>
         PlutoColumn(
           title: "Action",
           field: "action",
+          enableFilterMenuItem: false,
           type: PlutoColumnType.text(),
           width: 40,
           renderer: (rendererContext) {

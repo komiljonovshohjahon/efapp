@@ -326,7 +326,7 @@ class FirestoreDep {
   Future<Either<String, void>> createOrUpdateBlog(
       {required BlogMd model,
       required List<Uint8List?> images,
-      bool sendNotification = false}) async {
+      bool sendNotification = true}) async {
     final docs =
         await _fire.collection(blogsCn).where("id", isEqualTo: model.id).get();
 
@@ -390,7 +390,7 @@ class FirestoreDep {
 
   //GET YOUTUBE VIDEOS
   Future<Either<List<YtVideoMd>, String>> getYtVideos(
-      {required String substr_date}) async {
+      {String? substr_date}) async {
     print("substr_date: $substr_date");
     try {
       final res = await _fire
@@ -402,6 +402,57 @@ class FirestoreDep {
     } catch (e) {
       return Right(e.toString());
     }
+  }
+
+  //CREATE OR UPDATE YtVideo
+  Future<Either<String, void>> createOrUpdateVideo(
+      {required YtVideoMd model, bool sendNotification = true}) async {
+    final docs = await _fire
+        .collection(ytVideosCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    payload(String id) {
+      return _makePayload(
+          route: ytVideosCn,
+          collection: ytVideosCn,
+          documentId: id,
+          title: "Blog");
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(_fire.collection(ytVideosCn).add(model.toMap()))
+          .then((value) {
+        if (sendNotification) {
+          this.sendNotification(payload(value.right.id));
+        }
+        return value;
+      });
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(ytVideosCn)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
+    }
+  }
+
+  //DELETE Blog
+  Future<Either<String, void>> deleteVideo(String id) async {
+    Logger.d('deleteVideo: $id');
+    final docs =
+        await _fire.collection(ytVideosCn).where("id", isEqualTo: id).get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    try {
+      //delete recursively
+      await DependencyManager.instance.fireStorage
+          .deleteFolder("${FirestoreDep.ytVideosCn}/$id");
+    } catch (e) {
+      Logger.e(e.toString());
+    }
+    return firestoreHandler(
+        _fire.collection(ytVideosCn).doc(docs.docs.first.id).delete());
   }
 }
 

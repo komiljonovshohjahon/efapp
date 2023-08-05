@@ -1,12 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'dart:html';
-
 import 'package:admin_panel_web/presentation/global_widgets/default_table.dart';
 import 'package:admin_panel_web/presentation/global_widgets/widgets.dart';
 import 'package:admin_panel_web/presentation/pages/blogs_view/new_blog_view.dart';
-import 'package:admin_panel_web/presentation/pages/yt_view/new_yt_view.dart';
-import 'package:admin_panel_web/presentation/pages/yt_view/new_yt_view.dart';
 import 'package:admin_panel_web/utils/global_extensions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
@@ -14,20 +10,19 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class YtView extends StatefulWidget {
-  const YtView({Key? key}) : super(key: key);
+class PillarOfFireBlogs extends StatefulWidget {
+  const PillarOfFireBlogs({Key? key}) : super(key: key);
 
   @override
-  State<YtView> createState() => _YtViewState();
+  State<PillarOfFireBlogs> createState() => _PillarOfFireBlogsState();
 }
 
-class _YtViewState extends State<YtView>
-    with TableFocusNodeMixin<YtView, YtVideoMd> {
+class _PillarOfFireBlogsState extends State<PillarOfFireBlogs>
+    with TableFocusNodeMixin<PillarOfFireBlogs, BlogMd> {
   @override
-  Future<List<YtVideoMd>?> fetch() async {
-    final res = await DependencyManager.instance.firestore.getYtVideos(
-      substr_date: DateFormat("MMM yyyy").format(selectedDate.value),
-    );
+  Future<List<BlogMd>?> fetch() async {
+    final res = await DependencyManager.instance.firestore.getBlogs(
+        substr_date: DateFormat("MMM yyyy").format(selectedDate.value));
     if (res.isLeft) {
       return res.left;
     } else if (res.isRight) {
@@ -45,20 +40,15 @@ class _YtViewState extends State<YtView>
           field: "title",
           type: PlutoColumnType.text(),
           enableRowChecked: true,
+          width: 100,
         ),
         //description
         PlutoColumn(
-          title: "Video URL",
-          field: "url",
-          width: 80,
+          title: "Description",
+          field: "description",
           type: PlutoColumnType.text(),
-          enableFilterMenuItem: false,
           renderer: (rendererContext) {
-            return TextButton(
-                onPressed: () {
-                  window.open(rendererContext.cell.value, 'new tab');
-                },
-                child: const Text("Watch"));
+            return Html(data: rendererContext.cell.value);
           },
         ),
         //date
@@ -66,20 +56,18 @@ class _YtViewState extends State<YtView>
           title: "Date",
           field: "date",
           type: PlutoColumnType.date(format: "yyyy-MM-dd"),
-          enableFilterMenuItem: false,
           width: 50,
         ),
         //action
         PlutoColumn(
           title: "Action",
           field: "action",
-          enableFilterMenuItem: false,
           type: PlutoColumnType.text(),
           width: 40,
           renderer: (rendererContext) {
             return rendererContext.actionMenuWidget(
                 onEdit: () => onEdit(
-                    (p0) => NewYtView(model: p0), rendererContext.cell.value),
+                    (p0) => NewBlogView(model: p0), rendererContext.cell.value),
                 onDelete: () => onDelete(
                     () async => await deleteSelected(rendererContext.row),
                     showError: false));
@@ -88,10 +76,10 @@ class _YtViewState extends State<YtView>
       ];
 
   @override
-  PlutoRow buildRow(YtVideoMd model) {
+  PlutoRow buildRow(BlogMd model) {
     return PlutoRow(cells: {
       "title": PlutoCell(value: model.title),
-      "url": PlutoCell(value: model.url),
+      "description": PlutoCell(value: model.description),
       "date": PlutoCell(value: model.createdAt),
       "action": PlutoCell(value: model),
     });
@@ -112,7 +100,7 @@ class _YtViewState extends State<YtView>
                   showError: false),
               child: const Text("Delete Selected")),
           ElevatedButton(
-              onPressed: () => onEdit((p0) => NewYtView(model: p0), null),
+              onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
               child: const Text("Add New")),
         ],
       ),
@@ -134,7 +122,7 @@ class _YtViewState extends State<YtView>
     final List<String> delFailed = [];
     for (final row in selected) {
       final id = row.cells['action']!.value.id;
-      final res = await dependencyManager.firestore.deleteVideo(id);
+      final res = await dependencyManager.firestore.deleteBlog(id);
       if (res.isLeft) {
         delFailed.add(row.cells['title']!.value);
       }

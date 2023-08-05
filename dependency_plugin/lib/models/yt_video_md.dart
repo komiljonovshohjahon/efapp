@@ -42,18 +42,15 @@ class YtVideoMd {
 
   //copyWith
   YtVideoMd copyWith({
-    String? id,
-    String? createdAt,
     String? title,
     String? videoId,
-    String? substr_date,
   }) {
     return YtVideoMd(
-      id: id ?? this.id,
-      createdAt: createdAt ?? this.createdAt,
+      id: id,
+      createdAt: createdAt,
       title: title ?? this.title,
       videoId: videoId ?? this.videoId,
-      substr_date: substr_date ?? this.substr_date,
+      substr_date: substr_date,
     );
   }
 
@@ -81,12 +78,12 @@ class YtVideoMd {
 
   //init
   static YtVideoMd init() {
-    return const YtVideoMd(
-      id: '',
-      createdAt: '',
+    return YtVideoMd(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      createdAt: DateTime.now().toIso8601String(),
       title: '',
       videoId: '',
-      substr_date: '',
+      substr_date: DateFormat("MMM yyyy").format(DateTime.now()),
     );
   }
 }

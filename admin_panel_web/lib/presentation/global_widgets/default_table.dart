@@ -16,12 +16,14 @@ class DefaultTable extends StatelessWidget {
   final PlutoGridMode mode;
   final void Function(PlutoGridOnChangedEvent)? onChanged;
   final Color Function(PlutoRowColorContext)? rowColorCallback;
+  final Widget Function(PlutoGridStateManager)? createFooter;
   const DefaultTable(
       {super.key,
       required this.onLoaded,
       required this.columns,
       required this.rows,
       this.onSelected,
+      this.createFooter,
       this.rowColorCallback,
       this.onChanged,
       this.mode = PlutoGridMode.selectWithOneTap,
@@ -51,14 +53,15 @@ class DefaultTable extends StatelessWidget {
               return DefaultTablePaginationFooter(stateManager: stateManager);
             }
           : null,
-      createHeader: hasHeader
-          ? (stateManager) {
-              return DefaultTableHeader(
-                  stateManager: stateManager,
-                  focusNode: focusNode,
-                  headerEnd: headerEnd);
-            }
-          : null,
+      createHeader: createFooter ??
+          (hasHeader
+              ? (stateManager) {
+                  return DefaultTableHeader(
+                      stateManager: stateManager,
+                      focusNode: focusNode,
+                      headerEnd: headerEnd);
+                }
+              : null),
       rowColorCallback: rowColorCallback,
       configuration: PlutoGridConfiguration(
         style: PlutoGridStyleConfig(

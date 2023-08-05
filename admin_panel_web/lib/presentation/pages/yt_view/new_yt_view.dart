@@ -39,22 +39,24 @@ class _NewYtViewState extends State<NewYtView> {
 
   void _submit() {
     if (!formKey.currentState!.validate()) return;
+    if (!isYouTubeLink(_urlController.text)) {
+      context.showError("Please enter a valid YouTube link");
+      return;
+    }
     context.futureLoading(() async {
-      // final res = await DependencyManager.instance.firestore.createOrUpdateBlog(
-      //   model: model.copyWith(
-      //     title: _titleController.text,
-      //     description: await _descriptionController.getText(),
-      //   ),
-      //   images: [_image?.bytes],
-      //   sendNotification: true,
-      // );
-      // if (res.isRight) {
-      //   context.pop(true);
-      // } else if (res.isLeft) {
-      //   context.showError(res.left);
-      // } else {
-      //   context.showError("Something went wrong");
-      // }
+      final res =
+          await DependencyManager.instance.firestore.createOrUpdateVideo(
+              model: model.copyWith(
+        title: _titleController.text,
+        videoId: _urlController.text.youtubeLinkToId,
+      ));
+      if (res.isRight) {
+        context.pop(true);
+      } else if (res.isLeft) {
+        context.showError(res.left);
+      } else {
+        context.showError("Something went wrong");
+      }
     });
   }
 

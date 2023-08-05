@@ -44,7 +44,6 @@ class _BooksViewState extends State<BooksView>
                 child: const Text("Add New")),
           ],
         ),
-        focusNode: focusNode,
         onLoaded: onLoaded,
         columns: columns,
         rows: rows);
@@ -61,11 +60,13 @@ class _BooksViewState extends State<BooksView>
             title: "Date",
             field: "date",
             width: 100,
+            enableFilterMenuItem: false,
             type: PlutoColumnType.date()),
         PlutoColumn(
           title: "URL",
           field: "url",
           width: 80,
+          enableFilterMenuItem: false,
           type: PlutoColumnType.text(),
           renderer: (rendererContext) {
             return TextButton(
@@ -79,6 +80,7 @@ class _BooksViewState extends State<BooksView>
           title: "Action",
           field: "action",
           width: 80,
+          enableFilterMenuItem: false,
           type: PlutoColumnType.text(),
           renderer: (rendererContext) {
             return rendererContext.actionMenuWidget(
