@@ -25,9 +25,7 @@ class _YtViewState extends State<YtView>
     with TableFocusNodeMixin<YtView, YtVideoMd> {
   @override
   Future<List<YtVideoMd>?> fetch() async {
-    final res = await DependencyManager.instance.firestore.getYtVideos(
-      substr_date: DateFormat("MMM yyyy").format(selectedDate.value),
-    );
+    final res = await DependencyManager.instance.firestore.getYtVideos();
     if (res.isLeft) {
       return res.left;
     } else if (res.isRight) {
@@ -103,7 +101,6 @@ class _YtViewState extends State<YtView>
       headerEnd: SpacedRow(
         horizontalSpace: 10,
         children: [
-          monthSelectorWidget,
           //button to add new, delete selected
           ElevatedButton(
               style: ElevatedButton.styleFrom(

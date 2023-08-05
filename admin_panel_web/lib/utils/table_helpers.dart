@@ -112,7 +112,6 @@ extension WidgetHelper on PlutoColumnRendererContext {
 
 mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
   final DependencyManager dependencyManager = DependencyManager.instance;
-  ValueNotifier<DateTime> selectedDate = ValueNotifier(DateTime.now());
 
   late final FocusNode focusNode;
 
@@ -130,13 +129,13 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
 
   @override
   void initState() {
-    // focusNode = FocusNode(onKey: (node, event) {
-    //   if (event is RawKeyUpEvent) {
-    //     return KeyEventResult.handled;
-    //   }
-    //
-    //   return stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
-    // });
+    focusNode = FocusNode(onKey: (node, event) {
+      if (event is RawKeyUpEvent) {
+        return KeyEventResult.handled;
+      }
+
+      return stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
+    });
     super.initState();
   }
 
@@ -145,25 +144,6 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
     stateManager?.gridFocusNode.removeListener(handleFocus);
     super.dispose();
   }
-
-  late final monthSelectorWidget = ValueListenableBuilder(
-    valueListenable: selectedDate,
-    builder: (context, value, child) => ElevatedButton(
-        onPressed: () {
-          showCustomMonthPicker(
-            context,
-            initialTime: value,
-          ).then((v) {
-            if (v != null) {
-              setState(() {
-                selectedDate.value = v;
-              });
-            }
-          });
-        },
-        child: Text(
-            "Select Month : ${DateFormat("MMM yyyy").format(selectedDate.value)}")),
-  );
 
   PlutoGridStateManager setRows(PlutoGridStateManager sm, List<PlutoRow> rs) {
     sm.removeAllRows();
@@ -205,18 +185,12 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
 
   void onLoaded(PlutoGridOnLoadedEvent event) async {
     stateManager = event.stateManager;
-    stateManager = event.stateManager;
-    stateManager!.setPageSize(50);
-    // stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
+    stateManager!.keyManager!.eventResult.skip(KeyEventResult.ignored);
     final list = await loading<List<MD>?>(() async => await fetch());
-    // stateManager!.gridFocusNode.addListener(handleFocus);
+    stateManager!.gridFocusNode.addListener(handleFocus);
     if (list != null) {
       setRows(stateManager!, list.map((e) => buildRow(e)).toList());
     }
-    stateManager!.setShowColumnFilter(true);
-    selectedDate.addListener(() {
-      onLoaded(event);
-    });
   }
 
   Future<List<MD>?> fetch() {

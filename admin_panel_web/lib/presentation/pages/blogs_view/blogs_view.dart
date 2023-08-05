@@ -21,9 +21,7 @@ class _BLogsViewState extends State<BLogsView>
     with TableFocusNodeMixin<BLogsView, BlogMd> {
   @override
   Future<List<BlogMd>?> fetch() async {
-    final res = await DependencyManager.instance.firestore.getBlogs(
-      substr_date: DateFormat("MMM yyyy").format(selectedDate.value),
-    );
+    final res = await DependencyManager.instance.firestore.getBlogs();
     if (res.isLeft) {
       return res.left;
     } else if (res.isRight) {
@@ -94,7 +92,6 @@ class _BLogsViewState extends State<BLogsView>
       headerEnd: SpacedRow(
         horizontalSpace: 10,
         children: [
-          monthSelectorWidget,
           //button to add new, delete selected
           ElevatedButton(
               style: ElevatedButton.styleFrom(

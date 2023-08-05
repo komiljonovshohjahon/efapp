@@ -2,13 +2,10 @@
 
 import 'package:admin_panel_web/presentation/global_widgets/default_table.dart';
 import 'package:admin_panel_web/presentation/global_widgets/widgets.dart';
-import 'package:admin_panel_web/presentation/pages/blogs_view/new_blog_view.dart';
 import 'package:admin_panel_web/utils/global_extensions.dart';
-import 'package:admin_panel_web/utils/global_functions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
 class PillarOfFireFormsView extends StatefulWidget {
@@ -20,17 +17,18 @@ class PillarOfFireFormsView extends StatefulWidget {
 
 class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
     with TableFocusNodeMixin<PillarOfFireFormsView, PillarMdForm> {
+  DocumentSnapshot? startAt;
   @override
   Future<List<PillarMdForm>?> fetch() async {
-    // final res =
-    //     await DependencyManager.instance.firestore.getPillarOfFireForms();
-    // if (res.isLeft) {
-    //   return res.left;
-    // } else if (res.isRight) {
-    //   context.showError(res.right);
-    // } else {
-    //   context.showError('Something went wrong');
-    // }
+    final res =
+        await DependencyManager.instance.firestore.getPillarOfFireForms();
+    if (res.isLeft) {
+      return res.left;
+    } else if (res.isRight) {
+      context.showError(res.right);
+    } else {
+      context.showError('Something went wrong');
+    }
     return null;
   }
 
@@ -73,8 +71,6 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
           width: 40,
           renderer: (rendererContext) {
             return rendererContext.actionMenuWidget(
-                // onEdit: () => onEdit(
-                //     (p0) => NewBlogView(model: p0), rendererContext.cell.value),
                 onDelete: () => onDelete(
                     () async => await deleteSelected(rendererContext.row),
                     showError: false));
@@ -94,83 +90,18 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
     });
   }
 
-  String? lastId;
-
-  Future<PlutoLazyPaginationResponse> lazyFetch(
-    PlutoLazyPaginationRequest request,
-  ) async {
-    final totalItems = await DependencyManager.instance.firestore.fire
-        .collection(FirestoreDep.pillarOfFireForm)
-        .count()
-        .get();
-
-    final success =
-        await DependencyManager.instance.firestore.getPillarOfFireForms(
-      stAt: request.page == 1 ? 1 : request.page * stateManager!.pageSize,
-      edAt: request.page * stateManager!.pageSize,
-    );
-
-    List<PlutoRow> tempList = [];
-    if (success.isLeft) {
-      tempList = success.left.map((e) => buildRow(e)).toList();
-      lastId = success.left.last.id;
-    } else {
-      return PlutoLazyPaginationResponse(rows: [], totalPage: 0);
-    }
-
-    if (request.sortColumn != null && !request.sortColumn!.sort.isNone) {
-      tempList = [...tempList];
-
-      tempList.sort((a, b) {
-        final sortA = request.sortColumn!.sort.isAscending ? a : b;
-        final sortB = request.sortColumn!.sort.isAscending ? b : a;
-
-        return request.sortColumn!.type.compare(
-          sortA.cells[request.sortColumn!.field]!.valueForSorting,
-          sortB.cells[request.sortColumn!.field]!.valueForSorting,
-        );
-      });
-    }
-
-    final totalPage = (totalItems.count) / stateManager!.pageSize;
-
-    return Future.value(PlutoLazyPaginationResponse(
-      totalPage: totalPage.toInt(),
-      rows: tempList.toList(),
-    ));
-  }
-
   @override
   Widget build(BuildContext context) {
     return DefaultTable(
-      headerEnd: SpacedRow(
-        horizontalSpace: 10,
-        children: [
-          ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white, backgroundColor: Colors.red),
-              onPressed: () => onDelete(() async => await deleteSelected(null),
-                  showError: false),
-              child: const Text("Delete Selected")),
-          ElevatedButton(
-              onPressed: null,
-              // onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
-              child: const Text("Add New")),
-        ],
-      ),
+      headerEnd: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.white, backgroundColor: Colors.red),
+          onPressed: () => onDelete(() async => await deleteSelected(null),
+              showError: false),
+          child: const Text("Delete Selected")),
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
-      createFooter: (p0) {
-        return PlutoLazyPagination(
-          stateManager: p0,
-          fetch: lazyFetch,
-          initialPage: 1,
-          initialFetch: true,
-          fetchWithFiltering: true,
-          fetchWithSorting: true,
-        );
-      },
     );
   }
 

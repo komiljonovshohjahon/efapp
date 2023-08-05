@@ -71,7 +71,21 @@ class FirestoreDep {
       toFirestore: (value, options) => value.toMap());
 
   static String pillarOfFireForm = 'fire_form_data';
+  late final pillarOfFireFormQuery =
+      fire.collection(pillarOfFireForm).withConverter(
+          fromFirestore: (snapshot, options) {
+            final data = snapshot.data()!;
+            return PillarMdForm.fromMap(data);
+          },
+          toFirestore: (value, options) => value.toMap());
   static String pillarOfCloudForm = 'cloud_form_data';
+  late final pillarOfCloudFormQuery =
+      fire.collection(pillarOfCloudForm).withConverter(
+          fromFirestore: (snapshot, options) {
+            final data = snapshot.data()!;
+            return PillarMdForm.fromMap(data);
+          },
+          toFirestore: (value, options) => value.toMap());
 
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 
@@ -307,14 +321,9 @@ class FirestoreDep {
   }
 
   //GET Blogs
-  Future<Either<List<BlogMd>, String>> getBlogs(
-      {required String substr_date}) async {
-    print("substr_date: $substr_date");
+  Future<Either<List<BlogMd>, String>> getBlogs() async {
     try {
-      final res = await _fire
-          .collection(blogsCn)
-          .where("substr_date", isEqualTo: substr_date)
-          .get();
+      final res = await _fire.collection(blogsCn).get();
       final list = res.docs.map((e) => BlogMd.fromMap(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -389,14 +398,9 @@ class FirestoreDep {
   }
 
   //GET YOUTUBE VIDEOS
-  Future<Either<List<YtVideoMd>, String>> getYtVideos(
-      {String? substr_date}) async {
-    print("substr_date: $substr_date");
+  Future<Either<List<YtVideoMd>, String>> getYtVideos() async {
     try {
-      final res = await _fire
-          .collection(ytVideosCn)
-          .where("substr_date", isEqualTo: substr_date)
-          .get();
+      final res = await _fire.collection(ytVideosCn).get();
       final list = res.docs.map((e) => YtVideoMd.fromMap(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -456,24 +460,12 @@ class FirestoreDep {
   }
 
   //GET Pillar of fire forms
-  Future<Either<List<PillarMdForm>, String>> getPillarOfFireForms(
-      {int? stAt, int? edAt, String? id}) async {
+  Future<Either<List<PillarMdForm>, String>> getPillarOfFireForms() async {
     try {
-      final foundDocument = await _fire
-          .collection(pillarOfFireForm)
-          .where("id", isEqualTo: id)
-          .get();
-
-      final res = await _fire
-          .collection(pillarOfFireForm)
-          .orderBy("created_at", descending: true)
-          .limit(10)
-          .get();
-
-      print(stAt);
-      print(edAt);
-
-      final list = res.docs.map((e) => PillarMdForm.fromMap(e.data())).toList();
+      final res = await _fire.collection(pillarOfFireForm).get();
+      final list = res.docs
+          .map<PillarMdForm>((e) => PillarMdForm.fromMap(e.data()))
+          .toList();
       return Left(list);
     } catch (e) {
       return Right(e.toString());

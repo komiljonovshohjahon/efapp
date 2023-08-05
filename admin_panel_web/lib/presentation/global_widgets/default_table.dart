@@ -16,19 +16,17 @@ class DefaultTable extends StatelessWidget {
   final PlutoGridMode mode;
   final void Function(PlutoGridOnChangedEvent)? onChanged;
   final Color Function(PlutoRowColorContext)? rowColorCallback;
-  final Widget Function(PlutoGridStateManager)? createFooter;
   const DefaultTable(
       {super.key,
       required this.onLoaded,
       required this.columns,
       required this.rows,
       this.onSelected,
-      this.createFooter,
       this.rowColorCallback,
       this.onChanged,
       this.mode = PlutoGridMode.selectWithOneTap,
       this.headerEnd,
-      this.hasFooter = false,
+      this.hasFooter = true,
       this.hasHeader = true,
       this.focusNode});
 
@@ -48,13 +46,11 @@ class DefaultTable extends StatelessWidget {
         // e.titleTextAlign = PlutoColumnTextAlign.center;
         return e;
       }).toList(),
-      createFooter: createFooter ??
-          (hasFooter
-              ? (stateManager) {
-                  return DefaultTablePaginationFooter(
-                      stateManager: stateManager);
-                }
-              : null),
+      createFooter: (hasFooter
+          ? (stateManager) {
+              return DefaultTablePaginationFooter(stateManager: stateManager);
+            }
+          : null),
       createHeader: (hasHeader
           ? (stateManager) {
               return DefaultTableHeader(
