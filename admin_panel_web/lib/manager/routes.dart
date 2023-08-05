@@ -90,6 +90,16 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+            GoRoute(
+              path: adminDestinations['cloudForms']!['route']!,
+              name: adminDestinations['cloudForms']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const PillarOfCloudFormsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(

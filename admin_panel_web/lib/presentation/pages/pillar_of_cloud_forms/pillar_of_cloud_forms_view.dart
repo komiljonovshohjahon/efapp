@@ -8,20 +8,20 @@ import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
-class PillarOfFireFormsView extends StatefulWidget {
-  const PillarOfFireFormsView({Key? key}) : super(key: key);
+class PillarOfCloudFormsView extends StatefulWidget {
+  const PillarOfCloudFormsView({Key? key}) : super(key: key);
 
   @override
-  State<PillarOfFireFormsView> createState() => _PillarOfFireFormsViewState();
+  State<PillarOfCloudFormsView> createState() => _PillarOfFireCViewState();
 }
 
-class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
-    with TableFocusNodeMixin<PillarOfFireFormsView, PillarMdForm> {
+class _PillarOfFireCViewState extends State<PillarOfCloudFormsView>
+    with TableFocusNodeMixin<PillarOfCloudFormsView, PillarMdForm> {
   DocumentSnapshot? startAt;
   @override
   Future<List<PillarMdForm>?> fetch() async {
     final res =
-        await DependencyManager.instance.firestore.getPillarOfFireForms();
+        await DependencyManager.instance.firestore.getPillarOfCloudForms();
     if (res.isLeft) {
       return res.left;
     } else if (res.isRight) {
@@ -56,11 +56,23 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
           field: "country",
           type: PlutoColumnType.text(),
         ),
-        //amount
+        //email
         PlutoColumn(
-          title: "Amount",
-          field: "amount",
-          type: PlutoColumnType.number(format: "#,###"),
+          title: "Email",
+          field: "email",
+          type: PlutoColumnType.text(),
+        ),
+        //phone
+        PlutoColumn(
+          title: "Phone",
+          field: "phone",
+          type: PlutoColumnType.text(),
+        ),
+        //prayer time
+        PlutoColumn(
+          title: "Prayer Hours",
+          field: "prayer_time",
+          type: PlutoColumnType.number(format: "##"),
         ),
         //action
         PlutoColumn(
@@ -85,7 +97,9 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
       "middle_name": PlutoCell(value: model.middleName),
       "last_name": PlutoCell(value: model.lastName),
       "country": PlutoCell(value: model.country),
-      "amount": PlutoCell(value: model.amount),
+      "email": PlutoCell(value: model.email),
+      "phone": PlutoCell(value: model.phone),
+      "prayer_time": PlutoCell(value: model.prayerHours),
       "action": PlutoCell(value: model),
     });
   }
@@ -117,7 +131,7 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
     final List<String> delFailed = [];
     for (final row in selected) {
       final id = row.cells['action']!.value.id;
-      final res = await dependencyManager.firestore.deletePillarOfFireForm(id);
+      final res = await dependencyManager.firestore.deletePillarOfCloudForm(id);
       if (res.isLeft) {
         delFailed.add(row.cells['first_name']!.value);
       }

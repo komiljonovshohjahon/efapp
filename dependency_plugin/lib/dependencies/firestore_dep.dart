@@ -471,6 +471,43 @@ class FirestoreDep {
       return Right(e.toString());
     }
   }
+
+  //GET Pillar of cloud forms
+  Future<Either<List<PillarMdForm>, String>> getPillarOfCloudForms() async {
+    try {
+      final res = await _fire.collection(pillarOfCloudForm).get();
+      final list = res.docs
+          .map<PillarMdForm>((e) => PillarMdForm.fromMap(e.data()))
+          .toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  //delete pillar of fire form
+  Future<Either<String, void>> deletePillarOfFireForm(String id) async {
+    Logger.d('deletePillarOfFireForm: $id');
+    final docs = await _fire
+        .collection(pillarOfFireForm)
+        .where("id", isEqualTo: id)
+        .get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    return firestoreHandler(
+        _fire.collection(pillarOfFireForm).doc(docs.docs.first.id).delete());
+  }
+
+  //delete pillar of cloud form
+  Future<Either<String, void>> deletePillarOfCloudForm(String id) async {
+    Logger.d('deletePillarOfCloudForm: $id');
+    final docs = await _fire
+        .collection(pillarOfCloudForm)
+        .where("id", isEqualTo: id)
+        .get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    return firestoreHandler(
+        _fire.collection(pillarOfCloudForm).doc(docs.docs.first.id).delete());
+  }
 }
 
 Future<Either<String, T>> firestoreHandler<T>(Future callback) async {
