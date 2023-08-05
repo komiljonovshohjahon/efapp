@@ -31,21 +31,22 @@ class _DefaultTableHeaderState extends State<DefaultTableHeader> {
               : MainAxisAlignment.end,
           children: [
             // search field
-            if (focusNode != null)
-              DefaultTextField(
-                width: 240,
-                height: 40,
-                label: "Filter",
-                focusNode: focusNode,
-                onChanged: (value) {
-                  stateManager.setFilter((element) =>
-                      element.cells.values.any((cell) => cell.value
-                          .toString()
-                          .toLowerCase()
-                          .contains(value.toLowerCase())) ==
-                      true);
-                },
-              ),
+            // if (focusNode != null)
+            //   DefaultTextField(
+            //     width: 240,
+            //     height: 40,
+            //     label: "Filter",
+            //     focusNode: focusNode,
+            //     onChanged: (value) {
+            //       stateManager.setFilter((element) =>
+            //           element.cells.values.any((cell) => cell.value
+            //               .toString()
+            //               .toLowerCase()
+            //               .contains(value.toLowerCase())) ==
+            //           true);
+            //     },
+            //   ),
+            const SizedBox(),
 
             //Menu button
             if (widget.headerEnd != null) widget.headerEnd!,

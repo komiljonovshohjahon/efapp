@@ -19,8 +19,6 @@ class BLogsView extends StatefulWidget {
 
 class _BLogsViewState extends State<BLogsView>
     with TableFocusNodeMixin<BLogsView, BlogMd> {
-  ValueNotifier<DateTime> selectedDate = ValueNotifier(DateTime.now());
-
   @override
   Future<List<BlogMd>?> fetch() async {
     final res = await DependencyManager.instance.firestore.getBlogs(
@@ -91,49 +89,26 @@ class _BLogsViewState extends State<BLogsView>
   @override
   Widget build(BuildContext context) {
     return DefaultTable(
-        headerEnd: SpacedRow(
-          horizontalSpace: 10,
-          children: [
-            ValueListenableBuilder(
-              valueListenable: selectedDate,
-              builder: (context, value, child) => ElevatedButton(
-                  onPressed: () {
-                    showCustomMonthPicker(
-                      context,
-                      initialTime: value,
-                    ).then((v) {
-                      if (v != null) {
-                        setState(() {
-                          selectedDate.value = v;
-                        });
-                      }
-                    });
-                  },
-                  child: Text(
-                      "Select Month : ${DateFormat("MMM yyyy").format(selectedDate.value)}")),
-            ),
-            //button to add new, delete selected
-            ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white, backgroundColor: Colors.red),
-                onPressed: () => onDelete(
-                    () async => await deleteSelected(null),
-                    showError: false),
-                child: const Text("Delete Selected")),
-            ElevatedButton(
-                onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
-                child: const Text("Add New")),
-          ],
-        ),
-        onLoaded: (p0) {
-          onLoaded(p0);
-          selectedDate.addListener(() {
-            onLoaded(p0);
-          });
-        },
-        columns: columns,
-        rows: rows,
-        focusNode: focusNode);
+      headerEnd: SpacedRow(
+        horizontalSpace: 10,
+        children: [
+          monthSelectorWidget,
+          //button to add new, delete selected
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white, backgroundColor: Colors.red),
+              onPressed: () => onDelete(() async => await deleteSelected(null),
+                  showError: false),
+              child: const Text("Delete Selected")),
+          ElevatedButton(
+              onPressed: () => onEdit((p0) => NewBlogView(model: p0), null),
+              child: const Text("Add New")),
+        ],
+      ),
+      onLoaded: onLoaded,
+      columns: columns,
+      rows: rows,
+    );
   }
 
   Future<bool> deleteSelected(PlutoRow? singleRow) async {

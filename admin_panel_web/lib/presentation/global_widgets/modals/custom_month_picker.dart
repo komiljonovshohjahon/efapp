@@ -8,7 +8,7 @@ Future<DateTime?> showCustomMonthPicker(
 }) {
   return showMonthYearPicker(
     context: context,
-    initialDate: DateTime.now(),
+    initialDate: initialTime ?? DateTime.now(),
     firstDate: DateTime(2000),
     lastDate: DateTime(2030),
     locale: const Locale("en", "US"),

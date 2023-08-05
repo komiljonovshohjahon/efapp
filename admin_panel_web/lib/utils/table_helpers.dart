@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'dart:async';
+import 'package:admin_panel_web/presentation/global_widgets/widgets.dart';
 import 'package:admin_panel_web/utils/utils.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:flutter/material.dart';
@@ -111,6 +112,7 @@ extension WidgetHelper on PlutoColumnRendererContext {
 
 mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
   final DependencyManager dependencyManager = DependencyManager.instance;
+  ValueNotifier<DateTime> selectedDate = ValueNotifier(DateTime.now());
 
   late final FocusNode focusNode;
 
@@ -143,6 +145,25 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
     stateManager?.gridFocusNode.removeListener(handleFocus);
     super.dispose();
   }
+
+  late final monthSelectorWidget = ValueListenableBuilder(
+    valueListenable: selectedDate,
+    builder: (context, value, child) => ElevatedButton(
+        onPressed: () {
+          showCustomMonthPicker(
+            context,
+            initialTime: value,
+          ).then((v) {
+            if (v != null) {
+              setState(() {
+                selectedDate.value = v;
+              });
+            }
+          });
+        },
+        child: Text(
+            "Select Month : ${DateFormat("MMM yyyy").format(selectedDate.value)}")),
+  );
 
   PlutoGridStateManager setRows(PlutoGridStateManager sm, List<PlutoRow> rs) {
     sm.removeAllRows();
@@ -190,6 +211,9 @@ mixin TableFocusNodeMixin<T extends StatefulWidget, MD> on State<T> {
     if (list != null) {
       setRows(stateManager!, list.map((e) => buildRow(e)).toList());
     }
+    selectedDate.addListener(() {
+      onLoaded(event);
+    });
   }
 
   Future<List<MD>?> fetch() {
