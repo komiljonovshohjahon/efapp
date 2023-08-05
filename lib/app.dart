@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
-
+import 'package:month_year_picker/month_year_picker.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:bot_toast/bot_toast.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/manager.dart';
@@ -113,6 +114,10 @@ class _RunnerAppState extends State<RunnerApp> {
             Theme.of(context).textTheme,
           ),
         ),
+        localizationsDelegates: [
+          GlobalMaterialLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate,
+        ],
         builder: (context, child) => botToastBuilder(
           context,
           MediaQuery(

@@ -20,42 +20,44 @@ class YtVideoView extends StatefulWidget {
 }
 
 class _YtVideoViewState extends State<YtVideoView> {
-  DefaultMenuItem? selectedDate;
+  // DefaultMenuItem? selectedDate;
 
   final List<String> dates = [];
 
   @override
   void initState() {
     super.initState();
-    fetchDates();
+    // fetchDates();
   }
 
   void fetchDates() {
-    context.futureLoading(() async {
-      final res = await DependencyManager.instance.firestore
-          .getCollectionBasedListFuture<YtVideoMd>(
-        collection: FirestoreDep.ytVideosCn,
-        fromJson: (p0) {
-          return YtVideoMd.fromMap(p0);
-        },
-      );
-      if (res.isRight) return;
-      if (res.isLeft) {
-        final data = res.left
-          ..removeWhere((element) => element.date == null)
-          ..sort((a, b) => b.date!.compareTo(a.date!));
-        for (var element in data) {
-          if (!dates.contains(element.substr_date)) {
-            dates.add(element.substr_date);
-          }
-        }
-        if (dates.isNotEmpty) {
-          selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
-        }
-        setState(() {});
-      }
-    });
+    // context.futureLoading(() async {
+    //   final res = await DependencyManager.instance.firestore
+    //       .getCollectionBasedListFuture<YtVideoMd>(
+    //     collection: FirestoreDep.ytVideosCn,
+    //     fromJson: (p0) {
+    //       return YtVideoMd.fromMap(p0);
+    //     },
+    //   );
+    //   if (res.isRight) return;
+    //   if (res.isLeft) {
+    //     final data = res.left
+    //       ..removeWhere((element) => element.date == null)
+    //       ..sort((a, b) => b.date!.compareTo(a.date!));
+    //     for (var element in data) {
+    //       if (!dates.contains(element.substr_date)) {
+    //         dates.add(element.substr_date);
+    //       }
+    //     }
+    //     if (dates.isNotEmpty) {
+    //       selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
+    //     }
+    //     setState(() {});
+    //   }
+    // });
   }
+
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -64,20 +66,34 @@ class _YtVideoViewState extends State<YtVideoView> {
         SliverPadding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
           sliver: SliverAppBar(
-            title: DefaultDropdown(
-              hasSearchBox: true,
-              items: [
-                for (int i = 0; i < dates.length; i++)
-                  DefaultMenuItem(id: i, title: dates[i]),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  selectedDate = value;
+            title: TextButton.icon(
+              onPressed: () {
+                showCustomMonthPicker(context, initialTime: selectedDate)
+                    .then((value) {
+                  if (value != null) {
+                    setState(() {
+                      selectedDate = value;
+                    });
+                  }
                 });
               },
-              valueId: selectedDate?.id,
-              height: 48,
+              label: Text(DateFormat("MMM yyy").format(selectedDate)),
+              icon: const Icon(Icons.calendar_today),
             ),
+            // DefaultDropdown(
+            //   hasSearchBox: true,
+            //   items: [
+            //     for (int i = 0; i < dates.length; i++)
+            //       DefaultMenuItem(id: i, title: dates[i]),
+            //   ],
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedDate = value;
+            //     });
+            //   },
+            //   valueId: selectedDate?.id,
+            //   height: 48,
+            // ),
             centerTitle: true,
             pinned: true,
             automaticallyImplyLeading: false,
@@ -86,7 +102,8 @@ class _YtVideoViewState extends State<YtVideoView> {
         SliverFillRemaining(
           child: FirestoreQueryBuilder<YtVideoMd>(
             query: FirestoreDep.instance.ytVideosQuery
-                .where("substr_date", isEqualTo: selectedDate?.title)
+                .where("substr_date",
+                    isEqualTo: DateFormat("MMM yyy").format(selectedDate))
                 .orderBy('created_at', descending: true),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
@@ -94,6 +111,11 @@ class _YtVideoViewState extends State<YtVideoView> {
               }
               if (snapshot.hasError) {
                 return Text('error ${snapshot.error}');
+              }
+
+              if (snapshot.docs.isEmpty) {
+                return const Center(
+                    child: Text("No videos!", style: TextStyle(fontSize: 24)));
               }
 
               return ListView.separated(
