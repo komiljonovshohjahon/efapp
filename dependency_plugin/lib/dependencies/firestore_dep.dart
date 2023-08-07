@@ -576,6 +576,61 @@ class FirestoreDep {
     return firestoreHandler(
         _fire.collection(galleryCn).doc(docs.docs.first.id).delete());
   }
+
+  //CREATE OR UPDATE Gallery images
+  Future<Either<String, void>> createOrUpdateGalleryImage(
+      {required GalleryImageMd model, required Uint8List? image}) async {
+    final docs = await _fire
+        .collection(galleryImagesCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    //upload image
+    if (image != null) {
+      try {
+        final imageData = image;
+        final imgPath = "$galleryCn/${model.id}";
+        final res = await DependencyManager.instance.fireStorage
+            .uploadImage(data: imageData, path: imgPath);
+        model = model.copyWith(imagePath: imgPath);
+        if (res.isLeft) {
+          //error
+          Logger.e("Error uploading image: ${res.left}");
+        }
+      } catch (e) {}
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(
+          _fire.collection(galleryImagesCn).add(model.toMap()));
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(galleryImagesCn)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
+    }
+  }
+
+  //delete gallery image
+  Future<Either<String, void>> deleteGalleryImage(String id) async {
+    Logger.d('deleteGalleryImage: $id');
+    final docs = await _fire
+        .collection(galleryImagesCn)
+        .where("id", isEqualTo: id)
+        .get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    try {
+      //delete recursively
+      await DependencyManager.instance.fireStorage
+          .deleteFolder("${FirestoreDep.galleryCn}/$id");
+    } catch (e) {
+      Logger.e(e.toString());
+    }
+    return firestoreHandler(
+        _fire.collection(galleryImagesCn).doc(docs.docs.first.id).delete());
+  }
 }
 
 Future<Either<String, T>> firestoreHandler<T>(Future callback) async {

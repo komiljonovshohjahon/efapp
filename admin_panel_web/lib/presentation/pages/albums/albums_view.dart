@@ -2,6 +2,7 @@
 
 import 'package:admin_panel_web/presentation/global_widgets/default_firebase_image_provider.dart';
 import 'package:admin_panel_web/presentation/global_widgets/default_table.dart';
+import 'package:admin_panel_web/presentation/pages/albums/gallery_album_images_view.dart';
 import 'package:admin_panel_web/presentation/pages/albums/new_album_view.dart';
 import 'package:admin_panel_web/utils/global_extensions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
@@ -23,7 +24,7 @@ class _AlbumsViewState extends State<AlbumsView>
         PlutoColumn(
             title: "Title", field: 'title', type: PlutoColumnType.text()),
         PlutoColumn(
-            title: "Image",
+            title: "Album Cover Image",
             field: 'image',
             width: 80,
             renderer: (rendererContext) {
@@ -67,6 +68,26 @@ class _AlbumsViewState extends State<AlbumsView>
             },
             type: PlutoColumnType.text()),
         PlutoColumn(
+            title: "Images",
+            field: 'images',
+            width: 80,
+            renderer: (rendererContext) {
+              return TextButton(
+                  onPressed: () {
+                    //todo:
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return Dialog(
+                              child: GalleryAlbumImagesView(
+                                  model:
+                                      rendererContext.cell.value as GalleryMd));
+                        });
+                  },
+                  child: const Text("View Images"));
+            },
+            type: PlutoColumnType.text()),
+        PlutoColumn(
             title: "Created Date",
             field: "createdDate",
             width: 100,
@@ -96,6 +117,7 @@ class _AlbumsViewState extends State<AlbumsView>
       cells: {
         'title': PlutoCell(value: model.title),
         'image': PlutoCell(value: model.image),
+        'images': PlutoCell(value: model),
         'createdDate': PlutoCell(value: model.createdAt),
         'action': PlutoCell(value: model),
       },

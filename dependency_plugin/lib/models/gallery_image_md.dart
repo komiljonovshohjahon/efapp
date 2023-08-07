@@ -14,27 +14,25 @@ class GalleryImageMd {
   final String id;
   final String galleryId;
   final String imagePath;
-  final String createAt;
+  final String createdAt;
 
   const GalleryImageMd({
     required this.id,
     required this.galleryId,
     required this.imagePath,
-    required this.createAt,
+    required this.createdAt,
   });
 
   //copyWith
   GalleryImageMd copyWith({
-    String? id,
     String? galleryId,
     String? imagePath,
-    String? createAt,
   }) {
     return GalleryImageMd(
-      id: id ?? this.id,
+      id: id,
+      createdAt: createdAt,
       galleryId: galleryId ?? this.galleryId,
       imagePath: imagePath ?? this.imagePath,
-      createAt: createAt ?? this.createAt,
     );
   }
 
@@ -44,7 +42,7 @@ class GalleryImageMd {
       id: map['id'] as String,
       galleryId: map['gallery_id'] as String,
       imagePath: map['image'] as String,
-      createAt: map['created_at'] as String,
+      createdAt: map['created_at'] as String,
     );
   }
 
@@ -54,17 +52,17 @@ class GalleryImageMd {
       'id': id,
       'gallery_id': galleryId,
       'image': imagePath,
-      'created_at': createAt,
+      'created_at': createdAt,
     };
   }
 
   //init
   static GalleryImageMd init() {
-    return const GalleryImageMd(
-      id: '',
+    return GalleryImageMd(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       galleryId: '',
       imagePath: '',
-      createAt: '',
+      createdAt: DateTime.now().toIso8601String(),
     );
   }
 }

@@ -97,7 +97,7 @@ class _NewAlbumViewState extends State<NewAlbumView> {
                         image = res.files.first;
                       });
                     },
-                    child: const Text("Pick Image")),
+                    child: const Text("Pick Album Image")),
                 if (image?.bytes != null)
                   Image.memory(image!.bytes!, width: 200, height: 200)
                 else

@@ -156,13 +156,13 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
   "fireForms": {
     'route': "/fireForms",
     'title': "Pillar of fire Forms",
-    'icon': Icons.format_align_center_outlined,
+    'icon': Icons.local_fire_department_outlined,
   },
   //pillar of cloud forms
   "cloudForms": {
     'route': "/cloudForms",
     'title': "Pillar of cloud Forms",
-    'icon': Icons.format_align_center_outlined,
+    'icon': Icons.cloud_outlined,
   },
   //albums
   "albums": {
