@@ -25,13 +25,45 @@ class _AlbumsViewState extends State<AlbumsView>
         PlutoColumn(
             title: "Image",
             field: 'image',
-            width: 100,
+            width: 80,
             renderer: (rendererContext) {
-              return Image(
-                image: DefaultCachedFirebaseImageProvider(
-                    rendererContext.cell.value),
-                height: 100,
-              );
+              return TextButton(
+                  onPressed: () {
+                    //show image as popup
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return SimpleDialog(
+                              title: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  IconButton(
+                                      onPressed: context.pop,
+                                      icon: const Icon(Icons.close))
+                                ],
+                              ),
+                              children: [
+                                Image(
+                                    width: 500,
+                                    height: 500,
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
+                                      if (loadingProgress == null) return child;
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    },
+                                    errorBuilder: (context, error, stackTrace) {
+                                      return const Center(
+                                        child: Text("Error loading image"),
+                                      );
+                                    },
+                                    image: DefaultCachedFirebaseImageProvider(
+                                        rendererContext.cell.value)),
+                              ]);
+                        });
+                  },
+                  child: const Text("View"));
             },
             type: PlutoColumnType.text()),
         PlutoColumn(
