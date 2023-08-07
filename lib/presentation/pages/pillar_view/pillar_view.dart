@@ -91,12 +91,22 @@ class _PillarViewState extends State<PillarView> {
         SliverList(
           delegate: SliverChildListDelegate(
             [
+              //image
+              if (pillarMd != null)
+                Image.asset(
+                  isCloud
+                      ? "assets/images/Pillar of cloud.jpg"
+                      : "assets/images/Pillar of Fire.jpg",
+                  fit: BoxFit.cover,
+                  height: 300.h,
+                  width: double.infinity,
+                ),
               if (pillarMd != null)
                 Html(data: pillarMd!.description, style: {
                   //change all with bold style to context.colorScheme.primary
                   "strong": Style(color: Theme.of(context).colorScheme.primary),
                 }),
-              _getForm(),
+              if (pillarMd != null) _getForm(),
             ],
           ),
         ),

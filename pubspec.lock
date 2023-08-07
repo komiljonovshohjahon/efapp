@@ -718,10 +718,9 @@ packages:
   month_year_picker:
     dependency: transitive
     description:
-      name: month_year_picker
-      sha256: a9af8179b6519960a4261147f20b87e0da0794e4dd9db49a079b79aedd14b7f1
-      url: "https://pub.dev"
-    source: hosted
+      path: "dependency_plugin/month-year-picker"
+      relative: true
+    source: path
     version: "0.3.0+1"
   numberpicker:
     dependency: transitive

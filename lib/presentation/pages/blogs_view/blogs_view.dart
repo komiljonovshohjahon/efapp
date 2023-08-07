@@ -1,5 +1,6 @@
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/routes.dart';
+import 'package:efapp/manager/ytmusic/nav.dart';
 import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/presentation/pages/blogs_view/blog_card_widget.dart';
 import 'package:efapp/presentation/pages/blogs_view/main_blog_widget.dart';
@@ -17,42 +18,44 @@ class BlogsView extends StatefulWidget {
 }
 
 class _BlogsViewState extends State<BlogsView> {
-  DefaultMenuItem? selectedDate;
+  // DefaultMenuItem? selectedDate;
 
   final List<String> dates = [];
 
   @override
   void initState() {
     super.initState();
-    fetchDates();
+    // fetchDates();
   }
 
   void fetchDates() {
-    context.futureLoading(() async {
-      final res = await DependencyManager.instance.firestore
-          .getCollectionBasedListFuture<BlogMd>(
-        collection: FirestoreDep.blogsCn,
-        fromJson: (p0) {
-          return BlogMd.fromMap(p0);
-        },
-      );
-      if (res.isRight) return;
-      if (res.isLeft) {
-        final data = res.left
-          ..removeWhere((element) => element.date == null)
-          ..sort((a, b) => b.date!.compareTo(a.date!));
-        for (var element in data) {
-          if (!dates.contains(element.substr_date)) {
-            dates.add(element.substr_date);
-          }
-        }
-        if (dates.isNotEmpty) {
-          selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
-        }
-        setState(() {});
-      }
-    });
+    // context.futureLoading(() async {
+    //   final res = await DependencyManager.instance.firestore
+    //       .getCollectionBasedListFuture<BlogMd>(
+    //     collection: FirestoreDep.blogsCn,
+    //     fromJson: (p0) {
+    //       return BlogMd.fromMap(p0);
+    //     },
+    //   );
+    //   if (res.isRight) return;
+    //   if (res.isLeft) {
+    //     final data = res.left
+    //       ..removeWhere((element) => element.date == null)
+    //       ..sort((a, b) => b.date!.compareTo(a.date!));
+    //     for (var element in data) {
+    //       if (!dates.contains(element.substr_date)) {
+    //         dates.add(element.substr_date);
+    //       }
+    //     }
+    //     if (dates.isNotEmpty) {
+    //       selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
+    //     }
+    //     setState(() {});
+    //   }
+    // });
   }
+
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -61,20 +64,34 @@ class _BlogsViewState extends State<BlogsView> {
         SliverPadding(
           padding: EdgeInsets.symmetric(vertical: 16.h),
           sliver: SliverAppBar(
-            title: DefaultDropdown(
-              hasSearchBox: true,
-              items: [
-                for (int i = 0; i < dates.length; i++)
-                  DefaultMenuItem(id: i, title: dates[i]),
-              ],
-              onChanged: (value) {
-                setState(() {
-                  selectedDate = value;
+            title: TextButton.icon(
+              onPressed: () {
+                showCustomMonthPicker(context, initialTime: selectedDate)
+                    .then((value) {
+                  if (value != null) {
+                    setState(() {
+                      selectedDate = value;
+                    });
+                  }
                 });
               },
-              valueId: selectedDate?.id,
-              height: 48,
+              label: Text(DateFormat("MMM yyy").format(selectedDate)),
+              icon: const Icon(Icons.calendar_today),
             ),
+            // DefaultDropdown(
+            //   hasSearchBox: true,
+            //   items: [
+            //     for (int i = 0; i < dates.length; i++)
+            //       DefaultMenuItem(id: i, title: dates[i]),
+            //   ],
+            //   onChanged: (value) {
+            //     setState(() {
+            //       selectedDate = value;
+            //     });
+            //   },
+            //   valueId: selectedDate?.id,
+            //   height: 48,
+            // ),
             centerTitle: true,
             pinned: true,
             automaticallyImplyLeading: false,
@@ -83,7 +100,8 @@ class _BlogsViewState extends State<BlogsView> {
         SliverFillRemaining(
           child: FirestoreQueryBuilder<BlogMd>(
             query: FirestoreDep.instance.blogsQuery
-                .where("substr_date", isEqualTo: selectedDate?.title)
+                .where("substr_date",
+                    isEqualTo: DateFormat("MMM yyy").format(selectedDate))
                 .orderBy('created_at', descending: true),
             builder: (context, snapshot, _) {
               if (snapshot.isFetching) {
@@ -91,6 +109,11 @@ class _BlogsViewState extends State<BlogsView> {
               }
               if (snapshot.hasError) {
                 return Text('error ${snapshot.error}');
+              }
+
+              if (snapshot.docs.isEmpty) {
+                return const Center(
+                    child: Text("No blogs!", style: TextStyle(fontSize: 24)));
               }
 
               return ListView.separated(
