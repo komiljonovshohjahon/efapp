@@ -107,6 +107,7 @@ class _BLogsViewState extends State<BLogsView>
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
+      focusNode: focusNode,
     );
   }
 

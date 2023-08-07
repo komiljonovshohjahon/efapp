@@ -24,16 +24,14 @@ class GalleryMd {
 
   //copyWith
   GalleryMd copyWith({
-    String? id,
     String? image,
     String? title,
-    String? createdAt,
   }) {
     return GalleryMd(
-      id: id ?? this.id,
+      id: id,
       image: image ?? this.image,
       title: title ?? this.title,
-      createdAt: createdAt ?? this.createdAt,
+      createdAt: createdAt,
     );
   }
 
@@ -59,11 +57,11 @@ class GalleryMd {
 
   //init
   static GalleryMd init() {
-    return const GalleryMd(
-      id: '',
+    return GalleryMd(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
       image: '',
       title: '',
-      createdAt: '',
+      createdAt: DateTime.now().toIso8601String(),
     );
   }
 }

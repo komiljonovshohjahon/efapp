@@ -116,6 +116,7 @@ class _YtViewState extends State<YtView>
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
+      focusNode: focusNode,
     );
   }
 

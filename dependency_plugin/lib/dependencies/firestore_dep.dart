@@ -508,6 +508,74 @@ class FirestoreDep {
     return firestoreHandler(
         _fire.collection(pillarOfCloudForm).doc(docs.docs.first.id).delete());
   }
+
+  //GET ALBUMS
+  Future<Either<List<GalleryMd>, String>> getAlbums() async {
+    try {
+      final res = await _fire
+          .collection(galleryCn)
+          .orderBy("created_at", descending: true)
+          .get();
+      final list = res.docs.map((e) => GalleryMd.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, void>> createOrUpdateGallery(
+      {required GalleryMd model, required List<Uint8List?> images}) async {
+    final docs = await _fire
+        .collection(galleryCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    //upload image
+    if (images.isNotEmpty) {
+      for (int i = 0; i < images.length; i++) {
+        if (images[i] == null) continue;
+        try {
+          final imageData = images[i];
+          final imgPath = "$galleryCn/${model.id}/$i";
+          final res = await DependencyManager.instance.fireStorage
+              .uploadImage(data: imageData!, path: imgPath);
+          model = model.copyWith(image: imgPath);
+          if (res.isLeft) {
+            //error
+            Logger.e("Error uploading image: ${res.left}");
+          }
+        } catch (e) {}
+      }
+    }
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(_fire.collection(galleryCn).add(model.toMap()));
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(galleryCn)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
+    }
+  }
+
+  //delete gallery
+  Future<Either<String, void>> deleteGallery(String id) async {
+    Logger.d('deleteGallery: $id');
+    final docs =
+        await _fire.collection(galleryCn).where("id", isEqualTo: id).get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    try {
+      //delete recursively
+      await DependencyManager.instance.fireStorage
+          .deleteFolder("${FirestoreDep.galleryCn}/$id");
+    } catch (e) {
+      Logger.e(e.toString());
+    }
+    return firestoreHandler(
+        _fire.collection(galleryCn).doc(docs.docs.first.id).delete());
+  }
 }
 
 Future<Either<String, T>> firestoreHandler<T>(Future callback) async {

@@ -100,6 +100,17 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+            //Albums
+            GoRoute(
+              path: adminDestinations['albums']!['route']!,
+              name: adminDestinations['albums']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const AlbumsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(

@@ -4,3 +4,4 @@ export 'blogs_view/blogs_view.dart';
 export 'yt_view/yt_view.dart';
 export 'pillar_of_fire_forms/pillar_of_fire_forms_view.dart';
 export 'pillar_of_cloud_forms/pillar_of_cloud_forms_view.dart';
+export 'albums/albums_view.dart';

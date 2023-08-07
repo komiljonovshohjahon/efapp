@@ -49,7 +49,8 @@ class _LoginViewState extends State<LoginView> {
             mainAxisAlignment: MainAxisAlignment.center,
             verticalSpace: 32,
             children: [
-              Text('Login View', style: context.textTheme.headlineLarge),
+              Text('EVANS FRANCIS ADMIN',
+                  style: context.textTheme.headlineLarge),
               // add login form, email and password and login with firebase auth
               DefaultTextField(
                 label: 'Email',

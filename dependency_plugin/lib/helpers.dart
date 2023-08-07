@@ -164,6 +164,12 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Pillar of cloud Forms",
     'icon': Icons.format_align_center_outlined,
   },
+  //albums
+  "albums": {
+    'route': "/albums",
+    'title': "Albums",
+    'icon': Icons.photo_album_outlined,
+  },
 };
 
 Map<String, String> basicTypes = {

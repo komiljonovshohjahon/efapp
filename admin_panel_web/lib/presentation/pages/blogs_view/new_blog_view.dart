@@ -36,6 +36,12 @@ class _NewBlogViewState extends State<NewBlogView> {
     });
   }
 
+  @override
+  void dispose() {
+    _titleController.dispose();
+    super.dispose();
+  }
+
   void _submit() {
     if (!formKey.currentState!.validate()) return;
     context.futureLoading(() async {

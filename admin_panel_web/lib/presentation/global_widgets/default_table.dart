@@ -16,6 +16,7 @@ class DefaultTable extends StatelessWidget {
   final PlutoGridMode mode;
   final void Function(PlutoGridOnChangedEvent)? onChanged;
   final Color Function(PlutoRowColorContext)? rowColorCallback;
+  final double? rowHeight;
   const DefaultTable(
       {super.key,
       required this.onLoaded,
@@ -26,6 +27,7 @@ class DefaultTable extends StatelessWidget {
       this.onChanged,
       this.mode = PlutoGridMode.selectWithOneTap,
       this.headerEnd,
+      this.rowHeight,
       this.hasFooter = true,
       this.hasHeader = true,
       this.focusNode});
@@ -66,6 +68,7 @@ class DefaultTable extends StatelessWidget {
           activatedBorderColor: context.colorScheme.primary,
           borderColor: Colors.grey[200]!,
           gridBorderColor: Colors.grey[300]!,
+          rowHeight: rowHeight ?? PlutoGridSettings.rowHeight,
         ),
         columnSize: const PlutoGridColumnSizeConfig(
           autoSizeMode: PlutoAutoSizeMode.scale,

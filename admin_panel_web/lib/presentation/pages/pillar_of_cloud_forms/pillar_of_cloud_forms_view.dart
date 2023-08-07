@@ -116,6 +116,7 @@ class _PillarOfFireCViewState extends State<PillarOfCloudFormsView>
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
+      focusNode: focusNode,
     );
   }
 

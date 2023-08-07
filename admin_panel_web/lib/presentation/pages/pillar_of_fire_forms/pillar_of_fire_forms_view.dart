@@ -102,6 +102,7 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
       onLoaded: onLoaded,
       columns: columns,
       rows: rows,
+      focusNode: focusNode,
     );
   }
 

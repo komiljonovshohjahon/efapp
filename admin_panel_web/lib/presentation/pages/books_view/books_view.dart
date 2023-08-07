@@ -46,6 +46,7 @@ class _BooksViewState extends State<BooksView>
         ),
         onLoaded: onLoaded,
         columns: columns,
+        focusNode: focusNode,
         rows: rows);
   }
 
