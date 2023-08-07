@@ -35,6 +35,12 @@ final List<Map<String, dynamic>> drawerDestinations = [
     "icon": Icons.video_library,
     "route": "${MCANavigation.home}${MCANavigation.yt}",
   },
+  //contactUs
+  {
+    "title": "Contact Us",
+    "icon": Icons.contact_mail,
+    "route": "${MCANavigation.home}${MCANavigation.contactUs}",
+  },
   //todo: audio
 // {
 //   "title": "Audio",

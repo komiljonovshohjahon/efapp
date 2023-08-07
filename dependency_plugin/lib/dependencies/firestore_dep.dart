@@ -86,6 +86,7 @@ class FirestoreDep {
             return PillarMdForm.fromMap(data);
           },
           toFirestore: (value, options) => value.toMap());
+  static String contactedFormsCn = 'contacted_forms';
 
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 
@@ -630,6 +631,53 @@ class FirestoreDep {
     }
     return firestoreHandler(
         _fire.collection(galleryImagesCn).doc(docs.docs.first.id).delete());
+  }
+
+  //get contacted forms
+  Future<Either<List<ContactMd>, String>> getContactedForms() async {
+    try {
+      final res = await _fire
+          .collection(contactedFormsCn)
+          .orderBy("created_at", descending: true)
+          .get();
+      final list = res.docs.map((e) => ContactMd.fromMap(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  //CREATE OR UPDATE Contacted form
+  Future<Either<String, void>> createOrUpdateContactedForm(
+      {required ContactMd model}) async {
+    final docs = await _fire
+        .collection(contactedFormsCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(
+          _fire.collection(contactedFormsCn).add(model.toMap()));
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(contactedFormsCn)
+          .doc(docs.docs.first.id)
+          .update(model.toMap()));
+    }
+  }
+
+  //delete contacted form
+  Future<Either<String, void>> deleteContactedForm(String id) async {
+    Logger.d('deleteContactedForm: $id');
+    final docs = await _fire
+        .collection(contactedFormsCn)
+        .where("id", isEqualTo: id)
+        .get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    return firestoreHandler(
+        _fire.collection(contactedFormsCn).doc(docs.docs.first.id).delete());
   }
 }
 

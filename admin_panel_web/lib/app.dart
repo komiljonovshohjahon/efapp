@@ -119,7 +119,7 @@ class _RunnerAppState extends State<RunnerApp> {
       ],
       // Use dark or light theme based on system setting.
       themeMode: ThemeMode.light,
-      title: 'MCA Dashboard',
+      title: 'Evans Francis Admin',
       builder: (context, child) => botToastBuilder(
           context,
           MediaQuery(

@@ -32,7 +32,8 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     if (currentRoute == MCANavigation.home ||
         currentRoute.split("/").contains("gallery") ||
         currentRoute == "${MCANavigation.home}${MCANavigation.pillarCloud}" ||
-        currentRoute == "${MCANavigation.home}${MCANavigation.pillarFire}") {
+        currentRoute == "${MCANavigation.home}${MCANavigation.pillarFire}" ||
+        currentRoute == "${MCANavigation.home}${MCANavigation.contactUs}") {
       return null;
     }
     if (currentRoute == "${MCANavigation.home}${MCANavigation.webView}") {

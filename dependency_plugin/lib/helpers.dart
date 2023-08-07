@@ -170,6 +170,11 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Albums",
     'icon': Icons.photo_album_outlined,
   },
+  "contactUs": {
+    'route': "/contactUs",
+    'title': "Contact Us Forms",
+    'icon': Icons.contact_mail_outlined,
+  },
 };
 
 Map<String, String> basicTypes = {

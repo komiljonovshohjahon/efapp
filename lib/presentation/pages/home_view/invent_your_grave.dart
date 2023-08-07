@@ -36,7 +36,7 @@ class _InvestYourGraveContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        launchURL(Urls.investYourGraveUrl);
+        context.goToWebView(Urls.investYourGraveUrl);
       },
       child: Container(
         width: double.infinity,

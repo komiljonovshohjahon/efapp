@@ -111,6 +111,18 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+
+            //contact us
+            GoRoute(
+              path: adminDestinations['contactUs']!['route']!,
+              name: adminDestinations['contactUs']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const ContactUsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(
