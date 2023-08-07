@@ -25,7 +25,7 @@ class Urls {
   static const evansEmail = "evensfrancis333@oksbi";
   static const evansPaytmNumber = "9960877313";
   static const alansEmail = "alanalex138@gmail.com";
-  static const sbiAccountName = "Evans Francis Albert";
+  static const sbiAccountName = "Evans Francis";
   static const sbiAccountNumber = "32783806272";
   static const sbiAccountBank = "State Bank of India";
   static const sbiAccountIFSC = "SBIN0014726";

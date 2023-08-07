@@ -73,9 +73,15 @@ class MCANavigation extends IMCANavigation {
                     ),
                   ],
                   pageBuilder: (context, state) {
+                    String? documentId;
+                    final notificationPayload = state.extra;
+                    if (notificationPayload != null &&
+                        notificationPayload is Map<String, dynamic>) {
+                      documentId = notificationPayload["documentId"];
+                    }
                     return MaterialPage<void>(
                       key: state.pageKey,
-                      child: const BlogsView(),
+                      child: BlogsView(documentId: documentId),
                     );
                   },
                 ),
@@ -83,9 +89,15 @@ class MCANavigation extends IMCANavigation {
                   path: yt.substring(1),
                   name: yt.substring(1),
                   pageBuilder: (context, state) {
+                    String? documentId;
+                    final notificationPayload = state.extra;
+                    if (notificationPayload != null &&
+                        notificationPayload is Map<String, dynamic>) {
+                      documentId = notificationPayload["documentId"];
+                    }
                     return MaterialPage<void>(
                       key: state.pageKey,
-                      child: const YtVideoView(),
+                      child: YtVideoView(documentId: documentId),
                     );
                   },
                 ),
@@ -104,9 +116,15 @@ class MCANavigation extends IMCANavigation {
                     path: galleryAlbum.substring(1),
                     name: galleryAlbum.substring(1),
                     pageBuilder: (context, state) {
+                      String? documentId;
+                      final notificationPayload = state.extra;
+                      if (notificationPayload != null &&
+                          notificationPayload is Map<String, dynamic>) {
+                        documentId = notificationPayload["documentId"];
+                      }
                       return MaterialPage<void>(
                         key: state.pageKey,
-                        child: const GalleryAlbumView(),
+                        child:  GalleryAlbumView(galleryImageDocumentId: documentId),
                       );
                     },
                     routes: [

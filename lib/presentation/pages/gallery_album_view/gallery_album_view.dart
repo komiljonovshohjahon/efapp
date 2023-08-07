@@ -1,5 +1,8 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/routes.dart';
+import 'package:efapp/utils/utils.dart';
 import 'package:firebase_ui_firestore/firebase_ui_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -7,16 +10,43 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'gallery_card_widget.dart';
 
 class GalleryAlbumView extends StatefulWidget {
-  const GalleryAlbumView({super.key});
+  final String? galleryImageDocumentId;
+  const GalleryAlbumView({super.key, this.galleryImageDocumentId});
 
   @override
   State<GalleryAlbumView> createState() => _GalleryAlbumViewState();
 }
 
 class _GalleryAlbumViewState extends State<GalleryAlbumView> {
+  String? get galleryImageDocumentId => widget.galleryImageDocumentId;
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.endOfFrame.then((_) {
+      context.futureLoading(() async {
+        if (galleryImageDocumentId != null) {
+          final item = await DependencyManager.instance.firestore
+              .findByCollectionAndDocumentId<GalleryImageMd>(
+                  collection: FirestoreDep.galleryImagesCn,
+                  documentId: galleryImageDocumentId!,
+                  fromJson: (p0) => GalleryImageMd.fromMap(p0));
+          if (item != null) {
+            //find gallery album using gallery album id
+            final docs = await DependencyManager.instance.firestore.fire
+                .collection(FirestoreDep.galleryCn)
+                .where("id", isEqualTo: item.galleryId)
+                .get();
+            if (docs.docs.isNotEmpty) {
+              final model = GalleryMd.fromMap(docs.docs.first.data());
+              context.goToGalleryAlbumImages(model);
+              //go to album view
+            }
+          } else {
+            context.showError("Cannot find image");
+          }
+        }
+      });
+    });
   }
 
   @override
@@ -56,10 +86,5 @@ class _GalleryAlbumViewState extends State<GalleryAlbumView> {
         ),
       ],
     );
-  }
-
-  void gotoBlogDetail(GalleryMd blog) {
-    context.go("${MCANavigation.home}/${MCANavigation.blogs}:${blog.id}",
-        extra: blog);
   }
 }

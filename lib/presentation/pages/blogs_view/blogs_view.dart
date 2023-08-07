@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:dependency_plugin/dependency_plugin.dart';
 import 'package:efapp/manager/routes.dart';
 import 'package:efapp/manager/ytmusic/nav.dart';
@@ -11,49 +13,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class BlogsView extends StatefulWidget {
-  const BlogsView({super.key});
+  final String? documentId;
+  const BlogsView({super.key, this.documentId});
 
   @override
   State<BlogsView> createState() => _BlogsViewState();
 }
 
 class _BlogsViewState extends State<BlogsView> {
-  // DefaultMenuItem? selectedDate;
-
-  final List<String> dates = [];
+  String? get documentId => widget.documentId;
 
   @override
   void initState() {
     super.initState();
-    // fetchDates();
+    WidgetsBinding.instance.endOfFrame.then((_) {
+      context.futureLoading(() async {
+        if (documentId != null) {
+          final item = await DependencyManager.instance.firestore
+              .findByCollectionAndDocumentId<BlogMd>(
+                  collection: FirestoreDep.blogsCn,
+                  documentId: documentId!,
+                  fromJson: (p0) => BlogMd.fromMap(p0));
+          if (item != null) {
+            context.goToBlogDetails(item);
+          } else {
+            context.showError("Cannot find blog");
+          }
+        }
+      });
+    });
   }
 
-  void fetchDates() {
-    // context.futureLoading(() async {
-    //   final res = await DependencyManager.instance.firestore
-    //       .getCollectionBasedListFuture<BlogMd>(
-    //     collection: FirestoreDep.blogsCn,
-    //     fromJson: (p0) {
-    //       return BlogMd.fromMap(p0);
-    //     },
-    //   );
-    //   if (res.isRight) return;
-    //   if (res.isLeft) {
-    //     final data = res.left
-    //       ..removeWhere((element) => element.date == null)
-    //       ..sort((a, b) => b.date!.compareTo(a.date!));
-    //     for (var element in data) {
-    //       if (!dates.contains(element.substr_date)) {
-    //         dates.add(element.substr_date);
-    //       }
-    //     }
-    //     if (dates.isNotEmpty) {
-    //       selectedDate = DefaultMenuItem(id: 0, title: dates[0]);
-    //     }
-    //     setState(() {});
-    //   }
-    // });
-  }
+  void fetchDates() {}
 
   DateTime selectedDate = DateTime.now();
 

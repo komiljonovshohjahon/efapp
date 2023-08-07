@@ -40,6 +40,7 @@ class _GalleryAlbumImagesViewState extends State<GalleryAlbumImagesView> {
     return StreamBuilder<QuerySnapshot<GalleryImageMd>>(
       stream: DependencyManager.instance.firestore.galleryImagesQuery
           .where('gallery_id', isEqualTo: widget.model.id)
+          .orderBy("created_at", descending: true)
           .withConverter(fromFirestore: (snapshot, options) {
         final data = snapshot.data()!;
         return GalleryImageMd.fromMap(data);

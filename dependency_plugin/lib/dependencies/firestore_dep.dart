@@ -108,21 +108,17 @@ class FirestoreDep {
       "collection": collection,
       "documentId": documentId,
       "title": title,
-      "seconds": "1",
-      "timezone": "Asia/Dubai",
       "type": type ?? "",
     };
   }
 
   Future<Either<bool, String>> sendNotification(
       Map<String, String> payload) async {
-    // throw UnimplementedError();
-    return const Right("Not implemented");
     try {
       final headers = <String, String>{
         'Content-Type': 'application/json',
         'Authorization':
-            'key=AAAAzrlCq0o:APA91bEEyUiXkVg_MmSdoIgaitqqhvh3dfSJK0o9foD-Z1Ri-RH7rutWM4bF816BYupsJppipIJYzkbcBZT3wn7WXEwzBBwyY2OnD3nQh7jGdmerLGHUzXeCK9y_aDG5eE7MoXjw9OyF',
+            'key=AAAA7NueD3k:APA91bF-zVehMTyVZvyfzv8VAtNpscUm3nAZRwwtVjTTGIhID7YIgxzkEIIOZwXk6mL03HVr8WB9W1_8j7PZSkhsEO97K_yC27WxMZV59aIuuT-6BxWt2T1mmwOTGntOT8xCB7_O7BSM',
       };
       final res = await Dio(BaseOptions(
         baseUrl: "https://fcm.googleapis.com/fcm",
@@ -211,16 +207,9 @@ class FirestoreDep {
 
   //CREATE OR UPDATE Book
   Future<Either<String, void>> createOrUpdateBook(
-      {required BookMd model,
-      required List<Uint8List?> images,
-      bool sendNotification = false}) async {
+      {required BookMd model, required List<Uint8List?> images}) async {
     final docs =
         await _fire.collection(booksCn).where("id", isEqualTo: model.id).get();
-
-    payload(String id) {
-      return _makePayload(
-          route: booksCn, collection: booksCn, documentId: id, title: "Book");
-    }
 
     if (docs.docs.isEmpty) {
       //create
@@ -246,13 +235,7 @@ class FirestoreDep {
         }
       }
 
-      return firestoreHandler(_fire.collection(booksCn).add(m.toJson()))
-          .then((value) {
-        if (sendNotification) {
-          this.sendNotification(payload(value.right.id));
-        }
-        return value;
-      });
+      return firestoreHandler(_fire.collection(booksCn).add(m.toJson()));
     } else {
       //updateNew DP
       return firestoreHandler(_fire
@@ -342,7 +325,11 @@ class FirestoreDep {
 
     payload(String id) {
       return _makePayload(
-          route: blogsCn, collection: blogsCn, documentId: id, title: "Blog");
+        route: "blogs",
+        collection: blogsCn,
+        documentId: id,
+        title: "Blog",
+      );
     }
 
     //upload image
@@ -419,10 +406,7 @@ class FirestoreDep {
 
     payload(String id) {
       return _makePayload(
-          route: ytVideosCn,
-          collection: ytVideosCn,
-          documentId: id,
-          title: "Blog");
+          route: "yt", collection: ytVideosCn, documentId: id, title: "Video");
     }
 
     if (docs.docs.isEmpty) {
