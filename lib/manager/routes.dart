@@ -26,6 +26,7 @@ class MCANavigation extends IMCANavigation {
   static const String pillarFire = '/pillarFire';
   static const String loveOffering = '/loveOffering';
   static const String contactUs = '/contactUs';
+  static const String prayerRequest = '/prayerRequest';
 
   /// router
   @override
@@ -124,7 +125,8 @@ class MCANavigation extends IMCANavigation {
                       }
                       return MaterialPage<void>(
                         key: state.pageKey,
-                        child:  GalleryAlbumView(galleryImageDocumentId: documentId),
+                        child: GalleryAlbumView(
+                            galleryImageDocumentId: documentId),
                       );
                     },
                     routes: [
@@ -177,6 +179,16 @@ class MCANavigation extends IMCANavigation {
                     return MaterialPage<void>(
                       key: state.pageKey,
                       child: const ContactView(),
+                    );
+                  },
+                ),
+                GoRoute(
+                  path: prayerRequest.substring(1),
+                  name: prayerRequest.substring(1),
+                  pageBuilder: (context, state) {
+                    return MaterialPage<void>(
+                      key: state.pageKey,
+                      child: const PrayerRequestView(),
                     );
                   },
                 ),

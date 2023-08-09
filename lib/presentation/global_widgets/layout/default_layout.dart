@@ -89,6 +89,9 @@ class _DefaultLayoutState extends State<DefaultLayout> {
     if (currentRoute == "${MCANavigation.home}${MCANavigation.loveOffering}") {
       return "Love Offering";
     }
+    if (currentRoute == "${MCANavigation.home}${MCANavigation.prayerRequest}") {
+      return "Prayer Request";
+    }
 
     return "";
   }

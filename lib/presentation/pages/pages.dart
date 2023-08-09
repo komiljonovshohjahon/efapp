@@ -8,3 +8,4 @@ export 'gallery_album_images_view/gallery_album_images_view.dart';
 export 'pillar_view/pillar_view.dart';
 export 'love_offerings_view/love_offering_view.dart';
 export 'contact_view/contact_view.dart';
+export 'prayer_request/prayer_request_view.dart';

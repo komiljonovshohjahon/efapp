@@ -175,6 +175,11 @@ final Map<String, Map<String, dynamic>> adminDestinations = {
     'title': "Contact Us Forms",
     'icon': Icons.contact_mail_outlined,
   },
+  "prayerRequest": {
+    'route': "/prayerRequest",
+    'title': "Prayer Request",
+    'icon': Icons.send,
+  },
 };
 
 Map<String, String> basicTypes = {

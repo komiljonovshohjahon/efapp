@@ -41,6 +41,11 @@ final List<Map<String, dynamic>> drawerDestinations = [
     "icon": Icons.contact_mail,
     "route": "${MCANavigation.home}${MCANavigation.contactUs}",
   },
+  {
+    "title": "Submit a Prayer Request",
+    "icon": Icons.send,
+    "route": "${MCANavigation.home}${MCANavigation.prayerRequest}",
+  },
   //todo: audio
 // {
 //   "title": "Audio",

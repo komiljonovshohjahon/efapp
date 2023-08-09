@@ -88,6 +88,8 @@ class FirestoreDep {
           toFirestore: (value, options) => value.toMap());
   static String contactedFormsCn = 'contacted_forms';
 
+  static String prayerRequestCn = 'prayer_request';
+
   final FirebaseFirestore _fire = FirebaseFirestore.instance;
 
   FirebaseFirestore get fire => _fire;
@@ -662,6 +664,49 @@ class FirestoreDep {
     Logger.i("Found docs: ${docs.docs.first.id}");
     return firestoreHandler(
         _fire.collection(contactedFormsCn).doc(docs.docs.first.id).delete());
+  }
+
+  Future<Either<List<PrayerRequestMd>, String>> getPrayerRequests() async {
+    try {
+      final res = await _fire.collection(prayerRequestCn).get();
+      final list =
+          res.docs.map((e) => PrayerRequestMd.fromJson(e.data())).toList();
+      return Left(list);
+    } catch (e) {
+      return Right(e.toString());
+    }
+  }
+
+  Future<Either<String, void>> createOrUpdatePrayerRequest(
+      {required PrayerRequestMd model}) async {
+    final docs = await _fire
+        .collection(prayerRequestCn)
+        .where("id", isEqualTo: model.id)
+        .get();
+
+    if (docs.docs.isEmpty) {
+      //create
+      return firestoreHandler(
+          _fire.collection(prayerRequestCn).add(model.toJson()));
+    } else {
+      //updateNew DP
+      return firestoreHandler(_fire
+          .collection(prayerRequestCn)
+          .doc(docs.docs.first.id)
+          .update(model.toJson()));
+    }
+  }
+
+  //delete prayer request
+  Future<Either<String, void>> deletePrayerRequest(String id) async {
+    Logger.d('deletePrayerRequest: $id');
+    final docs = await _fire
+        .collection(prayerRequestCn)
+        .where("id", isEqualTo: id)
+        .get();
+    Logger.i("Found docs: ${docs.docs.first.id}");
+    return firestoreHandler(
+        _fire.collection(prayerRequestCn).doc(docs.docs.first.id).delete());
   }
 }
 

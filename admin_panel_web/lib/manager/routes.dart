@@ -123,6 +123,18 @@ class MCANavigation extends IMCANavigation {
                 );
               },
             ),
+
+            //Prayer request
+            GoRoute(
+              path: adminDestinations['prayerRequest']!['route']!,
+              name: adminDestinations['prayerRequest']!['route']!.substring(1),
+              pageBuilder: (context, state) {
+                return NoTransitionPage<void>(
+                  key: state.pageKey,
+                  child: const PrayerRequestsView(),
+                );
+              },
+            ),
           ]),
     ],
     errorPageBuilder: (context, state) => NoTransitionPage<void>(

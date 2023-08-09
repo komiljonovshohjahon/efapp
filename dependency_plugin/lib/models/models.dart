@@ -6,3 +6,4 @@ export 'gallery_image_md.dart';
 export 'gallery_md.dart';
 export 'blog_md.dart';
 export 'contact_md.dart';
+export 'prayer_request_md.dart';
