@@ -35,16 +35,17 @@ final List<Map<String, dynamic>> drawerDestinations = [
     "icon": Icons.video_library,
     "route": "${MCANavigation.home}${MCANavigation.yt}",
   },
+  //prayer request
+  {
+    "title": "Submit a Prayer Request",
+    "icon": Icons.send,
+    "route": "${MCANavigation.home}${MCANavigation.prayerRequest}",
+  },
   //contactUs
   {
     "title": "Contact Us",
     "icon": Icons.contact_mail,
     "route": "${MCANavigation.home}${MCANavigation.contactUs}",
-  },
-  {
-    "title": "Submit a Prayer Request",
-    "icon": Icons.send,
-    "route": "${MCANavigation.home}${MCANavigation.prayerRequest}",
   },
   //todo: audio
 // {
@@ -115,7 +116,7 @@ class DefaultDrawer extends StatelessWidget {
                               context.go(destination['route']!);
                             }
                             //close drawer
-                            Scaffold.of(context).closeDrawer();
+                            Scaffold.of(context).closeEndDrawer();
                           },
                           titleTextStyle: context.textTheme.bodyMedium!
                               .copyWith(color: context.colorScheme.onPrimary)),

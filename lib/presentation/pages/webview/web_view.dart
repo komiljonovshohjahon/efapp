@@ -12,22 +12,31 @@ class DefaultWebView extends StatefulWidget {
 
 class _DefaultWebViewState extends State<DefaultWebView> {
   final WebViewController _controller = WebViewController();
+  String? errorMsg;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.endOfFrame.then((_) async {
       try {
-        await _controller.loadRequest(Uri.parse(widget.url));
         _controller.setJavaScriptMode(JavaScriptMode.unrestricted);
+        await _controller.loadRequest(Uri.parse(widget.url));
       } catch (e) {
         Logger.e(e);
+        setState(() {
+          errorMsg = "Cannot load the page.";
+        });
       }
     });
   }
 
   @override
   Widget build(BuildContext context) {
+    if (errorMsg != null) {
+      return Center(
+        child: Text(errorMsg!),
+      );
+    }
     return WebViewWidget(controller: _controller);
   }
 }

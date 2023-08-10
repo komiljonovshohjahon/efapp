@@ -24,7 +24,7 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       resizeToAvoidBottomInset: true,
       body: PageWrapper(child: widget.child),
       bottomNavigationBar: _getBottomBar(currentRoute),
-      drawer: DefaultDrawer(),
+      endDrawer: DefaultDrawer(),
     );
   }
 
@@ -71,9 +71,9 @@ class _DefaultLayoutState extends State<DefaultLayout> {
       );
     }
     return AppBar(
-      title: Text(_getTitle(currentRoute)),
-      centerTitle: true,
-    );
+        title: Text(_getTitle(currentRoute)),
+        centerTitle: true,
+        leading: BackButton(onPressed: context.pop));
   }
 
   String _getTitle(String currentRoute) {

@@ -4,6 +4,7 @@ import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:youtube/youtube_thumbnail.dart';
 
 class VideoCardWidget extends StatelessWidget {
@@ -68,11 +69,27 @@ class VideoCardWidget extends StatelessWidget {
                           overflow: TextOverflow.ellipsis,
                           style: Theme.of(context).textTheme.titleSmall),
                       SizedBox(height: 4.h),
-                      Text(DateTime.tryParse(model.createdAt)?.timeago ?? "N/A",
-                          style: Theme.of(context)
-                              .textTheme
-                              .labelMedium!
-                              .copyWith(color: context.colorScheme.secondary)),
+                      Row(
+                        children: [
+                          Text(
+                              DateTime.tryParse(model.createdAt)?.timeago ??
+                                  "N/A",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .labelMedium!
+                                  .copyWith(
+                                      color: context.colorScheme.secondary)),
+                          const Spacer(),
+                          IconButton(
+                            padding: EdgeInsets.zero,
+                            iconSize: 20.r,
+                            onPressed: () {
+                              Share.share(model.url);
+                            },
+                            icon: const Icon(Icons.share),
+                          ),
+                        ],
+                      ),
                     ]),
               ),
             ],

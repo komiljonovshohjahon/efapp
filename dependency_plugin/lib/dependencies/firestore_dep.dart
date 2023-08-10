@@ -587,10 +587,23 @@ class FirestoreDep {
       } catch (e) {}
     }
 
+    payload(String id) {
+      return _makePayload(
+        route: "galleryAlbum",
+        collection: "",
+        documentId: id,
+        title: "Image",
+      );
+    }
+
     if (docs.docs.isEmpty) {
       //create
       return firestoreHandler(
-          _fire.collection(galleryImagesCn).add(model.toMap()));
+              _fire.collection(galleryImagesCn).add(model.toMap()))
+          .then((value) {
+        sendNotification(payload(value.right.id));
+        return value;
+      });
     } else {
       //updateNew DP
       return firestoreHandler(_fire

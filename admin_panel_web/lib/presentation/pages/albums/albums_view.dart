@@ -22,7 +22,10 @@ class _AlbumsViewState extends State<AlbumsView>
   @override
   List<PlutoColumn> get columns => [
         PlutoColumn(
-            title: "Title", field: 'title', type: PlutoColumnType.text()),
+            enableRowChecked: true,
+            title: "Title",
+            field: 'title',
+            type: PlutoColumnType.text()),
         PlutoColumn(
             title: "Album Cover Image",
             field: 'image',
@@ -74,7 +77,6 @@ class _AlbumsViewState extends State<AlbumsView>
             renderer: (rendererContext) {
               return TextButton(
                   onPressed: () {
-                    //todo:
                     showDialog(
                         context: context,
                         builder: (context) {

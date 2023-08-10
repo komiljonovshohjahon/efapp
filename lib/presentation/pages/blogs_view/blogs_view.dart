@@ -52,40 +52,20 @@ class _BlogsViewState extends State<BlogsView> {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverPadding(
-          padding: EdgeInsets.symmetric(vertical: 16.h),
-          sliver: SliverAppBar(
-            title: TextButton.icon(
-              onPressed: () {
-                showCustomMonthPicker(context, initialTime: selectedDate)
-                    .then((value) {
-                  if (value != null) {
-                    setState(() {
-                      selectedDate = value;
-                    });
-                  }
-                });
-              },
-              label: Text(DateFormat("MMM yyy").format(selectedDate)),
-              icon: const Icon(Icons.calendar_today),
-            ),
-            // DefaultDropdown(
-            //   hasSearchBox: true,
-            //   items: [
-            //     for (int i = 0; i < dates.length; i++)
-            //       DefaultMenuItem(id: i, title: dates[i]),
-            //   ],
-            //   onChanged: (value) {
-            //     setState(() {
-            //       selectedDate = value;
-            //     });
-            //   },
-            //   valueId: selectedDate?.id,
-            //   height: 48,
-            // ),
-            centerTitle: true,
-            pinned: true,
-            automaticallyImplyLeading: false,
+        SliverToBoxAdapter(
+          child: TextButton.icon(
+            onPressed: () {
+              showCustomMonthPicker(context, initialTime: selectedDate)
+                  .then((value) {
+                if (value != null) {
+                  setState(() {
+                    selectedDate = value;
+                  });
+                }
+              });
+            },
+            label: Text(DateFormat("MMM yyy").format(selectedDate)),
+            icon: const Icon(Icons.calendar_today),
           ),
         ),
         SliverFillRemaining(

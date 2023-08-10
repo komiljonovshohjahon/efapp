@@ -23,9 +23,6 @@ class _PrayerRequestsViewState extends State<PrayerRequestsView>
           enableRowChecked: true,
           field: 'name',
           type: PlutoColumnType.text(),
-          renderer: (rendererContext) {
-            return rendererContext.defaultText();
-          },
         ),
         PlutoColumn(
           title: 'Email',
@@ -35,25 +32,21 @@ class _PrayerRequestsViewState extends State<PrayerRequestsView>
         PlutoColumn(
           title: 'Contact',
           field: 'contact',
-          width: 120,
           type: PlutoColumnType.text(),
         ),
         PlutoColumn(
           title: 'Country',
           field: 'country',
-          width: 40,
           type: PlutoColumnType.text(),
         ),
         PlutoColumn(
           title: 'State',
           field: 'State',
-          width: 120,
           type: PlutoColumnType.text(),
         ),
         PlutoColumn(
           title: 'City',
           field: 'city',
-          width: 120,
           type: PlutoColumnType.text(),
         ),
         PlutoColumn(
@@ -64,7 +57,6 @@ class _PrayerRequestsViewState extends State<PrayerRequestsView>
         PlutoColumn(
           title: 'Message',
           field: 'message',
-          width: 100,
           type: PlutoColumnType.text(),
           renderer: (rendererContext) {
             return rendererContext.defaultTooltipWidget(

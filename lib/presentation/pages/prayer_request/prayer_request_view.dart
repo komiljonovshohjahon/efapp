@@ -114,7 +114,7 @@ class _PrayerRequestViewState extends State<PrayerRequestView> {
               //prayer request type
               DefaultDropdown(
                   items: [
-                    for (final item in specialRequestTypes.entries)
+                    for (final item in prayerRequestTypes.entries)
                       DefaultMenuItem(id: item.key, title: item.value)
                   ],
                   valueId: prayerRequestType,

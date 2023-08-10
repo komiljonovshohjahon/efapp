@@ -3,6 +3,7 @@ import 'package:efapp/presentation/global_widgets/widgets.dart';
 import 'package:efapp/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:youtube/youtube_thumbnail.dart';
 
 class MainVideoWidget extends StatelessWidget {
@@ -74,7 +75,7 @@ class MainVideoWidget extends StatelessWidget {
             IconButton(
               iconSize: 20.r,
               onPressed: () {
-                //todo:
+                Share.share(model.url);
               },
               icon: const Icon(Icons.share),
             ),

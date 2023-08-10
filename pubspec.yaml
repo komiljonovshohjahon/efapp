@@ -37,6 +37,7 @@ dependencies:
   dart_des: ^1.0.2
   webview_flutter: ^4.2.2
   timeago: ^3.5.0
+  share_plus: ^7.1.0
 
 dependency_overrides:
   http: ^0.13.4

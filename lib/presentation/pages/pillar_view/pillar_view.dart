@@ -132,7 +132,7 @@ class _PillarViewState extends State<PillarView> {
           children: [
             //title => I would like to become a Pillar of Cloud of Your Minstry!
             Text(
-              "I would like to become a Pillar of Cloud of Your Minstry!",
+              "I would like to become a Pillar of ${isCloud ? "Cloud" : "Fire"} of Your Minstry!",
               style: context.textTheme.titleLarge,
               textAlign: TextAlign.center,
             ),
