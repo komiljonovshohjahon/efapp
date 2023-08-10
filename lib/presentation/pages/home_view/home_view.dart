@@ -3,9 +3,9 @@ import 'package:efapp/presentation/pages/home_view/blogs_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/books_list_view.dart';
 import 'package:efapp/presentation/pages/home_view/love_offering_widget.dart';
 import 'package:efapp/presentation/pages/home_view/videos_list_view.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-
 import 'invent_your_grave.dart';
 
 class HomeView extends StatefulWidget {
@@ -32,6 +32,22 @@ class _HomeViewState extends State<HomeView> {
         SliverList(
           delegate: SliverChildListDelegate(
             [
+              // if (kDebugMode)
+              //   ElevatedButton(
+              //       onPressed: () async {
+              //         final Email email = Email(
+              //           body: 'Email body',
+              //           subject: 'Email subject',
+              //           recipients: ['komiljonovshohjaon@gmail.com'],
+              //           cc: ['cc@example.com'],
+              //           bcc: ['bcc@example.com'],
+              //           isHTML: false,
+              //         );
+              //
+              //         await FlutterEmailSender.send(email);
+              //       },
+              //       child: const Text("Test")),
+
               //Books list
               const BooksListView(),
 

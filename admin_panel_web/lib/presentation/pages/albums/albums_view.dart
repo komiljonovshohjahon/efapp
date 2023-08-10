@@ -160,7 +160,6 @@ class _AlbumsViewState extends State<AlbumsView>
       columns: columns,
       rows: rows,
       focusNode: focusNode,
-      rowHeight: 100,
     );
   }
 

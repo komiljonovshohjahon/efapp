@@ -18,4 +18,6 @@ class GlobalConstants {
 
   static bool enableDebugCodes = false;
   static bool enableLoadingIndicator = true;
+
+  static String pillarOfFireFormPassword = "Bumpyfr@ncis1";
 }

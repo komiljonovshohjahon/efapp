@@ -2,9 +2,11 @@
 
 import 'package:admin_panel_web/presentation/global_widgets/default_table.dart';
 import 'package:admin_panel_web/presentation/global_widgets/widgets.dart';
+import 'package:admin_panel_web/utils/global_constants.dart';
 import 'package:admin_panel_web/utils/global_extensions.dart';
 import 'package:admin_panel_web/utils/table_helpers.dart';
 import 'package:dependency_plugin/dependency_plugin.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:pluto_grid/pluto_grid.dart';
 
@@ -90,8 +92,54 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
     });
   }
 
+  bool isSecured = true;
+  final TextEditingController _passwordController = TextEditingController(
+      text: kDebugMode ? GlobalConstants.pillarOfFireFormPassword : "");
+  final formKey = GlobalKey<FormState>();
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
+    if (isSecured) {
+      return Center(
+        child: Form(
+          key: formKey,
+          child: SpacedColumn(
+              mainAxisAlignment: MainAxisAlignment.center,
+              verticalSpace: 20,
+              children: [
+                Text('Enter password to view this page',
+                    style: context.textTheme.titleLarge),
+                DefaultTextField(
+                  controller: _passwordController,
+                  validator: (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return 'Password is required';
+                    }
+                    if (p0 != GlobalConstants.pillarOfFireFormPassword) {
+                      return 'Invalid password';
+                    }
+                    return null;
+                  },
+                  obscureText: true,
+                ),
+                ElevatedButton(
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        setState(() {
+                          isSecured = false;
+                        });
+                      }
+                    },
+                    child: const Text('Submit'))
+              ]),
+        ),
+      );
+    }
     return DefaultTable(
       headerEnd: ElevatedButton(
           style: ElevatedButton.styleFrom(
