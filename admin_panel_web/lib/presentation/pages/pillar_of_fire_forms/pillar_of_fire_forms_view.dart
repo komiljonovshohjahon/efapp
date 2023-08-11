@@ -58,6 +58,18 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
           field: "country",
           type: PlutoColumnType.text(),
         ),
+        //email
+        PlutoColumn(
+          title: "Email",
+          field: "email",
+          type: PlutoColumnType.text(),
+        ),
+        //phone
+        PlutoColumn(
+          title: "Phone",
+          field: "phone",
+          type: PlutoColumnType.text(),
+        ),
         //amount
         PlutoColumn(
           title: "Amount",
@@ -87,6 +99,8 @@ class _PillarOfFireFormsViewState extends State<PillarOfFireFormsView>
       "middle_name": PlutoCell(value: model.middleName),
       "last_name": PlutoCell(value: model.lastName),
       "country": PlutoCell(value: model.country),
+      "email": PlutoCell(value: model.email),
+      "phone": PlutoCell(value: model.phone),
       "amount": PlutoCell(value: model.amount),
       "action": PlutoCell(value: model),
     });

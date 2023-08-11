@@ -199,7 +199,10 @@ class FirestoreDep {
   //GET books
   Future<Either<List<BookMd>, String>> getBooks() async {
     try {
-      final res = await _fire.collection(booksCn).get();
+      final res = await _fire
+          .collection(booksCn)
+          .orderBy("createdDate", descending: true)
+          .get();
       final list = res.docs.map((e) => BookMd.fromJson(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -309,7 +312,10 @@ class FirestoreDep {
   //GET Blogs
   Future<Either<List<BlogMd>, String>> getBlogs() async {
     try {
-      final res = await _fire.collection(blogsCn).get();
+      final res = await _fire
+          .collection(blogsCn)
+          .orderBy("created_at", descending: true)
+          .get();
       final list = res.docs.map((e) => BlogMd.fromMap(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -390,7 +396,10 @@ class FirestoreDep {
   //GET YOUTUBE VIDEOS
   Future<Either<List<YtVideoMd>, String>> getYtVideos() async {
     try {
-      final res = await _fire.collection(ytVideosCn).get();
+      final res = await _fire
+          .collection(ytVideosCn)
+          .orderBy("created_at", descending: true)
+          .get();
       final list = res.docs.map((e) => YtVideoMd.fromMap(e.data())).toList();
       return Left(list);
     } catch (e) {
@@ -449,7 +458,10 @@ class FirestoreDep {
   //GET Pillar of fire forms
   Future<Either<List<PillarMdForm>, String>> getPillarOfFireForms() async {
     try {
-      final res = await _fire.collection(pillarOfFireForm).get();
+      final res = await _fire
+          .collection(pillarOfFireForm)
+          .orderBy("created_at", descending: true)
+          .get();
       final list = res.docs
           .map<PillarMdForm>((e) => PillarMdForm.fromMap(e.data()))
           .toList();
@@ -462,7 +474,10 @@ class FirestoreDep {
   //GET Pillar of cloud forms
   Future<Either<List<PillarMdForm>, String>> getPillarOfCloudForms() async {
     try {
-      final res = await _fire.collection(pillarOfCloudForm).get();
+      final res = await _fire
+          .collection(pillarOfCloudForm)
+          .orderBy("created_at", descending: true)
+          .get();
       final list = res.docs
           .map<PillarMdForm>((e) => PillarMdForm.fromMap(e.data()))
           .toList();
@@ -681,7 +696,10 @@ class FirestoreDep {
 
   Future<Either<List<PrayerRequestMd>, String>> getPrayerRequests() async {
     try {
-      final res = await _fire.collection(prayerRequestCn).get();
+      final res = await _fire
+          .collection(prayerRequestCn)
+          .orderBy("date", descending: true)
+          .get();
       final list =
           res.docs.map((e) => PrayerRequestMd.fromJson(e.data())).toList();
       return Left(list);

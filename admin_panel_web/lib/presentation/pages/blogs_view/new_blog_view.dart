@@ -21,6 +21,7 @@ class _NewBlogViewState extends State<NewBlogView> {
   final TextEditingController _titleController = TextEditingController();
   final HtmlEditorController _descriptionController = HtmlEditorController();
   PlatformFile? _image;
+  DateTime date = DateTime.now();
 
   bool get isNew => widget.model == null;
 
@@ -32,6 +33,8 @@ class _NewBlogViewState extends State<NewBlogView> {
     WidgetsBinding.instance.endOfFrame.then((_) async {
       if (!isNew) {
         _titleController.text = model.title;
+        date = DateTime.tryParse(model.createdAt) ?? DateTime.now();
+        setState(() {});
       }
     });
   }
@@ -49,6 +52,7 @@ class _NewBlogViewState extends State<NewBlogView> {
         model: model.copyWith(
           title: _titleController.text,
           description: await _descriptionController.getText(),
+          createdAt: date,
         ),
         images: [_image?.bytes],
         sendNotification: true,
@@ -62,6 +66,8 @@ class _NewBlogViewState extends State<NewBlogView> {
       }
     });
   }
+
+  bool hideDescription = false;
 
   @override
   Widget build(BuildContext context) {
@@ -83,10 +89,12 @@ class _NewBlogViewState extends State<NewBlogView> {
               isRequired: true,
               controller: _titleController),
           DefaultCardItem(
-              customWidget: DefaultHtmlEditor(
-            controller: _descriptionController,
-            initialValue: model.description,
-          )),
+              customWidget: hideDescription
+                  ? SizedBox(height: 300)
+                  : DefaultHtmlEditor(
+                      controller: _descriptionController,
+                      initialValue: model.description,
+                    )),
           DefaultCardItem(
               customWidget: Column(
             children: [
@@ -113,7 +121,36 @@ class _NewBlogViewState extends State<NewBlogView> {
                   },
                 )
             ],
-          ))
+          )),
+          DefaultCardItem(
+              customWidget: Column(
+            children: [
+              const Text("Date"),
+              ElevatedButton(
+                  onPressed: () async {
+                    setState(() {
+                      hideDescription = true;
+                    });
+                    final res = await showDatePicker(
+                        context: context,
+                        initialDate: date,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2025));
+                    if (res == null) {
+                      setState(() {
+                        hideDescription = false;
+                      });
+                      return;
+                    }
+                    setState(() {
+                      date = res;
+                      hideDescription = false;
+                    });
+                  },
+                  child: const Text("Pick Date")),
+              Text(DateFormat.yMMMMd().format(date))
+            ],
+          )),
         ]),
       ),
     );

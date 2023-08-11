@@ -21,6 +21,7 @@ class _NewYtViewState extends State<NewYtView> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _urlController = TextEditingController();
   PlatformFile? _image;
+  DateTime date = DateTime.now();
 
   bool get isNew => widget.model == null;
 
@@ -33,6 +34,8 @@ class _NewYtViewState extends State<NewYtView> {
       if (!isNew) {
         _titleController.text = model.title;
         _urlController.text = model.url;
+        date = DateTime.tryParse(model.createdAt) ?? DateTime.now();
+        setState(() {});
       }
     });
   }
@@ -49,6 +52,7 @@ class _NewYtViewState extends State<NewYtView> {
               model: model.copyWith(
         title: _titleController.text,
         videoId: _urlController.text.youtubeLinkToId,
+        createdAt: date,
       ));
       if (res.isRight) {
         context.pop(true);
@@ -84,6 +88,28 @@ class _NewYtViewState extends State<NewYtView> {
               title: "Video Url",
               isRequired: true,
               controller: _urlController),
+          DefaultCardItem(
+              customWidget: Column(
+            children: [
+              const Text("Date"),
+              ElevatedButton(
+                  onPressed: () async {
+                    final res = await showDatePicker(
+                        context: context,
+                        initialDate: date,
+                        firstDate: DateTime(2020),
+                        lastDate: DateTime(2025));
+                    if (res == null) {
+                      return;
+                    }
+                    setState(() {
+                      date = res;
+                    });
+                  },
+                  child: const Text("Pick Date")),
+              Text(DateFormat.yMMMMd().format(date))
+            ],
+          )),
         ]),
       ),
     );

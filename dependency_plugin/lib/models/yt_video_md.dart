@@ -44,10 +44,11 @@ class YtVideoMd {
   YtVideoMd copyWith({
     String? title,
     String? videoId,
+    DateTime? createdAt,
   }) {
     return YtVideoMd(
       id: id,
-      createdAt: createdAt,
+      createdAt: createdAt?.toIso8601String() ?? this.createdAt,
       title: title ?? this.title,
       videoId: videoId ?? this.videoId,
       substr_date: substr_date,
@@ -80,7 +81,7 @@ class YtVideoMd {
   static YtVideoMd init() {
     return YtVideoMd(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      createdAt: DateTime.now().toIso8601String(),
+      createdAt: '',
       title: '',
       videoId: '',
       substr_date: DateFormat("MMM yyyy").format(DateTime.now()),

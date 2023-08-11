@@ -40,10 +40,11 @@ class BlogMd {
     String? title,
     String? description,
     String? imagePath,
+    DateTime? createdAt,
   }) {
     return BlogMd(
       id: id,
-      createdAt: createdAt,
+      createdAt: createdAt?.toIso8601String() ?? this.createdAt,
       substr_date: substr_date,
       title: title ?? this.title,
       description: description ?? this.description,
